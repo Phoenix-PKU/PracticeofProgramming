@@ -12,6 +12,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override
     {
         qDebug() << "Box clicked!";
+        printf("changed by LiLei at 5/10 21:54\n");
 	QWidget::mousePressEvent(event);
     }
 
