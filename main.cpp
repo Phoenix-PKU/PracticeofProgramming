@@ -14,6 +14,7 @@ protected:
         qDebug() << "Box clicked!";
         printf("changed by LiLei at 5/10 21:54\n");
         printf("hello by aiyiwen\n");
+        printf("hello by lilei at 5/10 23:24\n");
 	QWidget::mousePressEvent(event);
     }
 
