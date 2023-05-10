@@ -13,6 +13,7 @@ protected:
     {
         qDebug() << "Box clicked!";
         printf("changed by LiLei at 5/10 21:54\n");
+        printf("hello by aiyiwen\n");
 	QWidget::mousePressEvent(event);
     }
 
