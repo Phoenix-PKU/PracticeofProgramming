@@ -2,6 +2,7 @@
 #include <QWidget>
 #include <QMouseEvent>
 #include <QDebug>
+#include "card.h"
 
 class ClickableBox : public QWidget
 {
@@ -59,7 +60,7 @@ int main(int argc, char *argv[])
    // MovableFrame *frame = new MovableFrame(this);
    // frame->setGeometry(50, 50, 200, 200);
    // frame->show();
-
+    Card mycard = Card();
     ClickableBox box;
     box.show();
 

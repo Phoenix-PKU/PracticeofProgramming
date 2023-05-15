@@ -15,8 +15,11 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
+        card.cpp
         mainwindow.h
+        card.h
         mainwindow.ui
+        uuid
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
