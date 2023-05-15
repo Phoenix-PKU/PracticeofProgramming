@@ -13,3 +13,7 @@ Card::Card(void)
     uid = std::string(buf);
     std::cout << uid << std::endl;
 }
+
+Card::~Card(void){
+    std::cout << "Good bye from card " << uid << std::endl;
+}

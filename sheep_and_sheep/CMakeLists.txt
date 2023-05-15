@@ -14,11 +14,15 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
-        card.cpp
         mainwindow.h
-        card.h
+        mainwindow.cpp
         mainwindow.ui
+        slot.h
+        slot.cpp
+        card.h
+        card.cpp
+        gamestate.h
+        gamestate.cpp
         uuid
 )
 
