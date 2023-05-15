@@ -28,6 +28,7 @@ private:
 
 public:
     Card(void);
+    ~Card(void);
 };
 
 #endif // CARD_H
