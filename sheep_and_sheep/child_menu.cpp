@@ -2,6 +2,7 @@
 #include "ui_child_menu.h"
 #include "gamestate.h"
 #include "main_menu.h"
+#include "confirm_box.h"
 
 Child_Menu::Child_Menu(int i,QWidget *parent) :
     QDialog(parent),
@@ -22,6 +23,9 @@ Child_Menu::~Child_Menu()
 
 
 void Child_Menu::on_pushButton_clicked(){
-    printf("go back to main menu\n");
+    printf("Are you sure to quit\n");
+    Confirm_Box confirm_box;
+    if((confirm_box.exec()==Confirm_Box::Accepted)){
+        accept();
+    }
 }
-
