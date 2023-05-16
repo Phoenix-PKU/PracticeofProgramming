@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(sheep_and_sheep VERSION 0.1 LANGUAGES CXX)
+project(untitled1 VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -14,44 +14,47 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.h
-        mainwindow.cpp
-        mainwindow.ui
-        slot.h
-        slot.cpp
         card.h
         card.cpp
-        gamestate.h
         gamestate.cpp
+        gamestate.h
+        slot.cpp
+        slot.h
         uuid
+        main_menu.cpp
+        main_menu.h
+        main_menu.ui
+        child_menu.cpp
+        child_menu.h
+        child_menu.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(sheep_and_sheep
+    qt_add_executable(untitled1
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
 # Define target properties for Android with Qt 6 as:
-#    set_property(TARGET sheep_and_sheep APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#    set_property(TARGET untitled1 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(sheep_and_sheep SHARED
+        add_library(untitled1 SHARED
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(sheep_and_sheep
+        add_executable(untitled1
             ${PROJECT_SOURCES}
         )
     endif()
 endif()
 
-target_link_libraries(sheep_and_sheep PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(untitled1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-set_target_properties(sheep_and_sheep PROPERTIES
+set_target_properties(untitled1 PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -59,10 +62,10 @@ set_target_properties(sheep_and_sheep PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS sheep_and_sheep
+install(TARGETS untitled1
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(sheep_and_sheep)
+    qt_finalize_executable(untitled1)
 endif()
