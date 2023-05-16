@@ -14,9 +14,12 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.h
-        mainwindow.cpp
-        mainwindow.ui
+        main_menu.h
+        main_menu.cpp
+        main_menu.ui
+        child_menu.h
+        child_menu.cpp
+        child_menu.ui
         slot.h
         slot.cpp
         card.h
