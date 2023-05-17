@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Confirm_Box</class>
+ <widget class="QDialog" name="Confirm_Box">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="pushButton_confirm">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>130</y>
+     <width>71</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>退出游戏</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_goback">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>130</y>
+     <width>71</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>返回游戏</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton_confirm</sender>
+   <signal>clicked()</signal>
+   <receiver>Confirm_Box</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>128</x>
+     <y>161</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>85</x>
+     <y>67</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_goback</sender>
+   <signal>clicked()</signal>
+   <receiver>Confirm_Box</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>143</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>311</x>
+     <y>69</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

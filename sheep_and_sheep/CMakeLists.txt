@@ -20,6 +20,9 @@ set(PROJECT_SOURCES
         child_menu.h
         child_menu.cpp
         child_menu.ui
+        confirm_box.cpp
+        confirm_box.h
+        confirm_box.ui
         slot.h
         slot.cpp
         card.h
