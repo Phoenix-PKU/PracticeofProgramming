@@ -3,6 +3,7 @@
 #include "card.h"
 #include <vector>
 
+#define TRIPLE 3
 
 class Slot
 {
@@ -19,9 +20,17 @@ public:
 
     std::vector<Card *>::iterator check_slot(void);
 
-    void remove_cards(Card * start);
+    bool can_remove(void);
+
+    void remove_cards(std::vector<Card *>::iterator card_it);
 
     void insert_card(Card * card, std::vector<Card *>::iterator place);
+
+    void print_slot(void);
+
+    bool slot_full(void){
+        return curr_size == size;
+    }
 };
 
 #endif // SLOT_H
