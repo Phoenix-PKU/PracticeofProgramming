@@ -12,7 +12,8 @@ Child_Menu::Child_Menu(int i,QWidget *parent) :
     //p=parent;
     printf("child_menu constructed\n");
     ui->setupUi(this);
-    Gamestate game(index*5);
+    Gamestate game;
+    game.play();
 }
 
 Child_Menu::~Child_Menu()
