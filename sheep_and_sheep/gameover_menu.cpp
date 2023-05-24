@@ -17,7 +17,7 @@ Gameover_Menu::Gameover_Menu(const char * status, QWidget *parent) :
 
 Gameover_Menu::~Gameover_Menu()
 {
-    qDebug() << "Gameover_Menu destructed";
+    qDebug() << "Gameover_Menu destructed"; 
     delete ui;
 }
 
