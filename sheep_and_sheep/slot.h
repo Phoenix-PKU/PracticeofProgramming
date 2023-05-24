@@ -4,6 +4,7 @@
 #include <vector>
 
 #define TRIPLE 3
+
 #define YPOS 400
 
 class Slot

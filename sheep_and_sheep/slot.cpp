@@ -5,6 +5,7 @@
 #include <QPropertyAnimation>
 
 
+
 Slot::Slot(int max_size):size(max_size)
 {
     std::cout << "Hello from Slot with size " << max_size << std::endl;
@@ -38,6 +39,7 @@ std::vector<Card *>::iterator Slot::find_slot(Card * card){
                 animation->setEndValue(QRect(YPOS, tmp->pos().y()+50, 50, 50));
                 animation->start();
             }
+
             return ip;
         }
     }
@@ -87,7 +89,6 @@ void Slot::remove_cards(std::vector<Card *>::iterator card_it){
         card_to_remove->set_card_type(EliminatedCard);
         card_one = cards.erase(card_one);
         curr_size --;
-
         QPropertyAnimation *animation = new QPropertyAnimation(card_to_remove, "geometry");
         animation->setDuration(100);
         animation->setStartValue(card_to_remove->geometry());
@@ -102,6 +103,7 @@ void Slot::remove_cards(std::vector<Card *>::iterator card_it){
         animation->setStartValue(tmp->geometry());
         animation->setEndValue(QRect(YPOS, tmp->pos().y()-150, 50, 50));
         animation->start();
+
     }
     return ;
 }
@@ -132,6 +134,7 @@ void Slot::print_slot(void){
     for (auto ip = cards.begin();ip != cards.end();ip ++){
         Card * card = *ip;
         qDebug() << "card " << ++idx << ": ";
+
         card->print_card();
     }
 }

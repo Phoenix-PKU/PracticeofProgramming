@@ -33,6 +33,7 @@ Child_Menu::Child_Menu(int i,QWidget *parent) :
     connect(this, SIGNAL(sig_remove()), game, SLOT(receive_sig_remove()));
     game->start();
     */
+
 }
 
 Child_Menu::~Child_Menu()

@@ -44,6 +44,7 @@ public:
     }
     void print_card(void);
     Card(const char * _name, int posx, int posy, QDialog * parent);
+
     ~Card(void);
 
 protected:

@@ -18,6 +18,7 @@ unsigned long long Card::lxid = 0;
 Card::Card(const char * _name, int posx, int posy, QDialog * parent):
     name(_name),
     QPushButton(parent)
+
 {
     /*uuid_t uuid;
     char buf[MAX_ID];
