@@ -14,18 +14,18 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        main_menu.h
-        main_menu.cpp
-        main_menu.ui
-        child_menu.h
-        child_menu.cpp
-        child_menu.ui
-        confirm_box.h
-        confirm_box.cpp
-        confirm_box.ui
-        gameover_menu.h
-        gameover_menu.cpp
-        gameover_menu.ui
+        menu.h
+        menu.cpp
+        menu.ui
+        game.h
+        game.cpp
+        game.ui
+        ConfirmBox.h
+        ConfirmBox.cpp
+        ConfirmBox.ui
+        GameOverBox.h
+        GameOverBox.cpp
+        GameOverBox.ui
         slot.h
         slot.cpp
         card.h

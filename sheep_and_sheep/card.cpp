@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cstring>
 #include <QPropertyAnimation>
-#include "child_menu.h"
+#include "game.h"
 
 #define MAX_ID  128
 #define MAX_LENGTH_NAME  6
