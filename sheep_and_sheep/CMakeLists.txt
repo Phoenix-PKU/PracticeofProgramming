@@ -20,15 +20,16 @@ set(PROJECT_SOURCES
         child_menu.h
         child_menu.cpp
         child_menu.ui
-        confirm_box.cpp
         confirm_box.h
+        confirm_box.cpp
         confirm_box.ui
+        gameover_menu.h
+        gameover_menu.cpp
+        gameover_menu.ui
         slot.h
         slot.cpp
         card.h
         card.cpp
-        gamestate.h
-        gamestate.cpp
         uuid
 )
 
