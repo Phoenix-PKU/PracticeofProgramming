@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>return</string>
+    <string>QUIT</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_easy">

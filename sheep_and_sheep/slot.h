@@ -5,6 +5,8 @@
 
 #define TRIPLE 3
 
+#define YPOS 400
+
 class Slot
 {
 private:
@@ -15,6 +17,8 @@ public:
     Slot(int max_size = 7);
 
     ~Slot(void);
+
+    std::vector<Card *>::iterator begin(void) {return cards.begin();}
 
     std::vector<Card *>::iterator find_slot(Card * card);
 

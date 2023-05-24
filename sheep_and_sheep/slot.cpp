@@ -2,6 +2,8 @@
 #include "card.h"
 #include <iostream>
 #include <cassert>
+#include <QPropertyAnimation>
+
 
 
 Slot::Slot(int max_size):size(max_size)
@@ -28,6 +30,16 @@ std::vector<Card *>::iterator Slot::find_slot(Card * card){
                 ip++;
                 prev_card = *ip;
             }
+
+            for (auto it = ip; it != cards.end(); ++it) {
+                Card * tmp = *it;
+                QPropertyAnimation * animation = new QPropertyAnimation(tmp, "geometry");
+                animation->setDuration(100);
+                animation->setStartValue(tmp->geometry());
+                animation->setEndValue(QRect(YPOS, tmp->pos().y()+50, 50, 50));
+                animation->start();
+            }
+
             return ip;
         }
     }
@@ -77,6 +89,21 @@ void Slot::remove_cards(std::vector<Card *>::iterator card_it){
         card_to_remove->set_card_type(EliminatedCard);
         card_one = cards.erase(card_one);
         curr_size --;
+        QPropertyAnimation *animation = new QPropertyAnimation(card_to_remove, "geometry");
+        animation->setDuration(100);
+        animation->setStartValue(card_to_remove->geometry());
+        animation->setEndValue(QRect(YPOS, -100, 50, 50));
+        animation->start();
+    }
+
+    for (auto ip = card_one;ip != cards.end();ip ++){
+        Card * tmp = *ip;
+        QPropertyAnimation *animation = new QPropertyAnimation(tmp, "geometry");
+        animation->setDuration(100);
+        animation->setStartValue(tmp->geometry());
+        animation->setEndValue(QRect(YPOS, tmp->pos().y()-150, 50, 50));
+        animation->start();
+
     }
     return ;
 }
@@ -92,6 +119,7 @@ void Slot::insert_card(Card * card, std::vector<Card *>::iterator place){
     
     */
     card->set_card_type(SlotCard);
+    card->setEnabled(false);
     cards.insert(place, card);
     curr_size ++;
 
@@ -100,11 +128,13 @@ void Slot::insert_card(Card * card, std::vector<Card *>::iterator place){
 
 /* This function prints the slot and is only used for debug. */
 void Slot::print_slot(void){
-    printf("slot with max size %d, current size %d\n", size, curr_size);
+    qDebug() << "slot with max size " << size
+             << ", current size " << curr_size;
     int idx = 0;
     for (auto ip = cards.begin();ip != cards.end();ip ++){
         Card * card = *ip;
-        printf("card %d: ", ++idx);
+        qDebug() << "card " << ++idx << ": ";
+
         card->print_card();
     }
 }

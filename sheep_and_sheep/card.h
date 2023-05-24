@@ -3,6 +3,9 @@
 
 #include <vector>
 #include <string>
+#include <QWidget>
+#include <QDialog>
+#include <QPushButton>
 extern const int max_type_of_cards;
 extern const char* card_name[];
 extern const int current_type_of_cards;
@@ -20,9 +23,11 @@ enum CardType {
     EliminatedCard
 };
 
-class Card
+class Card:public QPushButton
 {
+    Q_OBJECT
 private:
+    static unsigned long long lxid;
     int pos_x, pos_y;               /* position */
     enum CardType type;             /* status */
     std::vector<Card *> covering;        /* Cards that it covers */
@@ -38,8 +43,13 @@ public:
         type = _type;
     }
     void print_card(void);
-    Card(const char * _name);
+    Card(const char * _name, int posx, int posy, QDialog * parent);
+
     ~Card(void);
+
+protected:
+    //void mousePressEvent(QMouseEvent * e);
+
 };
 
 #endif // CARD_H
