@@ -15,11 +15,17 @@ Child_Menu::Child_Menu(int i,QWidget *parent) :
     ui->setupUi(this);
     this->setFixedSize(500, 350); //设置窗体固定大小
 
-    card_nums = 9 * i;
-
+    this->setWindowTitle("羊了个羊游戏"); //到之后这里使用传入的难度
+    QPixmap Images("../../../../sheep_and_sheep/pictures/background_picture/grassland.jpg");
+    QPalette Palette = this->palette();
+    Images = Images.scaled(this->size());
+    Palette.setBrush(QPalette::Window, Images);
+    setPalette(Palette);
+    card_nums = 6 * i + 12;
+    card_types = i + 2;
     slot = new Slot;
     for (int i = 0; i < card_nums; ++i) {
-        Card * new_card = new Card(card_name[i % 4], 100*(i%3), 100 + 100*((i/3)%3), this);
+        Card * new_card = new Card(card_name[i % card_types], 100*(i%3), 100 + 100*((i/3)%3), this);
         all_cards.push_back(new_card);
         connect(new_card, &QPushButton::clicked,
                 this, [=](){on_card_clicked(new_card);});

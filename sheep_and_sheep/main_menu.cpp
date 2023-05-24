@@ -8,6 +8,14 @@ Main_Menu::Main_Menu(QWidget *parent) :
 {
     qDebug() << "main menu constructed";
     ui->setupUi(this);
+
+    this->setWindowTitle("欢迎来到羊了个羊的世界");
+    QPixmap Images("../../../../sheep_and_sheep/pictures/background_picture/main_menu.jpg");
+    QPalette Palette = this->palette();
+    Images = Images.scaled(this->size());
+    Palette.setBrush(QPalette::Window, Images);
+    setPalette(Palette);
+
 }
 
 Main_Menu::~Main_Menu()
