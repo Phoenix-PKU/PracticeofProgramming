@@ -20,7 +20,7 @@ class Child_Menu : public QDialog
     std::vector<Card *> all_cards;
     Slot * slot;
     int cards_clickable, cards_in_slot, cards_eliminate;
-    int card_nums;
+    int card_nums, card_types;
 
 public:
     explicit Child_Menu(int i,QWidget *parent = 0);
