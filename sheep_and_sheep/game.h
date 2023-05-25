@@ -6,7 +6,7 @@
 #include "menu.h"
 #include "card.h"
 #include "slot.h"
-
+class Slot;
 namespace Ui {
 class Game;
 }

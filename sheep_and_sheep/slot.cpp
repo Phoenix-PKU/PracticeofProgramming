@@ -1,19 +1,26 @@
-#include "slot.h"
-#include "card.h"
-#include <iostream>
 #include <cassert>
 #include <QPropertyAnimation>
+#include <QDebug>
+#include "slot.h"
+#include "card.h"
+#include "game.h"
 
+#define ANI_TIME    100
 
+template <class Amt, class Pos1, class Pos2>
+static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end);
 
-Slot::Slot(int max_size):size(max_size)
+class Game;
+Slot::Slot(Game * _game, int max_size):
+    size(max_size),
+    game(_game)
 {
-    std::cout << "Hello from Slot with size " << max_size << std::endl;
+    qDebug() << "Hello from Slot with size " << max_size << "\n";
     curr_size = 0;
 }
 
 Slot::~Slot(void){
-    std::cout << "Bye from Slot with size " << size << std::endl;
+    qDebug() << "Bye from Slot with size " << size << "\n";
 }
 
 /* This function find the target slot when card is added into 
@@ -34,10 +41,14 @@ std::vector<Card *>::iterator Slot::find_slot(Card * card){
             for (auto it = ip; it != cards.end(); ++it) {
                 Card * tmp = *it;
                 QPropertyAnimation * animation = new QPropertyAnimation(tmp, "geometry");
-                animation->setDuration(100);
+                animation_helper(animation, ANI_TIME, tmp->geometry(), 
+                    QRect(YPOS, tmp->pos().y()+CARD_SIZE, CARD_SIZE, CARD_SIZE));
+                /*
+                animation->setDuration(ANI_TIME);
                 animation->setStartValue(tmp->geometry());
-                animation->setEndValue(QRect(YPOS, tmp->pos().y()+50, 50, 50));
+                animation->setEndValue(QRect(YPOS, tmp->pos().y()+CARD_SIZE, CARD_SIZE, CARD_SIZE));
                 animation->start();
+                */
             }
 
             return ip;
@@ -67,7 +78,7 @@ bool Slot::can_remove(void){
 }
 
 /* This function remove three cards start from start. */
-void Slot::remove_cards(std::vector<Card *>::iterator card_it){
+void Slot::remove_cards(std::vector<Card *>::iterator card_it, bool win){
     std::vector<Card *>::iterator card_one = card_it, 
                             card_two = card_one + 1,
                             card_three = card_one + 2;
@@ -77,11 +88,6 @@ void Slot::remove_cards(std::vector<Card *>::iterator card_it){
     /* cards should be the same kind. */
     assert ((*card_one)->name == (*card_two)->name &&
             (*card_one)->name == (*card_three)->name);
-    /*
-    
-    // This part should be the GUI of removing cards.
-
-    */
 
     for (int i = 0;i < TRIPLE;i ++){
         Card * card_to_remove = *card_one;
@@ -90,20 +96,28 @@ void Slot::remove_cards(std::vector<Card *>::iterator card_it){
         card_one = cards.erase(card_one);
         curr_size --;
         QPropertyAnimation *animation = new QPropertyAnimation(card_to_remove, "geometry");
-        animation->setDuration(100);
+        int ani_time = win?0:ANI_TIME;
+        animation_helper(animation, ani_time, card_to_remove->geometry(),
+            QRect(YPOS, -CARD_SIZE * 2, CARD_SIZE,  CARD_SIZE));
+        /*
+        animation->setDuration(ANI_TIME);
         animation->setStartValue(card_to_remove->geometry());
-        animation->setEndValue(QRect(YPOS, -100, 50, 50));
+        animation->setEndValue(QRect(YPOS, -ANI_TIME, CARD_SIZE, CARD_SIZE));
         animation->start();
+        */
     }
 
     for (auto ip = card_one;ip != cards.end();ip ++){
         Card * tmp = *ip;
         QPropertyAnimation *animation = new QPropertyAnimation(tmp, "geometry");
-        animation->setDuration(100);
+        animation_helper(animation, ANI_TIME, tmp->geometry(),
+            QRect(YPOS, tmp->pos().y()-3 * CARD_SIZE, CARD_SIZE,  CARD_SIZE));
+        /*
+        animation->setDuration(ANI_TIME);
         animation->setStartValue(tmp->geometry());
-        animation->setEndValue(QRect(YPOS, tmp->pos().y()-150, 50, 50));
+        animation->setEndValue(QRect(YPOS, tmp->pos().y()-3 * CARD_SIZE, CARD_SIZE, CARD_SIZE));
         animation->start();
-
+        */
     }
     return ;
 }
@@ -112,18 +126,24 @@ void Slot::remove_cards(std::vector<Card *>::iterator card_it){
 void Slot::insert_card(Card * card, std::vector<Card *>::iterator place){
     assert (!slot_full());
     assert (card->check_card_type(ClickableCard));
-
-    /* 
     
-        This part should be the gui of inserting.
-    
-    */
     card->set_card_type(SlotCard);
     card->setEnabled(false);
     cards.insert(place, card);
     curr_size ++;
 
-    return ;
+    int where_to_go = this->find_slot(card) - this->begin() - 1;
+    QPropertyAnimation * animation = new QPropertyAnimation(card, "geometry");
+    game->connect(animation, &QPropertyAnimation::finished,
+        game, [=](){game->update_tail();});
+    animation_helper(animation, ANI_TIME, card->geometry(),
+        QRect(YPOS, CARD_SIZE * where_to_go, CARD_SIZE,  CARD_SIZE));
+/*
+    animation->setDuration(ANI_TIME);
+    animation->setStartValue(card->geometry());
+    animation->setEndValue(QRect(YPOS, CARD_SIZE * where_to_go, CARD_SIZE, CARD_SIZE));
+    animation->start();
+*/
 }
 
 /* This function prints the slot and is only used for debug. */
@@ -134,9 +154,15 @@ void Slot::print_slot(void){
     for (auto ip = cards.begin();ip != cards.end();ip ++){
         Card * card = *ip;
         qDebug() << "card " << ++idx << ": ";
-
         card->print_card();
     }
     qDebug() << "end print slot\n";
 }
 
+template <class Amt, class Pos1, class Pos2>
+static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end){
+    ani->setDuration(dur);
+    ani->setStartValue(start);
+    ani->setEndValue(end);
+    ani->start();
+}

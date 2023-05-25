@@ -6,10 +6,13 @@
 #include <QWidget>
 #include <QDialog>
 #include <QPushButton>
+
+#define CARD_SIZE   50
+
+
 extern const int max_type_of_cards;
 extern const char* card_name[];
 extern const int current_type_of_cards;
-
 /*
 There are three types of cards.
 One type can be clicked on the main interface and
@@ -27,8 +30,8 @@ class Card:public QPushButton
 {
     Q_OBJECT
 private:
-    static unsigned long long lxid;
-    int pos_x, pos_y;               /* position */
+    static unsigned long long ID;
+    int posx, posy, orix, oriy;               /* position */
     enum CardType type;             /* status */
     std::vector<Card *> covering;        /* Cards that it covers */
     std::vector<Card *> covered;         /* Cards that covers this card */
@@ -43,7 +46,7 @@ public:
         type = _type;
     }
     void print_card(void);
-    Card(const char * _name, int posx, int posy, QDialog * parent);
+    Card(const char * _name, int _posx, int _posy, QDialog * parent);
 
     ~Card(void);
 
