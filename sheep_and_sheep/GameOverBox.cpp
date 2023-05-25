@@ -1,28 +1,24 @@
+#include <string>
+#include <string.h>
+#include <QPropertyAnimation>
+
 #include "GameOverBox.h"
 #include "ui_GameOverBox.h"
 #include "menu.h"
-#include <string>
-#include <QPropertyAnimation>
+#include "loadPic.h"
+
+#define MAXLINE 128
 
 GameOverBox::GameOverBox(const char * status, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::GameOverBox)
 {
     qDebug() << "GameOverBox constructed";
-    ui->setupUi(this);
-
-    this->setWindowTitle("游戏结束！");
-    QString mysource,mystatus;
-    mystatus=(QString)(status);
-    mysource="../../../../sheep_and_sheep/pictures/gameover/"+mystatus+".jpg";
-    //qDebug() << source;
-    QPixmap pix;
-    bool ret=pix.load(mysource);//加载图片
-    pix= pix.scaled(this->size());//改变图片大小
-    QPalette Palette = this->palette();
-    pix = pix.scaled(this->size());
-    Palette.setBrush(QPalette::Window, pix);
-    setPalette(Palette);
+    char pic_dir[MAXLINE];
+    strcpy(pic_dir, "../../../../sheep_and_sheep/pictures/gameover/");
+    strcpy(pic_dir + strlen(pic_dir), status);
+    strcpy(pic_dir + strlen(pic_dir), ".jpg");
+    setup_background(ui, this, "GAMEOVER!", pic_dir);
 }
 
 GameOverBox::~GameOverBox()
@@ -32,7 +28,7 @@ GameOverBox::~GameOverBox()
 }
 
 
-void GameOverBox::on_pushButton_confirm_clicked(){
+void GameOverBox::on_goToMainMenu_clicked(){
     qDebug() << "go back to main menu";
 }
 

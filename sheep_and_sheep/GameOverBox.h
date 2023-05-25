@@ -15,7 +15,7 @@ public:
     explicit GameOverBox(const char * status, QWidget *parent = 0);
     ~GameOverBox();
 private slots:
-    void on_pushButton_confirm_clicked();
+    void on_goToMainMenu_clicked();
 
 private:
     Ui::GameOverBox *ui;

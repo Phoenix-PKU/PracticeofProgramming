@@ -30,6 +30,7 @@ set(PROJECT_SOURCES
         slot.cpp
         card.h
         card.cpp
+        loadPic.h
         uuid
 )
 

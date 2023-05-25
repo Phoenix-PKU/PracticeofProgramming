@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="quit">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -26,7 +26,7 @@
     <string>QUIT</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_easy">
+  <widget class="QPushButton" name="easy">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -39,7 +39,7 @@
     <string>easy</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_medium">
+  <widget class="QPushButton" name="medium">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -52,7 +52,7 @@
     <string>medium</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_hard">
+  <widget class="QPushButton" name="hard">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -65,7 +65,7 @@
     <string>hard</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_hell">
+  <widget class="QPushButton" name="hell">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -82,7 +82,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton</sender>
+   <sender>quit</sender>
    <signal>clicked()</signal>
    <receiver>MyDialog</receiver>
    <slot>accept()</slot>

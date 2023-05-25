@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButton_confirm">
+  <widget class="QPushButton" name="goToMainMenu">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -30,7 +30,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton_confirm</sender>
+   <sender>goToMainMenu</sender>
    <signal>clicked()</signal>
    <receiver>GameOverBox</receiver>
    <slot>accept()</slot>
