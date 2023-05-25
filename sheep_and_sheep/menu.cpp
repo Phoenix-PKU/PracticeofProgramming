@@ -22,10 +22,10 @@ Menu::~Menu()
 void Menu::on_quit_clicked()
 {
     qDebug() << "quit game";
-    //ConfirmBox confirmbox;
-    //if (confirmbox.exec() == ConfirmBox::Accepted){
-    //    accept();
-    //}
+    ConfirmBox confirmbox;
+    if (confirmbox.exec() == ConfirmBox::Accepted){
+        accept();
+    }
 }
 
 void Menu::on_easy_clicked()
