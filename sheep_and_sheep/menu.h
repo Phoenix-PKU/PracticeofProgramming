@@ -16,15 +16,15 @@ public:
     ~Menu();
 
 private slots:
-    void on_pushButton_easy_clicked();
+    void on_easy_clicked();
 
-    void on_pushButton_medium_clicked();
+    void on_medium_clicked();
 
-    void on_pushButton_hard_clicked();
+    void on_hard_clicked();
 
-    void on_pushButton_hell_clicked();
+    void on_hell_clicked();
 
-    void on_pushButton_clicked();
+    void on_quit_clicked();
 
 private:
     Ui::MyDialog *ui;

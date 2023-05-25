@@ -6,29 +6,27 @@
 #include "ConfirmBox.h"
 #include "GameOverBox.h"
 
-Game::Game(int i,QWidget *parent) :
+Game::Game(int _card_num, int _card_types,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Game),
-    index(i)
+    card_nums(_card_num),
+    card_types(_card_types)
 {
     qDebug() << "Game constructed";
     ui->setupUi(this);
     this->setFixedSize(500, 350); //设置窗体固定大小
-
     this->setWindowTitle("羊了个羊游戏"); //到之后这里使用传入的难度
     QPixmap Images("../../../../sheep_and_sheep/pictures/background_picture/grassland.jpg");
     QPalette Palette = this->palette();
     Images = Images.scaled(this->size());
     Palette.setBrush(QPalette::Window, Images);
     setPalette(Palette);
-    card_nums = 6 * i + 12;
-    card_types = i + 2;
     slot = new Slot;
     for (int i = 0; i < card_nums; ++i) {
         Card * new_card = new Card(card_name[i % card_types], 100*(i%3), 100 + 100*((i/3)%3), this);
         all_cards.push_back(new_card);
         connect(new_card, &QPushButton::clicked,
-                this, [=](){on_card_clicked(new_card);});
+                this, [=](){update(new_card);});
     }
     cards_clickable = card_nums;
     cards_in_slot = 0;
@@ -54,11 +52,10 @@ Game::~Game()
     delete slot;
 }
 
-
-void Game::on_pushButton_clicked(){
+void Game::on_confirmBox_clicked(){
     qDebug() << "Are you sure to quit";
-    ConfirmBox ConfirmBox;
-    if(ConfirmBox.exec()==ConfirmBox::Accepted){
+    ConfirmBox confirmbox;
+    if(confirmbox.exec()==ConfirmBox::Accepted){
         accept();
     }
    // else if(ConfirmBox.exec()==ConfirmBox::Rejected) {
@@ -66,7 +63,7 @@ void Game::on_pushButton_clicked(){
    // }
 }
 
-void Game::on_card_clicked(Card * chosen){
+void Game::update(Card * chosen){
     qDebug() << "------\nA card is clicked\n------";
     cards_clickable --;
     cards_in_slot ++;
@@ -79,14 +76,14 @@ void Game::on_card_clicked(Card * chosen){
 
     QPropertyAnimation * animation = new QPropertyAnimation(chosen, "geometry");
     connect(animation, &QPropertyAnimation::finished,
-            this, [=](){on_moving_finished();});
+            this, [=](){update_tail();});
     animation->setDuration(100);
     animation->setStartValue(chosen->geometry());
     animation->setEndValue(QRect(YPOS, 50 * where_to_go, 50, 50));
     animation->start();
 }
 
-void Game::on_moving_finished() {
+void Game::update_tail() {
     if (slot->can_remove()){
         std::vector<Card *>::iterator to_remove = slot->check_slot();
         slot->remove_cards(to_remove);
@@ -104,7 +101,7 @@ void Game::on_moving_finished() {
         }
     }
 
-    if(cards_clickable == 0 && cards_in_slot == 0) {
+    if(all_cards_eliminate()) {
         qDebug() << "Eliminate all cards, Congrats!!!";
         GameOverBox GameOverBox("win");
         if((GameOverBox.exec()==ConfirmBox::Accepted)){

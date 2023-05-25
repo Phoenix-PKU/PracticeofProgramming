@@ -23,13 +23,16 @@ class Game : public QDialog
     int card_nums, card_types;
 
 public:
-    explicit Game(int i,QWidget *parent = 0);
+    explicit Game(int _card_nums, int _card_types ,QWidget *parent = 0);
     ~Game();
 
 public slots:
-    void on_pushButton_clicked();
-    void on_card_clicked(Card * chosen);
-    void on_moving_finished();
+    void on_confirmBox_clicked(void);
+    void update(Card * chosen);
+    void update_tail(void);
+    bool all_cards_eliminate(void){
+         return cards_clickable == 0 && cards_in_slot == 0;
+     }
     //void receive_sig_choose(int target);
 
 signals:

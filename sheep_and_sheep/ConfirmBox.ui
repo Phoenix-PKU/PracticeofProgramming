@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButton_confirm">
+  <widget class="QPushButton" name="confirm">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -26,7 +26,7 @@
     <string>退出游戏</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_goback">
+  <widget class="QPushButton" name="goback">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -43,7 +43,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton_confirm</sender>
+   <sender>confirm</sender>
    <signal>clicked()</signal>
    <receiver>ConfirmBox</receiver>
    <slot>accept()</slot>
@@ -59,7 +59,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_goback</sender>
+   <sender>goback</sender>
    <signal>clicked()</signal>
    <receiver>ConfirmBox</receiver>
    <slot>reject()</slot>

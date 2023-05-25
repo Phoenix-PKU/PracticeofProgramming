@@ -25,11 +25,11 @@ ConfirmBox::~ConfirmBox()
 }
 
 
-void ConfirmBox::on_pushButton_confirm_clicked(){
+void ConfirmBox::on_confirm_clicked(){
     qDebug() << "go back to main menu";
 }
 
-void ConfirmBox::on_pushButton_goback_clicked(){
+void ConfirmBox::on_goback_clicked(){
     qDebug() << "go back to game";
 }
 

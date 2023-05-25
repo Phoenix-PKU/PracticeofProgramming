@@ -15,9 +15,9 @@ public:
     explicit ConfirmBox(QWidget *parent = 0);
     ~ConfirmBox();
 private slots:
-    void on_pushButton_goback_clicked();
+    void on_goback_clicked();
 
-    void on_pushButton_confirm_clicked();
+    void on_confirm_clicked();
 
 private:
     Ui::ConfirmBox *ui;

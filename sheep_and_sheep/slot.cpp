@@ -137,5 +137,6 @@ void Slot::print_slot(void){
 
         card->print_card();
     }
+    qDebug() << "end print slot\n";
 }
 

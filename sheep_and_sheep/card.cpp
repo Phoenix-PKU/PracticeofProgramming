@@ -34,7 +34,7 @@ Card::Card(const char * _name, int posx, int posy, QDialog * parent):
 
     this->setGeometry(posx, posy, 50, 50);
     //设置按钮对象名字
-    this->setObjectName("pushButton_card_" + uid);
+    this->setObjectName("card_" + uid);
     //设置按钮显示文本
     /*this->setText("kapai " + QString::fromStdString(uid)
                   + "\n" + QString::fromStdString(name));*/

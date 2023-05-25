@@ -1,5 +1,6 @@
 #include "menu.h"
 #include "ui_menu.h"
+#include "ConfirmBox.h"
 #include "game.h"
 
 Menu::Menu(QWidget *parent) :
@@ -24,38 +25,37 @@ Menu::~Menu()
     delete ui;
 }
 
-void Menu::on_pushButton_clicked()
+void Menu::on_quit_clicked()
 {
     qDebug() << "quit game";
-    rejected();
-    //也可以通过 按F4进入信号和槽编辑状态，拖动 pushButton到对话框窗体，
-    //然后添加 clicked() - accept槽
-    //MyWidget w;
-    //w.show();
+    //ConfirmBox confirmbox;
+    //if (confirmbox.exec() == ConfirmBox::Accepted){
+    //    accept();
+    //}
+    //accept();
 }
 
-void Menu::on_pushButton_easy_clicked()
+void Menu::on_easy_clicked()
 {
     qDebug() << "start easy game";
-    Game dlg(1);
-    qDebug() << "child menu loaded";
-    dlg.exec();
+    Game game(18, 3);
+    game.exec();
 }
-void Menu::on_pushButton_medium_clicked()
+void Menu::on_medium_clicked()
 {
     qDebug() << "start medium game";
-    Game dlg(2);
-    dlg.exec();
+    Game game(24, 4);
+    game.exec();
 }
-void Menu::on_pushButton_hard_clicked()
+void Menu::on_hard_clicked()
 {
     qDebug() << "start hard game";
-    Game dlg(3);
-    dlg.exec();
+    Game game(30, 5);
+    game.exec();
 }
-void Menu::on_pushButton_hell_clicked()
+void Menu::on_hell_clicked()
 {
     qDebug() << "start hell game";
-    Game dlg(4);
-    dlg.exec();
+    Game game(36, 6);
+    game.exec();
 }

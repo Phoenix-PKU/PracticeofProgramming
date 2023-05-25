@@ -32,7 +32,8 @@ GameOverBox::~GameOverBox()
 }
 
 
-void GameOverBox::on_pushButton_confirm_clicked(){
+void GameOverBox::on_goToMainMenu_clicked(){
     qDebug() << "go back to main menu";
+    //accept();
 }
 
