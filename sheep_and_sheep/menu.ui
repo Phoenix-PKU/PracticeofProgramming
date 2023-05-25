@@ -80,22 +80,5 @@
   </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>quit</sender>
-   <signal>clicked()</signal>
-   <receiver>MyDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>92</x>
-     <y>155</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>171</x>
-     <y>53</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
