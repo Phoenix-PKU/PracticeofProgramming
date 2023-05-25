@@ -2,21 +2,15 @@
 #include "ui_menu.h"
 #include "ConfirmBox.h"
 #include "game.h"
+#include "loadPic.h"
 
 Menu::Menu(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MyDialog)
 {
     qDebug() << "main menu constructed";
-    ui->setupUi(this);
-
-    this->setWindowTitle("欢迎来到羊了个羊的世界");
-    QPixmap Images("../../../../sheep_and_sheep/pictures/background_picture/main_menu.jpg");
-    QPalette Palette = this->palette();
-    Images = Images.scaled(this->size());
-    Palette.setBrush(QPalette::Window, Images);
-    setPalette(Palette);
-
+    const char * pic_dir = "../../../../sheep_and_sheep/pictures/background_picture/main_menu.jpg";
+    setup_background(ui, this, "欢迎来到羊了个羊的世界", pic_dir);
 }
 
 Menu::~Menu()
@@ -32,7 +26,6 @@ void Menu::on_quit_clicked()
     //if (confirmbox.exec() == ConfirmBox::Accepted){
     //    accept();
     //}
-    //accept();
 }
 
 void Menu::on_easy_clicked()

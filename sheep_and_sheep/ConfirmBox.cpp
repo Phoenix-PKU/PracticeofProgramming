@@ -1,21 +1,15 @@
 #include "ConfirmBox.h"
 #include "ui_ConfirmBox.h"
 #include "menu.h"
+#include "loadPic.h"
 
 ConfirmBox::ConfirmBox(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ConfirmBox)
 {
     qDebug() << "ConfirmBox constructed";
-    ui->setupUi(this);
-
-    this->setWindowTitle("您确认要退出吗？");
-    this->setFixedSize(240, 100); //设置窗体固定大小
-    QPixmap Images("../../../../sheep_and_sheep/pictures/background_picture/warning.jpg");
-    QPalette Palette = this->palette();
-    Images = Images.scaled(this->size());
-    Palette.setBrush(QPalette::Window, Images);
-    setPalette(Palette);
+    const char * pic_dir = "../../../../sheep_and_sheep/pictures/background_picture/warning.jpg";
+    setup_background(ui, this, "您确认要退出吗？", pic_dir, 240, 100);
 }
 
 ConfirmBox::~ConfirmBox()

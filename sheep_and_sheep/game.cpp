@@ -13,6 +13,7 @@ Game::Game(int _card_num, int _card_types,QWidget *parent) :
     card_types(_card_types)
 {
     qDebug() << "Game constructed";
+    
     ui->setupUi(this);
     this->setFixedSize(500, 350); //设置窗体固定大小
     this->setWindowTitle("羊了个羊游戏"); //到之后这里使用传入的难度
@@ -21,6 +22,7 @@ Game::Game(int _card_num, int _card_types,QWidget *parent) :
     Images = Images.scaled(this->size());
     Palette.setBrush(QPalette::Window, Images);
     setPalette(Palette);
+    
     slot = new Slot;
     for (int i = 0; i < card_nums; ++i) {
         Card * new_card = new Card(card_name[i % card_types], 100*(i%3), 100 + 100*((i/3)%3), this);
@@ -58,9 +60,6 @@ void Game::on_confirmBox_clicked(){
     if(confirmbox.exec()==ConfirmBox::Accepted){
         accept();
     }
-   // else if(ConfirmBox.exec()==ConfirmBox::Rejected) {
-     //   qDebug() << "not quiting\n";
-   // }
 }
 
 void Game::update(Card * chosen){
