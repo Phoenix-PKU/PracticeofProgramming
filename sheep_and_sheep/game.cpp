@@ -6,6 +6,11 @@
 #include "loadPic.h"
 #include "ConfirmBox.h"
 #include "GameOverBox.h"
+#include <random>
+
+#define ANI_TIME    100
+template <class Amt, class Pos1, class Pos2>
+static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end);
 
 class Slot;
 Game::Game(int _card_num, int _card_types,QWidget *parent) :
@@ -17,7 +22,7 @@ Game::Game(int _card_num, int _card_types,QWidget *parent) :
     qDebug() << "Game constructed";
     const char * pic_dir = "../../../../sheep_and_sheep/pictures"
                             "/background_picture/grassland.jpg";
-    setup_background(ui, this, "羊了个羊游戏", pic_dir, 500, 350);
+    setup_background(ui, this, "羊了个羊游戏", pic_dir, 500, 450);
     
     slot = new Slot(this);
     for (int idx = 0; idx < card_nums; ++idx) {
@@ -31,6 +36,7 @@ Game::Game(int _card_num, int _card_types,QWidget *parent) :
     cards_clickable = card_nums;
     cards_in_slot = 0;
     cards_eliminate = 0;
+
 }
 
 Game::~Game()
@@ -101,7 +107,30 @@ void Game::update_tail() {
     }
 
 }
+void Game::on_myshuffle_clicked()
+{
+    qDebug() << "shuffle cards";
+    std::vector<Card *>::iterator card_i;
+    for (card_i=all_cards.begin();card_i!=all_cards.end();++card_i){
+        if ((*card_i)->check_card_type(ClickableCard)){
+            std::random_device rd;
+            QPropertyAnimation * animation = new QPropertyAnimation(*card_i, "geometry");
+            /*game->connect(animation, &QPropertyAnimation::finished,
+                game, [=](){game->update_tail();});*/
+            animation_helper(animation, ANI_TIME, (*card_i)->geometry(),
+            QRect(CARD_SIZE * 2 * (rd()%3), CARD_SIZE * 2 + CARD_SIZE * 2 * (rd()%3), CARD_SIZE,  CARD_SIZE));
+            qDebug() << rd();
+        }
+    }
+}
 
+template <class Amt, class Pos1, class Pos2>
+static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end){
+    ani->setDuration(dur);
+    ani->setStartValue(start);
+    ani->setEndValue(end);
+    ani->start();
+}
 
 /*
 void Game::receive_sig_choose(int target) {
