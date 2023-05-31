@@ -33,6 +33,7 @@ public slots:
     bool all_cards_eliminate(void){
          return cards_clickable == 0 && cards_in_slot == 0;
      }
+    void on_myshuffle_clicked();
     //void receive_sig_choose(int target);
 
 signals:
