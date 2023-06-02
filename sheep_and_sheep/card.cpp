@@ -3,12 +3,16 @@
 #include <iostream>
 #include <cstring>
 #include <QPropertyAnimation>
+#include <QGraphicsDropShadowEffect>
+#include <cassert>
+#include <vector>
+#include <math.h>
 #include "game.h"
 
 #define MAXLINE 128
 #define MAX_LENGTH_NAME  6
 
-
+class Game;
 const int max_type_of_cards = 100;
 
 const char * card_name[max_type_of_cards] =
@@ -21,7 +25,11 @@ unsigned long long Card::ID = 0;
 static void setup_card(Card * card, int posx, int posy, 
     const char * pic_dir, std::string uid);
 
-Card::Card(const char * _name, int _posx, int _posy, QDialog * parent):
+/* This function construct a card with name(_name), all_cards 
+ * is for implementing covering and should not be changed by
+ * this function. */
+Card::Card(const char * _name, int _posx, int _posy,
+    const std::vector<Card *> all_cards, QDialog * parent):
     name(_name),
     QPushButton(parent), 
     posx(_posx), posy(_posy),
@@ -32,25 +40,67 @@ Card::Card(const char * _name, int _posx, int _posy, QDialog * parent):
     uuid_generate(uuid);
     uuid_unparse(uuid, buf);
     uid = std::string(buf);*/
-    
+    game = (Game *) parent;
     char buf[MAXLINE], pic_dir[MAXLINE];
     sprintf(buf, "%llu", ID++);
     uid = std::string(buf);
     type = ClickableCard;
 
-    qDebug() << "Construct card "; print_card();
+    
     strcpy(pic_dir, "../../../../sheep_and_sheep/pictures/card_picture/");
     strcpy(pic_dir + strlen(pic_dir), name);
     strcpy(pic_dir + strlen(pic_dir), ".jpg");
     setup_card(this, posx, posy, pic_dir, uid);
+
+    for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
+        Card * old_card = *ip;
+        if (overlap(old_card, this)){
+            cover_card(this, old_card);
+        }
+    }
 }
 
 Card::~Card(void){
-    qDebug() << "Goodbye from card "; print_card();
+    qDebug() << "Goodbye from card "; print_card(true, "");
     ID--;
 }
 
-void Card::print_card(void){
+/* This function removes the card from the top and 
+ * remove itself from the cards that is covered by itself. */
+void Card::remove_card(void){
+    assert (check_card_type(ClickableCard));
+    assert (covered.empty());
+    for (auto it = covering.begin();it != covering.end();it ++){
+        Card * lower_card = *it;
+        lower_card -> remove_upper_card(this);
+    }
+    covering.clear();
+}
+/* This function remove upper_card that is currently covering
+ * this card, if there is no card aftering removing, make it
+ * clickable. */
+void Card::remove_upper_card(Card * upper_card){
+    assert (check_card_type(CoveredCard));
+    auto it = std::find(covered.begin(), covered.end(), upper_card);
+    assert (it != covered.end());
+    covered.erase(it);
+    if (covered.empty()){
+        connect(this, &QPushButton::clicked,
+            this, [=](){game->update(this);});
+        this->set_card_type(ClickableCard);
+        this->setEnabled(true);
+    }
+}
+
+
+void Card::set_upper_card(Card * upper_card){
+    assert (check_card_type(CoveredCard));
+}
+/*
+ if cover_flag is true, then print all cards that are covering 
+ it or are covered by it.
+*/
+void Card::print_card(bool cover_flag, const char * prefix){
     std::string card_type;
     if (type == ClickableCard){
         card_type = "ClickableCard";
@@ -61,10 +111,24 @@ void Card::print_card(void){
     else if (type == EliminatedCard){
         card_type = "EliminatedCard";
     }
+    else if (type == CoveredCard){
+        card_type = "CoveredCard";
+    }
     else assert(false);
-    qDebug() << "uid: " << uid.c_str()
+    qDebug() << prefix << "uid: " << uid.c_str()
              << ", name: " << name
-             << ", type is: " << card_type.c_str();
+             << ", type is: " << card_type.c_str()
+             << "xpos = " << posx << ", ypos = " << posy;
+    if (cover_flag){
+        qDebug() << " begin covering card: ";
+        for (auto ip = covering.begin();ip != covering.end();ip ++){
+            (*ip)->print_card(false, "    ");
+        }
+        qDebug() << " begin covered card: ";
+        for (auto ip = covered.begin();ip != covered.end();ip ++){
+            (*ip)->print_card(false, "    ");
+        }
+    }
 }
 
 static void setup_card(Card * card, int posx, int posy, 
@@ -80,5 +144,26 @@ static void setup_card(Card * card, int posx, int posy,
     card->setStyleSheet("QPushButton{border:0px;}");//调整无边框
     card->setIcon(pix);//设置按钮图像
     card->setIconSize(QSize(pix.width(),pix.height()));//设置图像大小
+    
+
+    //card->setStyleSheet("background-color: rgba(0, 0, 0, 100%);");
+
+
+    //card->setText(uid.c_str());
+    //card->setStyleSheet("padding-right: 50px;");  // 将文本向右移动10个像素
+    //card->setStyleSheet("font-size: 15px;");  // 设置字体大小为12像素
+    //card -> setFixedWidth(100);
     card->show();
+}
+
+void cover_card(Card * upper_card, Card * lower_card){
+    assert (upper_card -> check_card_type(ClickableCard));
+    upper_card -> covering.push_back(lower_card);
+    lower_card -> covered.push_back(upper_card);
+    lower_card -> set_card_type(CoveredCard);
+}
+
+bool overlap(Card * old_card, Card * new_card){
+    return abs(old_card -> posx - new_card -> posx) < CARD_SIZE
+        && abs(old_card -> posy - new_card -> posy) < CARD_SIZE;
 }

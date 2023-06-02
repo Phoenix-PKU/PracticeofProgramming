@@ -128,6 +128,7 @@ void Slot::insert_card(Card * card, std::vector<Card *>::iterator place){
     assert (card->check_card_type(ClickableCard));
     
     card->set_card_type(SlotCard);
+    card->setStyleSheet("background-color: rgba(255, 255, 255, 50%);");  
     card->setEnabled(false);
     cards.insert(place, card);
     curr_size ++;
@@ -154,7 +155,7 @@ void Slot::print_slot(void){
     for (auto ip = cards.begin();ip != cards.end();ip ++){
         Card * card = *ip;
         qDebug() << "card " << ++idx << ": ";
-        card->print_card();
+        card->print_card(true, "");
     }
     qDebug() << "end print slot\n";
 }

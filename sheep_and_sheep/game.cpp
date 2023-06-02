@@ -1,5 +1,6 @@
 #include <QPropertyAnimation>
 #include <QThread>
+#include <QGraphicsDropShadowEffect>
 #include "game.h"
 #include "ui_game.h"
 #include "menu.h"
@@ -19,20 +20,39 @@ Game::Game(int _card_num, int _card_types,QWidget *parent) :
     card_nums(_card_num),
     card_types(_card_types)
 {
+    length = 16 * CARD_SIZE;
+    width = 12 * CARD_SIZE;
+    /* max number of card that can appear on one line. */
+    max_num_card = 13; 
     qDebug() << "Game constructed";
     const char * pic_dir = "../../../../sheep_and_sheep/pictures"
                             "/background_picture/grassland.jpg";
-    setup_background(ui, this, "羊了个羊游戏", pic_dir, 500, 450);
+    setup_background(ui, this, "羊了个羊游戏", pic_dir, length, width);
     
+    std::random_device rd;
     slot = new Slot(this);
     for (int idx = 0; idx < card_nums; ++idx) {
+        int posx = (rd() % max_num_card + 1) * MCARD_SIZE;
+        int posy = (rd() % max_num_card + 1) * MCARD_SIZE;
         Card * new_card = new Card(card_name[idx % card_types], 
-            CARD_SIZE * 2 * (idx % TRIPLE), 
-        CARD_SIZE * 2 + CARD_SIZE * 2 *((idx / TRIPLE) % TRIPLE), this);
+            posx, posy, 
+        all_cards, this);
         all_cards.push_back(new_card);
-        connect(new_card, &QPushButton::clicked,
-                this, [=](){update(new_card);});
     }
+
+    for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
+        Card * card = *ip;
+        card->print_card(true, "");
+        if (card -> check_card_type(ClickableCard))
+            connect(card, &QPushButton::clicked,
+                this, [=](){update(card);});
+        else{
+            card->setStyleSheet("background-color: rgba(0, 0, 0, 100%);");  
+            // 设置背景色为半透明的黑色
+            card->setEnabled(false);
+        }
+    }
+
     cards_clickable = card_nums;
     cards_in_slot = 0;
     cards_eliminate = 0;
@@ -60,10 +80,11 @@ void Game::on_confirmBox_clicked(){
 }
 
 void Game::update(Card * chosen){
-    qDebug() << "------\nA card is clicked\n------";
+    qDebug() << "------\nCard "<< chosen->get_id() <<" is clicked\n------";
+
     cards_clickable --;
     cards_in_slot ++;
-
+    chosen->remove_card();
     std::vector<Card *>::iterator place = slot->find_slot(chosen);
     int where_to_go = place - slot->begin();
     slot->insert_card(chosen, place);
@@ -105,7 +126,9 @@ void Game::update_tail() {
             accept();
         }
     }
-
+    for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
+        (*ip)->print_card(true, "");
+    }
 }
 void Game::on_myshuffle_clicked()
 {

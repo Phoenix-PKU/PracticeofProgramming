@@ -21,6 +21,7 @@ class Game : public QDialog
     Slot * slot;
     int cards_clickable, cards_in_slot, cards_eliminate;
     int card_nums, card_types;
+    int length, width, max_num_card;
 
 public:
     explicit Game(int _card_nums, int _card_types ,QWidget *parent = 0);
