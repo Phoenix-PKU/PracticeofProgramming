@@ -134,17 +134,40 @@ void Game::on_myshuffle_clicked()
 {
     qDebug() << "shuffle cards";
     std::vector<Card *>::iterator card_i;
-    for (card_i=all_cards.begin();card_i!=all_cards.end();++card_i){
-        if ((*card_i)->check_card_type(ClickableCard)){
-            std::random_device rd;
-            QPropertyAnimation * animation = new QPropertyAnimation(*card_i, "geometry");
-            /*game->connect(animation, &QPropertyAnimation::finished,
-                game, [=](){game->update_tail();});*/
-            animation_helper(animation, ANI_TIME, (*card_i)->geometry(),
-            QRect(CARD_SIZE * 2 * (rd()%3), CARD_SIZE * 2 + CARD_SIZE * 2 * (rd()%3), CARD_SIZE,  CARD_SIZE));
-            qDebug() << rd();
+    std::vector<int>::iterator p_temp;
+    std::vector<int> temp;
+    for (card_i=all_cards.begin();card_i!=all_cards.end();){
+        if ((*card_i)->check_card_type(ClickableCard)||(*card_i)->check_card_type(CoveredCard)){
+            temp.push_back((*card_i)->nametoint());
+            delete (*card_i);
+            card_i=all_cards.erase(card_i);
+        }
+        else{
+            ++card_i;
         }
     }
+    std::random_device rd;
+    for (p_temp=temp.begin();p_temp!=temp.end();++p_temp){
+        int posx = (rd() % max_num_card + 1) * MCARD_SIZE;
+        int posy = (rd() % max_num_card + 1) * MCARD_SIZE;
+        Card * new_card = new Card(card_name[*p_temp],
+                                  posx, posy,
+                                  all_cards, this);
+        all_cards.push_back(new_card);
+    }
+    for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
+        Card * card = *ip;
+        card->print_card(true, "");
+        if (card -> check_card_type(ClickableCard))
+            connect(card, &QPushButton::clicked,
+                    this, [=](){update(card);});
+        else if(card -> check_card_type(CoveredCard)){
+            card->setStyleSheet("background-color: rgba(0, 0, 0, 100%);");
+            // 设置背景色为半透明的黑色
+            card->setEnabled(false);
+        }
+    }
+
 }
 
 template <class Amt, class Pos1, class Pos2>

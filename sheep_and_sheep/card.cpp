@@ -54,14 +54,26 @@ Card::Card(const char * _name, int _posx, int _posy,
 
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         Card * old_card = *ip;
+        if (old_card->check_card_type(SlotCard) ||
+            old_card->check_card_type(EliminatedCard))
+            continue;
         if (overlap(old_card, this)){
             cover_card(this, old_card);
         }
     }
 }
 
+int Card::nametoint(void){
+    for (int i = 0;i < current_type_of_cards;++i){
+        if (strcmp(name,card_name[i])==0){
+            return i;
+        }
+    }
+    assert (false);
+}
 Card::~Card(void){
-    qDebug() << "Goodbye from card "; print_card(true, "");
+    qDebug() << "Goodbye from card ";
+    //print_card(true, "");
     ID--;
 }
 
@@ -114,7 +126,10 @@ void Card::print_card(bool cover_flag, const char * prefix){
     else if (type == CoveredCard){
         card_type = "CoveredCard";
     }
-    else assert(false);
+    else {
+        qDebug() << "unknown card type " << type;
+        assert(false);
+    }
     qDebug() << prefix << "uid: " << uid.c_str()
              << ", name: " << name
              << ", type is: " << card_type.c_str()

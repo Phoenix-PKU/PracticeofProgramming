@@ -49,6 +49,10 @@ public:
     bool check_card_type(enum CardType _type){
         return type == _type;
     }
+    int nametoint(void);
+    const char *inttoname(int i){
+        return card_name[i];
+    }
     void set_card_type(enum CardType _type){
         type = _type;
     }
