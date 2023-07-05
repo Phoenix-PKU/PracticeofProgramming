@@ -20,20 +20,20 @@ Game::Game(int _card_num, int _card_types,QWidget *parent) :
     card_nums(_card_num),
     card_types(_card_types)
 {
-    length = 16 * CARD_SIZE;
-    width = 12 * CARD_SIZE;
+    length = 15 * CARD_SIZE;
+    width = 11 * CARD_SIZE;
     /* max number of card that can appear on one line. */
     max_num_card = 13; 
     qDebug() << "Game constructed";
     const char * pic_dir = ":/new/prefix1/pictures"
-                            "/background_picture/grassland.jpg";
+                            "/background_picture/grassland.png";
     setup_background(ui, this, "羊了个羊游戏", pic_dir, length, width);
     
     std::random_device rd;
     slot = new Slot(this);
     for (int idx = 0; idx < card_nums; ++idx) {
-        int posx = (rd() % max_num_card + 1) * MCARD_SIZE;
-        int posy = (rd() % max_num_card + 1) * MCARD_SIZE;
+        int posx = (rd() % max_num_card + 4) * MCARD_SIZE;
+        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE;
         Card * new_card = new Card(card_name[idx % card_types], 
             posx, posy, 
         all_cards, this);
@@ -43,15 +43,8 @@ Game::Game(int _card_num, int _card_types,QWidget *parent) :
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         Card * card = *ip;
         card->print_card(true, "");
-        if (card -> check_card_type(ClickableCard))
-            connect(card, &QPushButton::clicked,
+        connect(card, &QPushButton::clicked,
                 this, [=](){update(card);});
-        else{
-            //card->setStyleSheet("QPushButton{background-color:rgba(0, 0, 0, 10%);}");
-            // 设置背景色为半透明的黑色
-            card->setDarkBackground();
-            card->setEnabled(false);
-        }
     }
 
     cards_clickable = card_nums;
@@ -131,6 +124,58 @@ void Game::update_tail() {
         (*ip)->print_card(true, "");
     }
 }
+
+/* This function choose the last card in the slot and put it back 
+    to clickable card. 
+    It wouldn't work if there is no card in the slot.
+    The card will be put back to where it belongs.
+*/
+void Game::on_retreat_clicked(){
+    // check condition
+    qDebug() << "retreat one card";
+    if (cards_in_slot == 0) {
+        qDebug() << "no card to retreat!";
+        return;
+    }
+
+    //update slot
+    slot->print_slot();
+    Card * to_retreat = slot -> get_last_card();
+    assert (to_retreat->check_card_type(SlotCard));
+    slot -> remove_last_card();
+    
+    //update game
+    cards_in_slot--;
+    cards_clickable++;
+    
+    //do animation
+    QPropertyAnimation *animation = new QPropertyAnimation(to_retreat, "geometry");
+    animation_helper(animation, ANI_TIME, to_retreat->geometry(),
+            QRect(to_retreat->get_orix(), to_retreat->get_oriy(), 
+            CARD_SIZE,  CARD_SIZE));
+    
+    //update card
+    to_retreat->set_posx(to_retreat->get_orix());
+    to_retreat->set_posy(to_retreat->get_oriy());
+    to_retreat->set_card_type(ClickableCard);
+    to_retreat->setNormalBackground();
+    to_retreat->setEnabled(true);
+    to_retreat->print_card(true, "");
+
+    for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
+        Card * old_card = *ip;
+        if (old_card->check_card_type(SlotCard) ||
+            old_card->check_card_type(EliminatedCard))
+            continue;
+        if (old_card == to_retreat) continue;
+        if (overlap(old_card, to_retreat)){
+            cover_card(to_retreat, old_card);
+        }
+    }
+
+
+}
+
 void Game::on_myshuffle_clicked()
 {
     qDebug() << "shuffle cards";
@@ -138,7 +183,8 @@ void Game::on_myshuffle_clicked()
     std::vector<int>::iterator p_temp;
     std::vector<int> temp;
     for (card_i=all_cards.begin();card_i!=all_cards.end();){
-        if ((*card_i)->check_card_type(ClickableCard)||(*card_i)->check_card_type(CoveredCard)){
+        if ((*card_i)->check_card_type(ClickableCard)
+            ||(*card_i)->check_card_type(CoveredCard)){
             temp.push_back((*card_i)->nametoint());
             delete (*card_i);
             card_i=all_cards.erase(card_i);
@@ -149,22 +195,23 @@ void Game::on_myshuffle_clicked()
     }
     std::random_device rd;
     for (p_temp=temp.begin();p_temp!=temp.end();++p_temp){
-        int posx = (rd() % max_num_card + 1) * MCARD_SIZE;
-        int posy = (rd() % max_num_card + 1) * MCARD_SIZE;
+        int posx = (rd() % max_num_card + 4) * MCARD_SIZE;
+        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE;
         Card * new_card = new Card(card_name[*p_temp],
                                   posx, posy,
                                   all_cards, this);
+        connect(new_card, &QPushButton::clicked, this, 
+                [=](){update(new_card);});
         all_cards.push_back(new_card);
     }
+
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         Card * card = *ip;
-        card->print_card(true, "");
-        if (card -> check_card_type(ClickableCard))
-            connect(card, &QPushButton::clicked,
-                    this, [=](){update(card);});
-        else if(card -> check_card_type(CoveredCard)){
-            //card->setStyleSheet("background-color: rgba(0, 0, 0, 100%);");
-            // 设置背景色为半透明的黑色
+        if(card -> check_card_type(ClickableCard)){
+            card->setNormalBackground();
+            card->setEnabled(true);
+        }
+        if(card -> check_card_type(CoveredCard)){
             card->setDarkBackground();
             card->setEnabled(false);
         }
@@ -179,24 +226,6 @@ static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end){
     ani->start();
 }
 
-/*
-void Game::receive_sig_choose(int target) {
-    for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
-        Card * card = *ip;
-        if (card->check_card_type(ClickableCard)){
-            qDebug() << "--------\nA card is successfully choosed\n--------";
+void Game::consistency_check(void){
 
-            std::vector<Card *>::iterator place = slot->find_slot(card);
-            slot->insert_card(card, place);
-
-            if (slot->can_remove()){
-                std::vector<Card *>::iterator to_remove = slot->check_slot();
-                slot->remove_cards(to_remove);
-                emit sig_remove();
-            }
-
-            slot->print_slot();
-            return;
-        }
-    }
-}*/
+}

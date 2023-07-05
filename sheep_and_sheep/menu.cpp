@@ -9,7 +9,7 @@ Menu::Menu(QWidget *parent) :
     ui(new Ui::MyDialog)
 {
     qDebug() << "main menu constructed";
-    const char * pic_dir = "../sheep_and_sheep/pictures/background_picture/main_menu.jpg";
+    const char * pic_dir = ":/new/prefix1/pictures/background_picture/main_menu.jpg";
     setup_background(ui, this, "欢迎来到羊了个羊的世界", pic_dir, 400, 300);
 }
 
@@ -37,18 +37,18 @@ void Menu::on_easy_clicked()
 void Menu::on_medium_clicked()
 {
     qDebug() << "start medium game";
-    Game game(24, 4);
+    Game game(36, 6);
     game.exec();
 }
 void Menu::on_hard_clicked()
 {
     qDebug() << "start hard game";
-    Game game(30, 5);
+    Game game(54, 9);
     game.exec();
 }
 void Menu::on_hell_clicked()
 {
     qDebug() << "start hell game";
-    Game game(36, 6);
+    Game game(72, 12);
     game.exec();
 }

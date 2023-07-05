@@ -6,7 +6,9 @@
 
 #define TRIPLE 3
 
-#define YPOS 400
+#define YPOS 500
+#define XPOS 2 * CARD_SIZE
+
 class Game;
 class Slot
 {
@@ -27,6 +29,10 @@ public:
     std::vector<Card *>::iterator check_slot(void);
 
     bool can_remove(void);
+
+    Card * get_last_card(void);
+
+    void remove_last_card(void);
 
     void remove_cards(std::vector<Card *>::iterator card_it, bool win);
 
