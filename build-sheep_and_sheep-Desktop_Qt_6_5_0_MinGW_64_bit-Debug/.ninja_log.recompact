@@ -1,0 +1,20 @@
+# ninja log v5
+219	2765	7102354946320763	CMakeFiles/sheep_and_sheep.dir/ConfirmBox.cpp.obj	b8b16cce5d807e6a
+21	1464	7102368184929192	sheep_and_sheep_autogen/timestamp	ec5ed6f9d3938ae0
+21	1464	7102368184929192	E:/coding/Qt/QC/build-sheep_and_sheep-Desktop_Qt_6_5_0_MinGW_64_bit-Debug/sheep_and_sheep_autogen/mocs_compilation.cpp	ec5ed6f9d3938ae0
+21	1464	7102368184929192	sheep_and_sheep_autogen/mocs_compilation.cpp	ec5ed6f9d3938ae0
+32	47	0	clean	fa92303e789e5432
+224	3070	7102354949466892	CMakeFiles/sheep_and_sheep.dir/menu.cpp.obj	d15c8ae0a94ae41d
+21	1464	7102368184929192	E:/coding/Qt/QC/build-sheep_and_sheep-Desktop_Qt_6_5_0_MinGW_64_bit-Debug/sheep_and_sheep_autogen/timestamp	ec5ed6f9d3938ae0
+868	5459	7102306429303335	CMakeFiles/sheep_and_sheep.dir/main.cpp.obj	c1dc4ab6623ecd59
+3564	4019	7102354958887841	sheep_and_sheep.exe	6e370fde0c4731d1
+236	3270	7102354951472978	CMakeFiles/sheep_and_sheep.dir/card.cpp.obj	61588b73869f4a89
+262	4126	7102325383825069	CMakeFiles/sheep_and_sheep.dir/slot.cpp.obj	7532e3e783a44ac
+864	4746	7102306421728324	CMakeFiles/sheep_and_sheep.dir/sheep_and_sheep_autogen/mocs_compilation.cpp.obj	1f767aeda09f33d9
+232	2891	7102354947641205	CMakeFiles/sheep_and_sheep.dir/GameOverBox.cpp.obj	81764558421d9591
+227	3563	7102354954378146	CMakeFiles/sheep_and_sheep.dir/game.cpp.obj	e1d512e5fae19db6
+0	31	0	CMakeFiles/clean.additional	26ab82f82478fbc9
+1465	1826	7102368190591135	sheep_and_sheep_autogen/EWIEGA46WW/qrc_card_picture.cpp	fcadbaa676835648
+1465	1826	7102368190591135	E:/coding/Qt/QC/build-sheep_and_sheep-Desktop_Qt_6_5_0_MinGW_64_bit-Debug/sheep_and_sheep_autogen/EWIEGA46WW/qrc_card_picture.cpp	fcadbaa676835648
+521	11322	7102335177228259	CMakeFiles/sheep_and_sheep.dir/sheep_and_sheep_autogen/EWIEGA46WW/qrc_card_picture.cpp.obj	9bb391b37e872c96
+4	863	7102368171070823	build.ninja	813c9ff0cd3f0a42
