@@ -185,6 +185,8 @@ void Game::on_retreat_clicked(){
     to_retreat->setNormalBackground();
     to_retreat->setEnabled(true);
     to_retreat->print_card(true, "");
+    //raise it to the upmost layer
+    to_retreat->raise();
 
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         Card * old_card = *ip;
@@ -206,6 +208,10 @@ void Game::on_myshuffle_clicked()
     std::vector<Card *>::iterator card_i;
     std::vector<int>::iterator p_temp;
     std::vector<int> temp;
+
+    // pick up all cards that is clickable or covered
+    // delete them and put them into temp.
+
     for (card_i=all_cards.begin();card_i!=all_cards.end();){
         if ((!(*card_i)->in_heap) && ((*card_i)->check_card_type(ClickableCard)
                ||(*card_i)->check_card_type(CoveredCard))){
@@ -217,6 +223,9 @@ void Game::on_myshuffle_clicked()
             ++card_i;
         }
     }
+
+    // create new cards that has random position
+
     std::random_device rd;
     for (p_temp=temp.begin();p_temp!=temp.end();++p_temp){
         int posx = (rd() % max_num_card + 1) * MCARD_SIZE;
@@ -229,13 +238,14 @@ void Game::on_myshuffle_clicked()
         all_cards.push_back(new_card);
     }
 
+    // set background and enable of new cards.
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         Card * card = *ip;
         if(card -> check_card_type(ClickableCard)){
             card->setNormalBackground();
             card->setEnabled(true);
         }
-        if(card -> check_card_type(CoveredCard)){
+        else if(card -> check_card_type(CoveredCard)){
             card->setDarkBackground();
             card->setEnabled(false);
         }
@@ -266,24 +276,4 @@ static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard){
     }
 }
 
-/*
-void Game::receive_sig_choose(int target) {
-    for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
-        Card * card = *ip;
-        if (card->check_card_type(ClickableCard)){
-            qDebug() << "--------\nA card is successfully choosed\n--------";
 
-            std::vector<Card *>::iterator place = slot->find_slot(card);
-            slot->insert_card(card, place);
-
-            if (slot->can_remove()){
-                std::vector<Card *>::iterator to_remove = slot->check_slot();
-                slot->remove_cards(to_remove);
-                emit sig_remove();
-            }
-
-            slot->print_slot();
-            return;
-        }
-    }
-}*/
