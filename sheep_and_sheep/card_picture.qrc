@@ -14,6 +14,8 @@
         <file>pictures/background_picture/warning.jpg</file>
         <file>pictures/gameover/fail.jpg</file>
         <file>pictures/gameover/win.jpg</file>
+        <file>pictures/card_picture/BLACK.png</file>
+        <file>pictures/card_picture/WHITE.png</file>
         <file>pictures/card_picture/Bell-dark.png</file>
         <file>pictures/card_picture/Brush-dark.png</file>
         <file>pictures/card_picture/Bucket-dark.png</file>
@@ -23,11 +25,5 @@
         <file>pictures/card_picture/Fire-dark.png</file>
         <file>pictures/card_picture/Grass-dark.png</file>
         <file>pictures/card_picture/Stump-dark.png</file>
-        <file>pictures/card_picture/Ball-dark.png</file>
-        <file>pictures/card_picture/Bottle-dark.png</file>
-        <file>pictures/card_picture/Scissor-dark.png</file>
-        <file>pictures/card_picture/Ball.png</file>
-        <file>pictures/card_picture/Bottle.png</file>
-        <file>pictures/card_picture/Scissor.png</file>
     </qresource>
 </RCC>

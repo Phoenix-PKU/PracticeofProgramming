@@ -29,14 +29,12 @@ public:
 
 public slots:
     void on_confirmBox_clicked(void);
-    void on_retreat_clicked(void);
     void update(Card * chosen);
     void update_tail(void);
     bool all_cards_eliminate(void){
          return cards_clickable == 0 && cards_in_slot == 0;
      }
     void on_myshuffle_clicked();
-    void consistency_check(void);
     //void receive_sig_choose(int target);
 
 signals:
