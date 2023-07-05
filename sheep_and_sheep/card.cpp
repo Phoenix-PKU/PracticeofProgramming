@@ -170,10 +170,6 @@ void cover_card(Card * upper_card, Card * lower_card){
     lower_card -> setDarkBackground();
     lower_card -> setEnabled(false);
     
-    qDebug() << "upper card ";
-    upper_card->print_card(true, "");
-    qDebug() << "lower card ";
-    lower_card->print_card(true, "");
 }
 
 bool overlap(Card * old_card, Card * new_card){
