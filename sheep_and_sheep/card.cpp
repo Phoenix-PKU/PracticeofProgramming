@@ -181,6 +181,11 @@ void cover_card(Card * upper_card, Card * lower_card){
     upper_card -> covering.push_back(lower_card);
     lower_card -> covered.push_back(upper_card);
     lower_card -> set_card_type(CoveredCard);
+
+    lower_card -> setDarkBackground();
+    lower_card -> setEnabled(false);
+    
+
 }
 
 bool overlap(Card * old_card, Card * new_card){
