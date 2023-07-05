@@ -25,7 +25,9 @@ public:
     std::vector<Card *>::iterator find_slot(Card * card);
 
     std::vector<Card *>::iterator check_slot(void);
-
+    
+    Card * get_last_card(void);
+    
     bool can_remove(void);
 
     void remove_cards(std::vector<Card *>::iterator card_it, bool win);

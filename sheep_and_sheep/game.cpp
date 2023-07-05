@@ -131,6 +131,22 @@ void Game::update_tail() {
         (*ip)->print_card(true, "");
     }
 }
+
+/* This function choose the last card in the slot and put it back 
+    to clickable card. 
+    It wouldn't work if there is no card in the slot.
+    The card will be put back to where it belongs.
+*/
+void Game::on_retreat_clicked(){
+    qDebug() << "retreat one card";
+    if (cards_in_slot == 0) {
+        qDebug() << "no card to retreat!";
+        return;
+    }
+    Card * to_retreat = slot -> get_last_card();
+
+}
+
 void Game::on_myshuffle_clicked()
 {
     qDebug() << "shuffle cards";

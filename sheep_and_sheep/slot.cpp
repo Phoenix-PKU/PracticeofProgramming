@@ -122,6 +122,12 @@ void Slot::remove_cards(std::vector<Card *>::iterator card_it, bool win){
     return ;
 }
 
+Card * Slot::get_last_card(void)
+{
+    if (cards.empty()) return NULL;
+    return *cards.rbegin();
+}
+
 /* This function insert card into the place in the slot. */
 void Slot::insert_card(Card * card, std::vector<Card *>::iterator place){
     assert (!slot_full());
