@@ -241,7 +241,7 @@ build sheep_and_sheep_autogen/EWIEGA46WW/qrc_card_picture.cpp | ${cmake_ninja_wo
 #############################################
 # Phony custom command for CMakeFiles\sheep_and_sheep_autogen_timestamp_deps
 
-build CMakeFiles/sheep_and_sheep_autogen_timestamp_deps | ${cmake_ninja_workdir}CMakeFiles/sheep_and_sheep_autogen_timestamp_deps: phony E$:/Qt/6.5.0/mingw_64/./bin/uic.exe E$:/Qt/6.5.0/mingw_64/./bin/moc.exe E$:/Qt/6.5.0/mingw_64/lib/libQt6Core.a E$:/Qt/6.5.0/mingw_64/lib/libQt6Widgets.a
+build CMakeFiles/sheep_and_sheep_autogen_timestamp_deps | ${cmake_ninja_workdir}CMakeFiles/sheep_and_sheep_autogen_timestamp_deps: phony E$:/Qt/6.5.0/mingw_64/./bin/uic.exe E$:/Qt/6.5.0/mingw_64/./bin/moc.exe E$:/Qt/6.5.0/mingw_64/lib/libQt6Widgets.a E$:/Qt/6.5.0/mingw_64/lib/libQt6Core.a
 
 
 #############################################
