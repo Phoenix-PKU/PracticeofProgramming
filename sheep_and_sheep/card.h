@@ -9,6 +9,7 @@
 #include <QStyleOption>
 #include <QPainter>
 
+#define INVALID_POS -1
 #define CARD_SIZE   54
 #define HCARD_SIZE  CARD_SIZE / 2
 #define DCARD_SIZE  CARD_SIZE * 2
@@ -64,6 +65,13 @@ public:
     const char * get_id(void){
         return uid.c_str();
     }
+
+    int get_posx(void){return posx;}
+    int get_posy(void){return posy;}
+    int get_orix(void){return orix;}
+    int get_oriy(void){return oriy;}
+    void set_posx(int _posx){posx = _posx;}
+    void set_posy(int _posy){posy = _posy;}
 
     void print_card(bool cover_flag, const char * prefix);
 

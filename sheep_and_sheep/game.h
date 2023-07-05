@@ -36,6 +36,7 @@ public slots:
          return cards_clickable == 0 && cards_in_slot == 0;
      }
     void on_myshuffle_clicked();
+    void consistency_check(void);
     //void receive_sig_choose(int target);
 
 signals:

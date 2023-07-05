@@ -43,15 +43,8 @@ Game::Game(int _card_num, int _card_types,QWidget *parent) :
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         Card * card = *ip;
         card->print_card(true, "");
-        if (card -> check_card_type(ClickableCard))
-            connect(card, &QPushButton::clicked,
+        connect(card, &QPushButton::clicked,
                 this, [=](){update(card);});
-        else{
-            //card->setStyleSheet("QPushButton{background-color:rgba(0, 0, 0, 10%);}");
-            // 设置背景色为半透明的黑色
-            card->setDarkBackground();
-            card->setEnabled(false);
-        }
     }
 
     cards_clickable = card_nums;
@@ -138,12 +131,48 @@ void Game::update_tail() {
     The card will be put back to where it belongs.
 */
 void Game::on_retreat_clicked(){
+    // check condition
     qDebug() << "retreat one card";
     if (cards_in_slot == 0) {
         qDebug() << "no card to retreat!";
         return;
     }
+
+    //update slot
+    slot->print_slot();
     Card * to_retreat = slot -> get_last_card();
+    assert (to_retreat->check_card_type(SlotCard));
+    slot -> remove_last_card();
+    
+    //update game
+    cards_in_slot--;
+    cards_clickable++;
+    
+    //do animation
+    QPropertyAnimation *animation = new QPropertyAnimation(to_retreat, "geometry");
+    animation_helper(animation, ANI_TIME, to_retreat->geometry(),
+            QRect(to_retreat->get_orix(), to_retreat->get_oriy(), 
+            CARD_SIZE,  CARD_SIZE));
+    
+    //update card
+    to_retreat->set_posx(to_retreat->get_orix());
+    to_retreat->set_posy(to_retreat->get_oriy());
+    to_retreat->set_card_type(ClickableCard);
+    to_retreat->setNormalBackground();
+    to_retreat->setEnabled(true);
+    to_retreat->print_card(true, "");
+
+    for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
+        Card * old_card = *ip;
+        if (old_card->check_card_type(SlotCard) ||
+            old_card->check_card_type(EliminatedCard))
+            continue;
+        if (old_card == to_retreat) continue;
+        if (overlap(old_card, to_retreat)){
+            cover_card(to_retreat, old_card);
+        }
+    }
+
 
 }
 
@@ -154,7 +183,8 @@ void Game::on_myshuffle_clicked()
     std::vector<int>::iterator p_temp;
     std::vector<int> temp;
     for (card_i=all_cards.begin();card_i!=all_cards.end();){
-        if ((*card_i)->check_card_type(ClickableCard)||(*card_i)->check_card_type(CoveredCard)){
+        if ((*card_i)->check_card_type(ClickableCard)
+            ||(*card_i)->check_card_type(CoveredCard)){
             temp.push_back((*card_i)->nametoint());
             delete (*card_i);
             card_i=all_cards.erase(card_i);
@@ -170,17 +200,18 @@ void Game::on_myshuffle_clicked()
         Card * new_card = new Card(card_name[*p_temp],
                                   posx, posy,
                                   all_cards, this);
+        connect(new_card, &QPushButton::clicked, this, 
+                [=](){update(new_card);});
         all_cards.push_back(new_card);
     }
+
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         Card * card = *ip;
-        card->print_card(true, "");
-        if (card -> check_card_type(ClickableCard))
-            connect(card, &QPushButton::clicked,
-                    this, [=](){update(card);});
-        else if(card -> check_card_type(CoveredCard)){
-            //card->setStyleSheet("background-color: rgba(0, 0, 0, 100%);");
-            // 设置背景色为半透明的黑色
+        if(card -> check_card_type(ClickableCard)){
+            card->setNormalBackground();
+            card->setEnabled(true);
+        }
+        if(card -> check_card_type(CoveredCard)){
             card->setDarkBackground();
             card->setEnabled(false);
         }
@@ -193,6 +224,10 @@ static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end){
     ani->setStartValue(start);
     ani->setEndValue(end);
     ani->start();
+}
+
+void Game::consistency_check(void){
+
 }
 
 /*

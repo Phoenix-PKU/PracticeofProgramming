@@ -95,6 +95,8 @@ void Slot::remove_cards(std::vector<Card *>::iterator card_it, bool win){
         card_to_remove->set_card_type(EliminatedCard);
         card_one = cards.erase(card_one);
         curr_size --;
+        card_to_remove->set_posx(INVALID_POS);
+        card_to_remove->set_posy(INVALID_POS);
         QPropertyAnimation *animation = new QPropertyAnimation(card_to_remove, "geometry");
         int ani_time = win?0:ANI_TIME;
         animation_helper(animation, ani_time, card_to_remove->geometry(),
@@ -109,9 +111,11 @@ void Slot::remove_cards(std::vector<Card *>::iterator card_it, bool win){
 
     for (auto ip = card_one;ip != cards.end();ip ++){
         Card * tmp = *ip;
+        int new_posy = tmp->pos().y()-3 * CARD_SIZE;
+        tmp->set_posy(new_posy);
         QPropertyAnimation *animation = new QPropertyAnimation(tmp, "geometry");
         animation_helper(animation, ANI_TIME, tmp->geometry(),
-            QRect(YPOS, tmp->pos().y()-3 * CARD_SIZE, CARD_SIZE,  CARD_SIZE));
+            QRect(YPOS, new_posy, CARD_SIZE,  CARD_SIZE));
         /*
         animation->setDuration(ANI_TIME);
         animation->setStartValue(tmp->geometry());
@@ -128,6 +132,15 @@ Card * Slot::get_last_card(void)
     return *cards.rbegin();
 }
 
+/* remove the last card from the slot. 
+ * only called by the retreat button in game.cpp */
+void Slot::remove_last_card(void){
+    assert (!cards.empty());
+    cards.pop_back();
+    curr_size -= 1;
+    assert (curr_size == cards.size());
+}
+
 /* This function insert card into the place in the slot. */
 void Slot::insert_card(Card * card, std::vector<Card *>::iterator place){
     assert (!slot_full());
@@ -141,16 +154,15 @@ void Slot::insert_card(Card * card, std::vector<Card *>::iterator place){
 
     int where_to_go = this->find_slot(card) - this->begin() - 1;
     QPropertyAnimation * animation = new QPropertyAnimation(card, "geometry");
+    int new_posx = YPOS, new_posy = CARD_SIZE * where_to_go;
+    card->set_posx(new_posx);
+    card->set_posy(new_posy);
+
     game->connect(animation, &QPropertyAnimation::finished,
         game, [=](){game->update_tail();});
     animation_helper(animation, ANI_TIME, card->geometry(),
-        QRect(YPOS, CARD_SIZE * where_to_go, CARD_SIZE,  CARD_SIZE));
-/*
-    animation->setDuration(ANI_TIME);
-    animation->setStartValue(card->geometry());
-    animation->setEndValue(QRect(YPOS, CARD_SIZE * where_to_go, CARD_SIZE, CARD_SIZE));
-    animation->start();
-*/
+        QRect(new_posx, new_posy, CARD_SIZE,  CARD_SIZE));
+
 }
 
 /* This function prints the slot and is only used for debug. */
