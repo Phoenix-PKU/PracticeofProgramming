@@ -73,7 +73,7 @@ int Card::nametoint(void){
 }
 
 Card::~Card(void){
-    qDebug() << "Goodbye from card "; 
+    qDebug() << "Goodbye from card "; print_card(true, "");
     //print_card(true, "");
     ID--;
 }
@@ -81,7 +81,6 @@ Card::~Card(void){
 /* This function removes the card from the top and 
  * remove itself from the cards that is covered by itself. */
 void Card::remove_card(void){
-    print_card(true, "");
     assert (check_card_type(ClickableCard));
     assert (covered.empty());
     for (auto it = covering.begin();it != covering.end();it ++){
@@ -99,6 +98,8 @@ void Card::remove_upper_card(Card * upper_card){
     assert (it != covered.end());
     covered.erase(it);
     if (covered.empty()){
+        connect(this, &QPushButton::clicked,
+            this, [=](){game->update(this);});
         this->set_card_type(ClickableCard);
         this->setNormalBackground();
         this->setEnabled(true);
@@ -135,7 +136,6 @@ void Card::print_card(bool cover_flag, const char * prefix){
              << ", name: " << name
              << ", type is: " << card_type.c_str()
              << "xpos = " << posx << ", ypos = " << posy;
-    /*
     if (cover_flag){
         qDebug() << " begin covering card: ";
         for (auto ip = covering.begin();ip != covering.end();ip ++){
@@ -145,35 +145,42 @@ void Card::print_card(bool cover_flag, const char * prefix){
         for (auto ip = covered.begin();ip != covered.end();ip ++){
             (*ip)->print_card(false, "    ");
         }
-    }*/
+    }
 }
 
 static void setup_card(Card * card, int posx, int posy, 
     const char * pic_dir, std::string uid){
+    
     card->setGeometry(posx, posy, CARD_SIZE, CARD_SIZE);
     //设置按钮对象名字
     card->setObjectName("card_" + uid);
-    //card->setFixedSize(CARD_SIZE, CARD_SIZE);//调整按钮大小
+
+    //QPixmap pix;
+    //pix.load(pic_dir);//加载图片
+    //pix = pix.scaled(card->size());//改变图片大小
+    card->setFixedSize(CARD_SIZE, CARD_SIZE);//调整按钮大小
+
     //设置按钮图像
     card->setNormalBackground();
+
+
+    //card->setIcon(pix);//设置按钮图像
+    //card->setIconSize(QSize(pix.width(),pix.height()));//设置图像大小
+    
+    //card->setStyleSheet("background-color: rgba(0, 0, 0, 100%);");
+
+    //card->setText(uid.c_str());
+    //card->setStyleSheet("padding-right: 50px;");  // 将文本向右移动10个像素
+    //card->setStyleSheet("font-size: 15px;");  // 设置字体大小为12像素
+    //card -> setFixedWidth(100);
     card->show();
 }
 
 void cover_card(Card * upper_card, Card * lower_card){
     assert (upper_card -> check_card_type(ClickableCard));
-
-
     upper_card -> covering.push_back(lower_card);
     lower_card -> covered.push_back(upper_card);
-
     lower_card -> set_card_type(CoveredCard);
-    lower_card -> setDarkBackground();
-    lower_card -> setEnabled(false);
-    
-    qDebug() << "upper card ";
-    upper_card->print_card(true, "");
-    qDebug() << "lower card ";
-    lower_card->print_card(true, "");
 }
 
 bool overlap(Card * old_card, Card * new_card){
@@ -204,16 +211,4 @@ void Card::setDarkBackground(){
     strcpy(arg + strlen(arg), name);
     strcpy(arg + strlen(arg), "-dark.png);}");
     this->setStyleSheet(arg);
-}
-
-bool Card::event(QEvent *event){
-    if(this->type == ClickableCard)
-    {
-        if(event->type() == QEvent::Enter)
-            this->setGeometry(posx - 0.1 * CARD_SIZE, posy - 0.1 * CARD_SIZE,
-                              1.2 * CARD_SIZE, 1.2 * CARD_SIZE);
-        if(event->type() == QEvent::Leave)
-            this->setGeometry(posx, posy, CARD_SIZE, CARD_SIZE);
-    }
-    return QPushButton::event(event);
 }

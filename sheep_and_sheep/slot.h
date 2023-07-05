@@ -28,10 +28,6 @@ public:
 
     bool can_remove(void);
 
-    Card * get_last_card(void);
-
-    void remove_last_card(void);
-
     void remove_cards(std::vector<Card *>::iterator card_it, bool win);
 
     void insert_card(Card * card, std::vector<Card *>::iterator place);
