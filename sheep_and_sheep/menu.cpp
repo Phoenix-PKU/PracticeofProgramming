@@ -9,7 +9,7 @@ Menu::Menu(QWidget *parent) :
     ui(new Ui::MyDialog)
 {
     qDebug() << "main menu constructed";
-    const char * pic_dir = "../sheep_and_sheep/pictures/background_picture/main_menu.jpg";
+    const char * pic_dir = ":/new/prefix1/pictures/background_picture/main_menu.jpg";
     setup_background(ui, this, "欢迎来到羊了个羊的世界", pic_dir, 400, 300);
 }
 

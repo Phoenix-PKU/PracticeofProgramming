@@ -153,7 +153,7 @@ static void setup_card(Card * card, int posx, int posy,
     card->setGeometry(posx, posy, CARD_SIZE, CARD_SIZE);
     //设置按钮对象名字
     card->setObjectName("card_" + uid);
-    card->setFixedSize(CARD_SIZE, CARD_SIZE);//调整按钮大小
+    //card->setFixedSize(CARD_SIZE, CARD_SIZE);//调整按钮大小
     //设置按钮图像
     card->setNormalBackground();
     card->show();
@@ -204,4 +204,16 @@ void Card::setDarkBackground(){
     strcpy(arg + strlen(arg), name);
     strcpy(arg + strlen(arg), "-dark.png);}");
     this->setStyleSheet(arg);
+}
+
+bool Card::event(QEvent *event){
+    if(this->type == ClickableCard)
+    {
+        if(event->type() == QEvent::Enter)
+            this->setGeometry(posx - 0.1 * CARD_SIZE, posy - 0.1 * CARD_SIZE,
+                              1.2 * CARD_SIZE, 1.2 * CARD_SIZE);
+        if(event->type() == QEvent::Leave)
+            this->setGeometry(posx, posy, CARD_SIZE, CARD_SIZE);
+    }
+    return QPushButton::event(event);
 }

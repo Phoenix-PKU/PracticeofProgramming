@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QStyleOption>
 #include <QPainter>
+#include <QEvent>
 
 #define INVALID_POS -1
 #define CARD_SIZE   54
@@ -95,6 +96,8 @@ public:
     void setNormalBackground();
 
     void setDarkBackground();
+
+    bool event(QEvent *event) override;
 };
 void cover_card(Card * upper_card, Card * lower_card);
 bool overlap(Card * old_card, Card * new_card);

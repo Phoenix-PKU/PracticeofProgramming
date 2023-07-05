@@ -15,7 +15,7 @@ GameOverBox::GameOverBox(const char * status, QWidget *parent) :
 {
     qDebug() << "GameOverBox constructed";
     char pic_dir[MAXLINE];
-    strcpy(pic_dir, "../sheep_and_sheep/pictures/gameover/");
+    strcpy(pic_dir, ":/new/prefix1/pictures/gameover/");
     strcpy(pic_dir + strlen(pic_dir), status);
     strcpy(pic_dir + strlen(pic_dir), ".jpg");
     setup_background(ui, this, "GAMEOVER!", pic_dir);
