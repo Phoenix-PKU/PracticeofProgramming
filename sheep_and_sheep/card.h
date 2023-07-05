@@ -6,6 +6,8 @@
 #include <QWidget>
 #include <QDialog>
 #include <QPushButton>
+#include <QStyleOption>
+#include <QPainter>
 
 #define CARD_SIZE   54
 #define HCARD_SIZE  CARD_SIZE / 2
@@ -50,13 +52,15 @@ public:
         return type == _type;
     }
     int nametoint(void);
+
     const char *inttoname(int i){
         return card_name[i];
     }
+
     void set_card_type(enum CardType _type){
         type = _type;
     }
-    
+
     const char * get_id(void){
         return uid.c_str();
     }
@@ -78,9 +82,11 @@ public:
 
     friend bool overlap(Card * old_card, Card * new_card);
 
-protected:
-    //void mousePressEvent(QMouseEvent * e);
+    void paintEvent(QPaintEvent *);
 
+    void setNormalBackground();
+
+    void setDarkBackground();
 };
 void cover_card(Card * upper_card, Card * lower_card);
 bool overlap(Card * old_card, Card * new_card);

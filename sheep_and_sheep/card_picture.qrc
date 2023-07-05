@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>pictures/card_picture/Carrot.png</file>
+        <file>pictures/card_picture/Bell.png</file>
+        <file>pictures/card_picture/Brush.png</file>
+        <file>pictures/card_picture/Bucket.png</file>
+        <file>pictures/card_picture/Corn.png</file>
+        <file>pictures/card_picture/Cotton.png</file>
+        <file>pictures/card_picture/Fire.png</file>
+        <file>pictures/card_picture/Grass.png</file>
+        <file>pictures/card_picture/Stump.png</file>
+        <file>pictures/background_picture/grassland.jpg</file>
+        <file>pictures/background_picture/main_menu.jpg</file>
+        <file>pictures/background_picture/warning.jpg</file>
+        <file>pictures/gameover/fail.jpg</file>
+        <file>pictures/gameover/win.jpg</file>
+        <file>pictures/card_picture/BLACK.png</file>
+        <file>pictures/card_picture/WHITE.png</file>
+        <file>pictures/card_picture/Bell-dark.png</file>
+        <file>pictures/card_picture/Brush-dark.png</file>
+        <file>pictures/card_picture/Bucket-dark.png</file>
+        <file>pictures/card_picture/Carrot-dark.png</file>
+        <file>pictures/card_picture/Corn-dark.png</file>
+        <file>pictures/card_picture/Cotton-dark.png</file>
+        <file>pictures/card_picture/Fire-dark.png</file>
+        <file>pictures/card_picture/Grass-dark.png</file>
+        <file>pictures/card_picture/Stump-dark.png</file>
+    </qresource>
+</RCC>

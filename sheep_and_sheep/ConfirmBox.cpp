@@ -8,7 +8,7 @@ ConfirmBox::ConfirmBox(QWidget *parent) :
     ui(new Ui::ConfirmBox)
 {
     qDebug() << "ConfirmBox constructed";
-    const char * pic_dir = "../../../../sheep_and_sheep/pictures/background_picture/warning.jpg";
+    const char * pic_dir = "../sheep_and_sheep/pictures/background_picture/warning.jpg";
     setup_background(ui, this, "您确认要退出吗？", pic_dir, 240, 100);
 }
 

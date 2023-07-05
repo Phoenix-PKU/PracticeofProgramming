@@ -32,6 +32,7 @@ set(PROJECT_SOURCES
         card.cpp
         loadPic.h
         uuid
+        card_picture.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

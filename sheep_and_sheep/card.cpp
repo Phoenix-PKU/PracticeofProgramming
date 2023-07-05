@@ -47,9 +47,9 @@ Card::Card(const char * _name, int _posx, int _posy,
     type = ClickableCard;
 
     
-    strcpy(pic_dir, "../../../../sheep_and_sheep/pictures/card_picture/");
+    strcpy(pic_dir, ":/new/prefix1/pictures/card_picture/");
     strcpy(pic_dir + strlen(pic_dir), name);
-    strcpy(pic_dir + strlen(pic_dir), ".jpg");
+    strcpy(pic_dir + strlen(pic_dir), ".png");
     setup_card(this, posx, posy, pic_dir, uid);
 
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
@@ -71,8 +71,9 @@ int Card::nametoint(void){
     }
     assert (false);
 }
+
 Card::~Card(void){
-    qDebug() << "Goodbye from card ";
+    qDebug() << "Goodbye from card "; print_card(true, "");
     //print_card(true, "");
     ID--;
 }
@@ -100,6 +101,7 @@ void Card::remove_upper_card(Card * upper_card){
         connect(this, &QPushButton::clicked,
             this, [=](){game->update(this);});
         this->set_card_type(ClickableCard);
+        this->setNormalBackground();
         this->setEnabled(true);
     }
 }
@@ -152,17 +154,20 @@ static void setup_card(Card * card, int posx, int posy,
     card->setGeometry(posx, posy, CARD_SIZE, CARD_SIZE);
     //设置按钮对象名字
     card->setObjectName("card_" + uid);
-    QPixmap pix;
-    pix.load(pic_dir);//加载图片
-    pix = pix.scaled(card->size());//改变图片大小
-    card->setFixedSize(pix.width(),pix.height());//调整按钮大小
-    card->setStyleSheet("QPushButton{border:0px;}");//调整无边框
-    card->setIcon(pix);//设置按钮图像
-    card->setIconSize(QSize(pix.width(),pix.height()));//设置图像大小
+
+    //QPixmap pix;
+    //pix.load(pic_dir);//加载图片
+    //pix = pix.scaled(card->size());//改变图片大小
+    card->setFixedSize(CARD_SIZE, CARD_SIZE);//调整按钮大小
+
+    //设置按钮图像
+    card->setNormalBackground();
+
+
+    //card->setIcon(pix);//设置按钮图像
+    //card->setIconSize(QSize(pix.width(),pix.height()));//设置图像大小
     
-
     //card->setStyleSheet("background-color: rgba(0, 0, 0, 100%);");
-
 
     //card->setText(uid.c_str());
     //card->setStyleSheet("padding-right: 50px;");  // 将文本向右移动10个像素
@@ -181,4 +186,29 @@ void cover_card(Card * upper_card, Card * lower_card){
 bool overlap(Card * old_card, Card * new_card){
     return abs(old_card -> posx - new_card -> posx) < CARD_SIZE
         && abs(old_card -> posy - new_card -> posy) < CARD_SIZE;
+}
+
+void Card::paintEvent(QPaintEvent *){
+    QStyleOption opt;
+    opt.initFrom(this);
+    QPainter p(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);//绘制样式
+}
+
+void Card::setNormalBackground(){
+    char arg[MAXLINE];
+    strcpy(arg, "QPushButton{border-image: url("
+                ":/new/prefix1/pictures/card_picture/");
+    strcpy(arg + strlen(arg), name);
+    strcpy(arg + strlen(arg), ".png);}");
+    this->setStyleSheet(arg);
+}
+
+void Card::setDarkBackground(){
+    char arg[MAXLINE];
+    strcpy(arg, "QPushButton{border-image: url("
+                ":/new/prefix1/pictures/card_picture/");
+    strcpy(arg + strlen(arg), name);
+    strcpy(arg + strlen(arg), "-dark.png);}");
+    this->setStyleSheet(arg);
 }

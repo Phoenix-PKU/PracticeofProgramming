@@ -25,7 +25,7 @@ Game::Game(int _card_num, int _card_types,QWidget *parent) :
     /* max number of card that can appear on one line. */
     max_num_card = 13; 
     qDebug() << "Game constructed";
-    const char * pic_dir = "../../../../sheep_and_sheep/pictures"
+    const char * pic_dir = ":/new/prefix1/pictures"
                             "/background_picture/grassland.jpg";
     setup_background(ui, this, "羊了个羊游戏", pic_dir, length, width);
     
@@ -47,8 +47,9 @@ Game::Game(int _card_num, int _card_types,QWidget *parent) :
             connect(card, &QPushButton::clicked,
                 this, [=](){update(card);});
         else{
-            card->setStyleSheet("background-color: rgba(0, 0, 0, 100%);");  
+            //card->setStyleSheet("QPushButton{background-color:rgba(0, 0, 0, 10%);}");
             // 设置背景色为半透明的黑色
+            card->setDarkBackground();
             card->setEnabled(false);
         }
     }
@@ -162,12 +163,12 @@ void Game::on_myshuffle_clicked()
             connect(card, &QPushButton::clicked,
                     this, [=](){update(card);});
         else if(card -> check_card_type(CoveredCard)){
-            card->setStyleSheet("background-color: rgba(0, 0, 0, 100%);");
+            //card->setStyleSheet("background-color: rgba(0, 0, 0, 100%);");
             // 设置背景色为半透明的黑色
+            card->setDarkBackground();
             card->setEnabled(false);
         }
     }
-
 }
 
 template <class Amt, class Pos1, class Pos2>
