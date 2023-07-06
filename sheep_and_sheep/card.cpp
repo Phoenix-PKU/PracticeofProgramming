@@ -74,6 +74,29 @@ Card::~Card(void){
     ID--;
 }
 
+/* This function crashs a card. 
+ * It may be covered by other cards. 
+ * This function is called by game::crash. */
+void Card::crash_card(void){
+    assert (check_card_type(ClickableCard) ||
+            check_card_type(CoveredCard));
+
+    for (auto it = covering.begin();it != covering.end();it++){
+        Card * lower_card = *it;
+        lower_card -> remove_upper_card(this);
+    } covering.clear();
+
+    for (auto it = covered.begin();it != covered.end();it ++){
+        Card * upper_card = *it;
+        upper_card -> remove_lower_card(this);
+    } covered.clear();
+
+    posx = INVALID_XPOS;
+    posy = INVALID_YPOS;
+    type = EliminatedCard;
+    this->hide();
+}
+
 /* This function removes the card from the top and 
  * remove itself from the cards that is covered by itself. */
 void Card::remove_card(void){
@@ -86,6 +109,7 @@ void Card::remove_card(void){
     }
     covering.clear();
 }
+
 /* This function remove upper_card that is currently covering
  * this card, if there is no card aftering removing, make it
  * clickable. */
@@ -101,9 +125,15 @@ void Card::remove_upper_card(Card * upper_card){
     }
 }
 
-
-void Card::set_upper_card(Card * upper_card){
-    assert (check_card_type(CoveredCard));
+/*
+    This function remove lower card that is currently 
+    covered by this card. 
+*/
+void Card::remove_lower_card(Card * lower_card){
+    assert (lower_card->check_card_type(CoveredCard));
+    auto it = std::find(covering.begin(), covering.end(), lower_card);
+    assert (it != covering.end());
+    covering.erase(it);
 }
 /*
  if cover_flag is true, then print all cards that are covering 
