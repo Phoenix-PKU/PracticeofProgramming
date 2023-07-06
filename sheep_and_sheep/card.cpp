@@ -205,6 +205,18 @@ void Card::setDarkBackground(){
 }
 
 void Card::cardconcheck(void){
+    if (type != EliminatedCard){
+        //assert (posx == this -> pos().x());
+        //assert (posy == this -> pos().y());
+    }
+    for (auto ip = covering.begin();ip != covering.end();ip++){
+        Card * card = *ip;
+        assert (overlap(card, this));
+    }
+    for (auto ip = covered.begin();ip != covered.end();ip ++){
+        Card * card = *ip;
+        assert (overlap(card, this));
+    }
     if (type == ClickableCard){
         assert (orix == posx && oriy == posy);
     }
