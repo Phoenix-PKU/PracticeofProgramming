@@ -26,6 +26,9 @@ set(PROJECT_SOURCES
         GameOverBox.h
         GameOverBox.cpp
         GameOverBox.ui
+        Hyperlink.h
+        Hyperlink.cpp
+        Hyperlink.ui
         slot.h
         slot.cpp
         card.h
