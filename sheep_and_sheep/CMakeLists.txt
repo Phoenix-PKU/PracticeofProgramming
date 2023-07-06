@@ -30,6 +30,8 @@ set(PROJECT_SOURCES
         slot.cpp
         card.h
         card.cpp
+        progressbar.h
+        progressbar.cpp
         loadPic.h
         uuid
         card_picture.qrc
