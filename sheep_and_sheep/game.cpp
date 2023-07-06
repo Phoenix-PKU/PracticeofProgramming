@@ -62,6 +62,7 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap, QWidget *parent) :
         Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
                                   posx, posy,
                                   all_cards, this);
+        all_cards.push_back(new_card);
     }
 
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
