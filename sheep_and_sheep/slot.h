@@ -6,7 +6,9 @@
 
 #define TRIPLE 3
 
-#define YPOS 400
+#define YPOS 500
+#define XPOS 2 * CARD_SIZE
+
 class Game;
 class Slot
 {

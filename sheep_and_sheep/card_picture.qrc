@@ -9,7 +9,6 @@
         <file>pictures/card_picture/Fire.png</file>
         <file>pictures/card_picture/Grass.png</file>
         <file>pictures/card_picture/Stump.png</file>
-        <file>pictures/background_picture/grassland.jpg</file>
         <file>pictures/background_picture/main_menu.jpg</file>
         <file>pictures/background_picture/warning.jpg</file>
         <file>pictures/gameover/fail.jpg</file>
@@ -29,5 +28,8 @@
         <file>pictures/card_picture/Ball.png</file>
         <file>pictures/card_picture/Bottle.png</file>
         <file>pictures/card_picture/Scissor.png</file>
+        <file>pictures/button_picture/shuffle.png</file>
+        <file>pictures/button_picture/retreat.png</file>
+        <file>pictures/background_picture/grassland.png</file>
     </qresource>
 </RCC>

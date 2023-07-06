@@ -23,17 +23,18 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap, QWidget *parent) :
     card_types(_card_types),
     cards_in_heap(_cards_in_heap)
 {
-    length = 16 * CARD_SIZE;
-    width = 12 * CARD_SIZE;
+    length = 15 * CARD_SIZE;
+    width = 11 * CARD_SIZE;
     /* max number of card that can appear on one line. */
     max_num_card = 13; 
     qDebug() << "Game constructed";
     const char * pic_dir = ":/new/prefix1/pictures"
-                            "/background_picture/grassland.jpg";
+                            "/background_picture/grassland.png";
     setup_background(ui, this, "羊了个羊游戏", pic_dir, length, width);
     
     std::random_device rd;
     slot = new Slot(this);
+
     int idx;
     int ncard=card_nums; //剩余未放置的卡牌总数
     std::vector<int> cards_left; //剩余每个类未放置卡牌的个数
@@ -61,7 +62,6 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap, QWidget *parent) :
         Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
                                   posx, posy,
                                   all_cards, this);
-        all_cards.push_back(new_card);
     }
 
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
@@ -228,8 +228,8 @@ void Game::on_myshuffle_clicked()
 
     std::random_device rd;
     for (p_temp=temp.begin();p_temp!=temp.end();++p_temp){
-        int posx = (rd() % max_num_card + 1) * MCARD_SIZE;
-        int posy = (rd() % max_num_card + 1) * MCARD_SIZE;
+        int posx = (rd() % max_num_card + 4) * MCARD_SIZE;
+        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE;
         Card * new_card = new Card(card_name[*p_temp],
                                   posx, posy,
                                   all_cards, this);
@@ -264,6 +264,7 @@ void Game::consistency_check(void){
 
 }
 
+
 static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard){
     int temp=randidx%_ncard,n=0;
     for(std::vector<int>::iterator p = _cards_left.begin();p!=_cards_left.end();++p){
@@ -275,5 +276,6 @@ static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard){
         }
     }
 }
+
 
 

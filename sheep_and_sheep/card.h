@@ -10,7 +10,8 @@
 #include <QPainter>
 #include <QEvent>
 
-#define INVALID_POS -1
+#define INVALID_XPOS 300
+#define INVALID_YPOS 700
 #define CARD_SIZE   54
 #define HCARD_SIZE  CARD_SIZE / 2
 #define DCARD_SIZE  CARD_SIZE * 2

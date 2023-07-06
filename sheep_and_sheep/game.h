@@ -36,7 +36,6 @@ public slots:
      }
     void on_myshuffle_clicked();
     void consistency_check(void);
-    //void receive_sig_choose(int target);
 
 signals:
     void sig_remove();

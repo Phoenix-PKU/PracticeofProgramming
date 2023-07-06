@@ -41,14 +41,8 @@ std::vector<Card *>::iterator Slot::find_slot(Card * card){
             for (auto it = ip; it != cards.end(); ++it) {
                 Card * tmp = *it;
                 QPropertyAnimation * animation = new QPropertyAnimation(tmp, "geometry");
-                animation_helper(animation, ANI_TIME, tmp->geometry(), 
-                    QRect(YPOS, tmp->pos().y()+CARD_SIZE, CARD_SIZE, CARD_SIZE));
-                /*
-                animation->setDuration(ANI_TIME);
-                animation->setStartValue(tmp->geometry());
-                animation->setEndValue(QRect(YPOS, tmp->pos().y()+CARD_SIZE, CARD_SIZE, CARD_SIZE));
-                animation->start();
-                */
+                animation_helper(animation, ANI_TIME, tmp->geometry(),
+                    QRect(tmp->pos().x()+CARD_SIZE, YPOS, CARD_SIZE, CARD_SIZE));
             }
 
             return ip;
@@ -95,33 +89,21 @@ void Slot::remove_cards(std::vector<Card *>::iterator card_it, bool win){
         card_to_remove->set_card_type(EliminatedCard);
         card_one = cards.erase(card_one);
         curr_size --;
-        card_to_remove->set_posx(INVALID_POS);
-        card_to_remove->set_posy(INVALID_POS);
+        card_to_remove->set_posx(INVALID_XPOS);
+        card_to_remove->set_posy(INVALID_YPOS);
         QPropertyAnimation *animation = new QPropertyAnimation(card_to_remove, "geometry");
         int ani_time = win?0:ANI_TIME;
         animation_helper(animation, ani_time, card_to_remove->geometry(),
-            QRect(YPOS, -CARD_SIZE * 2, CARD_SIZE,  CARD_SIZE));
-        /*
-        animation->setDuration(ANI_TIME);
-        animation->setStartValue(card_to_remove->geometry());
-        animation->setEndValue(QRect(YPOS, -ANI_TIME, CARD_SIZE, CARD_SIZE));
-        animation->start();
-        */
+            QRect(INVALID_XPOS, INVALID_YPOS, CARD_SIZE,  CARD_SIZE));
     }
 
     for (auto ip = card_one;ip != cards.end();ip ++){
         Card * tmp = *ip;
-        int new_posy = tmp->pos().y()-3 * CARD_SIZE;
-        tmp->set_posy(new_posy);
+        int new_posx = tmp->pos().x() - 3 * CARD_SIZE;
+        tmp->set_posx(new_posx);
         QPropertyAnimation *animation = new QPropertyAnimation(tmp, "geometry");
         animation_helper(animation, ANI_TIME, tmp->geometry(),
-            QRect(YPOS, new_posy, CARD_SIZE,  CARD_SIZE));
-        /*
-        animation->setDuration(ANI_TIME);
-        animation->setStartValue(tmp->geometry());
-        animation->setEndValue(QRect(YPOS, tmp->pos().y()-3 * CARD_SIZE, CARD_SIZE, CARD_SIZE));
-        animation->start();
-        */
+            QRect(new_posx, YPOS, CARD_SIZE,  CARD_SIZE));
     }
     return ;
 }
@@ -154,7 +136,7 @@ void Slot::insert_card(Card * card, std::vector<Card *>::iterator place){
 
     int where_to_go = this->find_slot(card) - this->begin() - 1;
     QPropertyAnimation * animation = new QPropertyAnimation(card, "geometry");
-    int new_posx = YPOS, new_posy = CARD_SIZE * where_to_go;
+    int new_posx = XPOS + CARD_SIZE * where_to_go, new_posy = YPOS;
     card->set_posx(new_posx);
     card->set_posy(new_posy);
 
