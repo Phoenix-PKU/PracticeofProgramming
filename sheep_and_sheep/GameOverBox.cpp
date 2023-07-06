@@ -18,7 +18,7 @@ GameOverBox::GameOverBox(const char * status, QWidget *parent) :
     strcpy(pic_dir, ":/new/prefix1/pictures/gameover/");
     strcpy(pic_dir + strlen(pic_dir), status);
     strcpy(pic_dir + strlen(pic_dir), ".jpg");
-    setup_background(ui, this, "GAMEOVER!", pic_dir);
+    setup_background(ui, this, "GAMEOVER!", pic_dir, 400, 200);
 }
 
 GameOverBox::~GameOverBox()
