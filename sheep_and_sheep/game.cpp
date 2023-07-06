@@ -42,14 +42,14 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap, QWidget *parent) :
         cards_left.push_back(card_nums/card_types);
     }
     for (idx=0; idx < cards_in_heap; ++idx){
-        int temp=rd();
+        int temp=rd() % ncard;
         Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
                                   HEAP1_X, HEAP1_Y,
                                   all_cards, this,1);
         all_cards.push_back(new_card);
     }
     for (idx=_cards_in_heap; idx < 2*cards_in_heap; ++idx){
-        int temp=rd();
+        int temp=rd() % ncard;
         Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
                                   HEAP2_X, HEAP2_Y,
                                   all_cards, this,1);
@@ -58,7 +58,7 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap, QWidget *parent) :
     for (idx = 2 * cards_in_heap; idx < card_nums; ++idx) {
         int posx = (rd() % max_num_card + 1) * MCARD_SIZE;
         int posy = (rd() % max_num_card + 1) * MCARD_SIZE;
-        int temp=rd();
+        int temp = rd() % ncard;
         Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
                                   posx, posy,
                                   all_cards, this);
@@ -136,6 +136,7 @@ void Game::update_tail() {
         if((GameOverBox.exec()==ConfirmBox::Accepted)){
             accept();
         }
+        accept();
     }
 
     if(all_cards_eliminate()) {
@@ -144,6 +145,7 @@ void Game::update_tail() {
         if((GameOverBox.exec()==ConfirmBox::Accepted)){
             accept();
         }
+        accept();
     }
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         (*ip)->print_card(true, "");
@@ -179,7 +181,6 @@ void Game::on_retreat_clicked(){
     animation_helper(animation, ANI_TIME, to_retreat->geometry(),
             QRect(to_retreat->get_orix(), to_retreat->get_oriy(), 
             CARD_SIZE,  CARD_SIZE));
-    
     //update card
     to_retreat->set_posx(to_retreat->get_orix());
     to_retreat->set_posy(to_retreat->get_oriy());
@@ -266,9 +267,12 @@ static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end){
 
 void Game::consistency_check(void){
     slot -> slot_concheck(cards_in_slot);
+    std::vector<int> cards; cards.resize(card_types);
+    for (int i = 0;i < card_types;i ++) cards[i] = 0;
     int real_clickable = 0, real_in_slot = 0, real_eliminate = 0;
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         Card * card = *ip;
+        cards[card->nametoint()] += 1;
         card -> cardconcheck();
         if (card->check_card_type(ClickableCard) || card->check_card_type(CoveredCard))
             real_clickable ++;
@@ -279,14 +283,19 @@ void Game::consistency_check(void){
             real_eliminate ++;
         }
     }
+    for (int i = 0;i < card_types;i ++){
+        assert (cards[i] == card_nums / card_types);
+    }
+
     assert (real_clickable == cards_clickable);
     assert (real_in_slot == cards_in_slot);
     assert (real_eliminate == cards_eliminate);
+    assert (real_clickable + real_in_slot + real_eliminate == card_nums);
 }
 
 
 static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard){
-    int temp=randidx%_ncard,n=0;
+    int temp=randidx,n=0;
     for(std::vector<int>::iterator p = _cards_left.begin();p!=_cards_left.end();++p){
         n+=*p;
         if (temp < n){

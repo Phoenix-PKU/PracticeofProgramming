@@ -170,7 +170,7 @@ void Slot::slot_concheck(int cards_in_slot){
         assert (card -> check_card_type(SlotCard));
     }
 }
-
+ 
 template <class Amt, class Pos1, class Pos2>
 static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end){
     ani->setDuration(dur);
