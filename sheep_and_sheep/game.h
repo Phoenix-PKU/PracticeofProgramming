@@ -24,9 +24,9 @@ class Game : public QDialog
     int cards_clickable, cards_in_slot, cards_eliminate;
     int card_nums, card_types, cards_in_heap;
     int length, width, max_num_card;
-    int shuffle_left,retreat_left;
+    int shuffle_left,retreat_left,crash_left;
 public:
-    explicit Game(int _card_nums, int _card_types ,int _cards_in_heap,int _shuffle_left, int _retreat_left, QWidget *parent = 0);
+    explicit Game(int _card_nums, int _card_types ,int _cards_in_heap,int _shuffle_left, int _retreat_left,int _crash_left, QWidget *parent = 0);
     ~Game();
 
 public slots:

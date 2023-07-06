@@ -20,14 +20,15 @@ static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard);
 static bool avail_crash(Card * card);
 
 class Slot;
-Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,int _retreat_left, QWidget *parent) :
+Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,int _retreat_left,int _crash_left, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Game),
     card_nums(_card_num),
     card_types(_card_types),
     cards_in_heap(_cards_in_heap),
     shuffle_left(_shuffle_left),
-    retreat_left(_retreat_left)
+    retreat_left(_retreat_left),
+    crash_left(_crash_left)
 {
     length = 15 * CARD_SIZE;
     width = 11 * CARD_SIZE;
@@ -292,6 +293,13 @@ void Game::on_myshuffle_clicked()
 
 
 void Game::on_crash_clicked(){
+    if (crash_left <= 0){
+        Hyperlink hyperlink(&crash_left);
+        hyperlink.exec();
+    }
+    if (crash_left <= 0){
+        return;
+    }
     qDebug() << "Crash clicked";
     // find three cards in cards_clickable;
     bool flag = false;
@@ -342,7 +350,9 @@ void Game::on_crash_clicked(){
             accept();
         }
     }
+    --crash_left;
     this -> consistency_check();
+
 
 }
 
