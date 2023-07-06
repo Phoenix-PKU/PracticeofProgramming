@@ -75,7 +75,7 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap, QWidget *parent) :
     cards_clickable = card_nums;
     cards_in_slot = 0;
     cards_eliminate = 0;
-
+    this -> consistency_check();
 }
 
 Game::~Game()
@@ -148,6 +148,7 @@ void Game::update_tail() {
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         (*ip)->print_card(true, "");
     }
+    this -> consistency_check();
 }
 
 /* This function choose the last card in the slot and put it back 
@@ -200,7 +201,7 @@ void Game::on_retreat_clicked(){
         }
     }
 
-
+    this->consistency_check();
 }
 
 void Game::on_myshuffle_clicked()
@@ -251,6 +252,8 @@ void Game::on_myshuffle_clicked()
             card->setEnabled(false);
         }
     }
+
+    this->consistency_check();
 }
 
 template <class Amt, class Pos1, class Pos2>
@@ -262,7 +265,23 @@ static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end){
 }
 
 void Game::consistency_check(void){
-
+    slot -> slot_concheck(cards_in_slot);
+    int real_clickable = 0, real_in_slot = 0, real_eliminate = 0;
+    for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
+        Card * card = *ip;
+        card -> cardconcheck();
+        if (card->check_card_type(ClickableCard) || card->check_card_type(CoveredCard))
+            real_clickable ++;
+        else if (card->check_card_type(SlotCard)){
+            real_in_slot ++;
+        }
+        else if (card->check_card_type(EliminatedCard)){
+            real_eliminate ++;
+        }
+    }
+    assert (real_clickable == cards_clickable);
+    assert (real_in_slot == cards_in_slot);
+    assert (real_eliminate == cards_eliminate);
 }
 
 

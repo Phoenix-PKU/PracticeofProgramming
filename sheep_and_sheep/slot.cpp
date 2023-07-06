@@ -160,6 +160,17 @@ void Slot::print_slot(void){
     qDebug() << "end print slot\n";
 }
 
+void Slot::slot_concheck(int cards_in_slot){
+    assert (curr_size == cards_in_slot);
+    assert (curr_size == cards.size());
+    assert (size == 7);
+    assert (curr_size <= size);
+    for (auto ip = cards.begin();ip != cards.end();ip ++){
+        Card * card = *ip;
+        assert (card -> check_card_type(SlotCard));
+    }
+}
+
 template <class Amt, class Pos1, class Pos2>
 static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end){
     ani->setDuration(dur);

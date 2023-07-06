@@ -40,6 +40,8 @@ public:
 
     void print_slot(void);
 
+    void slot_concheck(int cards_in_slot);
+
     bool slot_full(void){
         return curr_size == size;
     }

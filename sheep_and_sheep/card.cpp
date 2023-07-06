@@ -204,6 +204,25 @@ void Card::setDarkBackground(){
     this->setStyleSheet(arg);
 }
 
+void Card::cardconcheck(void){
+    if (type == ClickableCard){
+        assert (orix == posx && oriy == posy);
+    }
+    else if (type == SlotCard){
+        
+    }
+    else if (type == EliminatedCard){
+        assert (posx == INVALID_XPOS && posy == INVALID_YPOS);
+    }
+    else if (type == CoveredCard){
+        assert (orix == posx && oriy == posy);
+    }
+    else {
+        qDebug() << "unknown card type " << type;
+        assert(false);
+    }
+}
+
 bool Card::event(QEvent *event){
     if(this->type == ClickableCard)
     {

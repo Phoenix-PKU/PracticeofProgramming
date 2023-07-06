@@ -81,6 +81,8 @@ public:
 
     void print_card(bool cover_flag, const char * prefix);
 
+    void cardconcheck(void);
+
     void remove_card(void);
 
     void remove_upper_card(Card * upper_card);

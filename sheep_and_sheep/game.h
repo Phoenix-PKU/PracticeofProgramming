@@ -20,7 +20,7 @@ class Game : public QDialog
     std::vector<Card *> all_cards;
     Slot * slot;
     int cards_clickable, cards_in_slot, cards_eliminate;
-    int card_nums, card_types,cards_in_heap;
+    int card_nums, card_types, cards_in_heap;
     int length, width, max_num_card;
 public:
     explicit Game(int _card_nums, int _card_types ,int _cards_in_heap, QWidget *parent = 0);
