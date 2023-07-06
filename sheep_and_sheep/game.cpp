@@ -1,3 +1,4 @@
+#include <QPushButton>
 #include <QPropertyAnimation>
 #include <QThread>
 #include <QGraphicsDropShadowEffect>
@@ -7,6 +8,7 @@
 #include "loadPic.h"
 #include "ConfirmBox.h"
 #include "GameOverBox.h"
+#include "progressbar.h"
 #include <random>
 
 #define ANI_TIME    100
@@ -32,6 +34,13 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap, QWidget *parent) :
                             "/background_picture/grassland.png";
     setup_background(ui, this, "羊了个羊游戏", pic_dir, length, width);
     
+    //初始化进度条
+    move = new Bar("Move", 0, this);
+    cover = new Bar("Cover", BAR_LEN, this);
+    move->show();
+    cover->show();
+
+
     std::random_device rd;
     slot = new Slot(this);
 
@@ -56,8 +65,8 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap, QWidget *parent) :
         all_cards.push_back(new_card);
     }
     for (idx = 2 * cards_in_heap; idx < card_nums; ++idx) {
-        int posx = (rd() % max_num_card + 1) * MCARD_SIZE;
-        int posy = (rd() % max_num_card + 1) * MCARD_SIZE;
+        int posx = (rd() % max_num_card + 4) * MCARD_SIZE;
+        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE;
         int temp=rd();
         Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
                                   posx, posy,
@@ -103,6 +112,12 @@ void Game::update(Card * chosen){
 
     cards_clickable --;
     cards_in_slot ++;
+
+    cover->hide();
+    move->set_len((double)BAR_LEN * (card_nums - cards_clickable)
+                                    / card_nums);
+    cover->show();
+
     chosen->remove_card();
     std::vector<Card *>::iterator place = slot->find_slot(chosen);
     int where_to_go = place - slot->begin();
@@ -173,7 +188,12 @@ void Game::on_retreat_clicked(){
     //update game
     cards_in_slot--;
     cards_clickable++;
-    
+    //update progressbar
+    cover->hide();
+    move->set_len((double)BAR_LEN * (card_nums - cards_clickable)
+                  / card_nums);
+    cover->show();
+
     //do animation
     QPropertyAnimation *animation = new QPropertyAnimation(to_retreat, "geometry");
     animation_helper(animation, ANI_TIME, to_retreat->geometry(),

@@ -6,6 +6,7 @@
 #include "menu.h"
 #include "card.h"
 #include "slot.h"
+#include "progressbar.h"
 class Slot;
 namespace Ui {
 class Game;
@@ -19,6 +20,7 @@ class Game : public QDialog
     Ui::Game * ui;
     std::vector<Card *> all_cards;
     Slot * slot;
+    Bar * move, * cover;
     int cards_clickable, cards_in_slot, cards_eliminate;
     int card_nums, card_types, cards_in_heap;
     int length, width, max_num_card;

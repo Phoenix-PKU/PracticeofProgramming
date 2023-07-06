@@ -31,5 +31,8 @@
         <file>pictures/button_picture/shuffle.png</file>
         <file>pictures/button_picture/retreat.png</file>
         <file>pictures/background_picture/grassland.png</file>
+        <file>pictures/button_picture/back.png</file>
+        <file>pictures/background_picture/Cover.png</file>
+        <file>pictures/background_picture/Move.png</file>
     </qresource>
 </RCC>
