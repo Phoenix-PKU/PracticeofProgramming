@@ -10,6 +10,7 @@
 #include "GameOverBox.h"
 #include "progressbar.h"
 #include <random>
+#include "Hyperlink.h"
 
 #define ANI_TIME    100
 template <class Amt, class Pos1, class Pos2>
@@ -18,12 +19,14 @@ static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end);
 static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard);
 
 class Slot;
-Game::Game(int _card_num, int _card_types,int _cards_in_heap, QWidget *parent) :
+Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,int _retreat_left, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Game),
     card_nums(_card_num),
     card_types(_card_types),
-    cards_in_heap(_cards_in_heap)
+    cards_in_heap(_cards_in_heap),
+    shuffle_left(_shuffle_left),
+    retreat_left(_retreat_left)
 {
     length = 15 * CARD_SIZE;
     width = 11 * CARD_SIZE;
@@ -39,7 +42,6 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap, QWidget *parent) :
     cover = new Bar("Cover", BAR_LEN, this);
     move->show();
     cover->show();
-
 
     std::random_device rd;
     slot = new Slot(this);
@@ -167,6 +169,13 @@ void Game::update_tail() {
     The card will be put back to where it belongs.
 */
 void Game::on_retreat_clicked(){
+    if (retreat_left <= 0){
+        Hyperlink hyperlink(&retreat_left);
+        hyperlink.exec();
+    }
+    if (retreat_left <= 0){
+        return;
+    }
     // check condition
     qDebug() << "retreat one card";
     if (cards_in_slot == 0) {
@@ -214,12 +223,20 @@ void Game::on_retreat_clicked(){
             cover_card(to_retreat, old_card);
         }
     }
+    --retreat_left;
 
     this->consistency_check();
 }
 
 void Game::on_myshuffle_clicked()
 {
+    if (shuffle_left <= 0){
+        Hyperlink hyperlink(&shuffle_left);
+        hyperlink.exec();
+    }
+    if (shuffle_left <= 0){
+        return;
+    }
     qDebug() << "shuffle cards";
     std::vector<Card *>::iterator card_i;
     std::vector<int>::iterator p_temp;
@@ -268,6 +285,7 @@ void Game::on_myshuffle_clicked()
     }
 
     this->consistency_check();
+    --shuffle_left;
 }
 
 template <class Amt, class Pos1, class Pos2>
