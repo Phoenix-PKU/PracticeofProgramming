@@ -129,7 +129,6 @@ void Slot::insert_card(Card * card, std::vector<Card *>::iterator place){
     assert (card->check_card_type(ClickableCard));
     
     card->set_card_type(SlotCard);
-    //card->setStyleSheet("background-color: rgba(255, 255, 255, 50%);");
     card->setEnabled(false);
     cards.insert(place, card);
     curr_size ++;

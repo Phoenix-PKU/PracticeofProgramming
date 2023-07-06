@@ -124,15 +124,6 @@ void Game::update(Card * chosen){
     std::vector<Card *>::iterator place = slot->find_slot(chosen);
     int where_to_go = place - slot->begin();
     slot->insert_card(chosen, place);
-/*
-    QPropertyAnimation * animation = new QPropertyAnimation(chosen, "geometry");
-    connect(animation, &QPropertyAnimation::finished,
-            this, [=](){update_tail();});
-    animation->setDuration(100);
-    animation->setStartValue(chosen->geometry());
-    animation->setEndValue(QRect(YPOS, 50 * where_to_go, 50, 50));
-    animation->start();
-*/
 }
 
 void Game::update_tail() {
@@ -326,6 +317,7 @@ static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard){
             return p-_cards_left.begin();
         }
     }
+    assert (false);
 }
 
 
