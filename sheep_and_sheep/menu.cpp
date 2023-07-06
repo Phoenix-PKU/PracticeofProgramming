@@ -37,18 +37,18 @@ void Menu::on_easy_clicked()
 void Menu::on_medium_clicked()
 {
     qDebug() << "start medium game";
-    Game game(54, 6, 4);
+    Game game(63, 7, 4);
     game.exec();
 }
 void Menu::on_hard_clicked()
 {
     qDebug() << "start hard game";
-    Game game(243, 9, 8);
+    Game game(216, 12, 8);
     game.exec();
 }
 void Menu::on_hell_clicked()
 {
     qDebug() << "start hell game";
-    Game game(432, 12, 12);
+    Game game(405, 15, 12);
     game.exec();
 }
