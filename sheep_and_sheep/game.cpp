@@ -12,13 +12,16 @@
 #define ANI_TIME    100
 template <class Amt, class Pos1, class Pos2>
 static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end);
+/* given an idx, find the type of the card to be put in the heap. */
+static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard);
 
 class Slot;
-Game::Game(int _card_num, int _card_types,QWidget *parent) :
+Game::Game(int _card_num, int _card_types,int _cards_in_heap, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Game),
     card_nums(_card_num),
-    card_types(_card_types)
+    card_types(_card_types),
+    cards_in_heap(_cards_in_heap)
 {
     length = 15 * CARD_SIZE;
     width = 11 * CARD_SIZE;
@@ -31,13 +34,34 @@ Game::Game(int _card_num, int _card_types,QWidget *parent) :
     
     std::random_device rd;
     slot = new Slot(this);
-    for (int idx = 0; idx < card_nums; ++idx) {
-        int posx = (rd() % max_num_card + 4) * MCARD_SIZE;
-        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE;
-        Card * new_card = new Card(card_name[idx % card_types], 
-            posx, posy, 
-        all_cards, this);
+
+    int idx;
+    int ncard=card_nums; //剩余未放置的卡牌总数
+    std::vector<int> cards_left; //剩余每个类未放置卡牌的个数
+    for (int i=0;i<card_types;++i){
+        cards_left.push_back(card_nums/card_types);
+    }
+    for (idx=0; idx < cards_in_heap; ++idx){
+        int temp=rd();
+        Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
+                                  HEAP1_X, HEAP1_Y,
+                                  all_cards, this,1);
         all_cards.push_back(new_card);
+    }
+    for (idx=_cards_in_heap; idx < 2*cards_in_heap; ++idx){
+        int temp=rd();
+        Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
+                                  HEAP2_X, HEAP2_Y,
+                                  all_cards, this,1);
+        all_cards.push_back(new_card);
+    }
+    for (idx = 2 * cards_in_heap; idx < card_nums; ++idx) {
+        int posx = (rd() % max_num_card + 1) * MCARD_SIZE;
+        int posy = (rd() % max_num_card + 1) * MCARD_SIZE;
+        int temp=rd();
+        Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
+                                  posx, posy,
+                                  all_cards, this);
     }
 
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
@@ -161,6 +185,8 @@ void Game::on_retreat_clicked(){
     to_retreat->setNormalBackground();
     to_retreat->setEnabled(true);
     to_retreat->print_card(true, "");
+    //raise it to the upmost layer
+    to_retreat->raise();
 
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         Card * old_card = *ip;
@@ -182,9 +208,13 @@ void Game::on_myshuffle_clicked()
     std::vector<Card *>::iterator card_i;
     std::vector<int>::iterator p_temp;
     std::vector<int> temp;
+
+    // pick up all cards that is clickable or covered
+    // delete them and put them into temp.
+
     for (card_i=all_cards.begin();card_i!=all_cards.end();){
-        if ((*card_i)->check_card_type(ClickableCard)
-            ||(*card_i)->check_card_type(CoveredCard)){
+        if ((!(*card_i)->in_heap) && ((*card_i)->check_card_type(ClickableCard)
+               ||(*card_i)->check_card_type(CoveredCard))){
             temp.push_back((*card_i)->nametoint());
             delete (*card_i);
             card_i=all_cards.erase(card_i);
@@ -193,6 +223,9 @@ void Game::on_myshuffle_clicked()
             ++card_i;
         }
     }
+
+    // create new cards that has random position
+
     std::random_device rd;
     for (p_temp=temp.begin();p_temp!=temp.end();++p_temp){
         int posx = (rd() % max_num_card + 4) * MCARD_SIZE;
@@ -205,13 +238,14 @@ void Game::on_myshuffle_clicked()
         all_cards.push_back(new_card);
     }
 
+    // set background and enable of new cards.
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         Card * card = *ip;
         if(card -> check_card_type(ClickableCard)){
             card->setNormalBackground();
             card->setEnabled(true);
         }
-        if(card -> check_card_type(CoveredCard)){
+        else if(card -> check_card_type(CoveredCard)){
             card->setDarkBackground();
             card->setEnabled(false);
         }
@@ -229,3 +263,19 @@ static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end){
 void Game::consistency_check(void){
 
 }
+
+
+static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard){
+    int temp=randidx%_ncard,n=0;
+    for(std::vector<int>::iterator p = _cards_left.begin();p!=_cards_left.end();++p){
+        n+=*p;
+        if (temp < n){
+            (*p)--;
+            --_ncard;
+            return p-_cards_left.begin();
+        }
+    }
+}
+
+
+

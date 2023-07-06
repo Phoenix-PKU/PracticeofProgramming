@@ -30,11 +30,12 @@ static void setup_card(Card * card, int posx, int posy,
  * is for implementing covering and should not be changed by
  * this function. */
 Card::Card(const char * _name, int _posx, int _posy,
-    const std::vector<Card *> all_cards, QDialog * parent):
+    const std::vector<Card *> all_cards, QDialog * parent,int _in_heap):
     name(_name),
     QPushButton(parent), 
     posx(_posx), posy(_posy),
-    orix(_posx), oriy(_posy)
+    orix(_posx), oriy(_posy),
+    in_heap(_in_heap)
 {
     /*uuid_t uuid;
     char buf[MAX_ID];
@@ -171,10 +172,6 @@ void cover_card(Card * upper_card, Card * lower_card){
     lower_card -> setDarkBackground();
     lower_card -> setEnabled(false);
     
-    qDebug() << "upper card ";
-    upper_card->print_card(true, "");
-    qDebug() << "lower card ";
-    lower_card->print_card(true, "");
 }
 
 bool overlap(Card * old_card, Card * new_card){

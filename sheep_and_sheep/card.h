@@ -18,7 +18,10 @@
 #define TCARD_SIZE  CARD_SIZE * 3
 #define MIN_OVERLAP_RATIO   2
 #define MCARD_SIZE  CARD_SIZE / MIN_OVERLAP_RATIO
-
+#define HEAP1_X CARD_SIZE * 10
+#define HEAP2_X CARD_SIZE * 10
+#define HEAP1_Y CARD_SIZE * 2
+#define HEAP2_Y CARD_SIZE * 4
 
 extern const int max_type_of_cards;
 extern const char* card_name[];
@@ -51,6 +54,7 @@ private:
     Game * game;
 public:
     const char * name;
+    int in_heap;
     bool check_card_type(enum CardType _type){
         return type == _type;
     }
@@ -84,7 +88,7 @@ public:
     void set_upper_card(Card * upper_card);
 
     Card(const char * _name, int _posx, int _posy,
-    const std::vector<Card *> all_cards, QDialog * parent);
+    const std::vector<Card *> all_cards, QDialog * parent,int _in_heap=0);
 
     ~Card(void);
 
