@@ -40,5 +40,6 @@
         <file>pictures/card_picture/Fork-dark.png</file>
         <file>pictures/card_picture/Glove.png</file>
         <file>pictures/card_picture/Glove-dark.png</file>
+        <file>pictures/button_picture/crash.png</file>
     </qresource>
 </RCC>

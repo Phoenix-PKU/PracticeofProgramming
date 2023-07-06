@@ -31,6 +31,7 @@ public:
 public slots:
     void on_confirmBox_clicked(void);
     void on_retreat_clicked(void);
+    void on_crash_clicked(void);
     void update(Card * chosen);
     void update_tail(void);
     bool all_cards_eliminate(void){

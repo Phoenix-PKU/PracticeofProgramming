@@ -78,6 +78,7 @@ public:
     int get_oriy(void){return oriy;}
     void set_posx(int _posx){posx = _posx;}
     void set_posy(int _posy){posy = _posy;}
+    void crash_card(void);
 
     void print_card(bool cover_flag, const char * prefix);
 
@@ -86,8 +87,7 @@ public:
     void remove_card(void);
 
     void remove_upper_card(Card * upper_card);
-
-    void set_upper_card(Card * upper_card);
+    void remove_lower_card(Card * lower_card);
 
     Card(const char * _name, int _posx, int _posy,
     const std::vector<Card *> all_cards, QDialog * parent,int _in_heap=0);

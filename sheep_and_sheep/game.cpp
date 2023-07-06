@@ -16,6 +16,7 @@ template <class Amt, class Pos1, class Pos2>
 static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end);
 /* given an idx, find the type of the card to be put in the heap. */
 static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard);
+static bool avail_crash(Card * card);
 
 class Slot;
 Game::Game(int _card_num, int _card_types,int _cards_in_heap, QWidget *parent) :
@@ -270,6 +271,63 @@ void Game::on_myshuffle_clicked()
     this->consistency_check();
 }
 
+
+
+void Game::on_crash_clicked(){
+    qDebug() << "Crash clicked";
+    // find three cards in cards_clickable;
+    bool flag = false;
+    Card * card1 = NULL, * card2 = NULL, * card3 = NULL;
+    for (int i = 0;i < card_nums;i ++){
+        card1 = all_cards[i];
+        if (!avail_crash(card1)) continue;
+
+        for (int j = i + 1;j < card_nums;j ++){
+            card2 = all_cards[j];
+            if (!avail_crash(card2)) continue;
+            if (strcmp(card2->name, card1->name) != 0) continue;
+
+            for (int k = j + 1;k < card_nums;k ++){
+                card3 = all_cards[k];
+                if (!avail_crash(card3)) continue;
+                if (strcmp(card3->name, card1->name) != 0) continue;
+                flag = true; break;
+            }
+            if (flag) break;
+        }
+        if (flag) break;
+    }
+    if (!flag) {
+        qDebug() << "no cards to crash";
+        return ;
+    }
+
+    else{
+        // card update
+        card1->crash_card();
+        card2->crash_card();
+        card3->crash_card();
+        cards_clickable -= 3;
+        cards_eliminate += 3;
+        // progress bar update
+        cover->hide();
+        move->set_len((double)BAR_LEN * (card_nums - cards_clickable)
+                  / card_nums);
+        cover->show();
+        // possible win!
+        if(all_cards_eliminate()) {
+            qDebug() << "Eliminate all cards, Congrats!!!";
+            GameOverBox GameOverBox("win");
+            if((GameOverBox.exec()==ConfirmBox::Accepted)){
+                accept();
+            }
+            accept();
+        }
+    }
+    this -> consistency_check();
+
+}
+
 template <class Amt, class Pos1, class Pos2>
 static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end){
     ani->setDuration(dur);
@@ -320,5 +378,15 @@ static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard){
     assert (false);
 }
 
+static bool avail_crash(Card * card){
+    if (card->check_card_type(EliminatedCard) || 
+        card->check_card_type(SlotCard) || 
+        card->in_heap){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
 
 
