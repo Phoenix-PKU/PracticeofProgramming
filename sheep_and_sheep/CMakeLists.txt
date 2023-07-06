@@ -33,7 +33,6 @@ set(PROJECT_SOURCES
         progressbar.h
         progressbar.cpp
         loadPic.h
-        uuid
         card_picture.qrc
 )
 

@@ -28,7 +28,7 @@ extern const char* card_name[];
 extern const int current_type_of_cards;
 class Game;
 /*
-There are three types of cards.
+There are four types of cards.
 One type can be clicked on the main interface and
 will appear in the slot when clicked.
 When the card is in the slot, it will be eliminated.
@@ -98,7 +98,7 @@ public:
 
     friend bool overlap(Card * old_card, Card * new_card);
 
-    void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent *) override;
 
     void setNormalBackground();
 

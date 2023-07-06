@@ -1,5 +1,4 @@
 #include "card.h"
-//#include "uuid/uuid.h"
 #include <iostream>
 #include <cstring>
 #include <QPropertyAnimation>
@@ -37,11 +36,6 @@ Card::Card(const char * _name, int _posx, int _posy,
     orix(_posx), oriy(_posy),
     in_heap(_in_heap)
 {
-    /*uuid_t uuid;
-    char buf[MAX_ID];
-    uuid_generate(uuid);
-    uuid_unparse(uuid, buf);
-    uid = std::string(buf);*/
     game = (Game *) parent;
     char buf[MAXLINE], pic_dir[MAXLINE];
     sprintf(buf, "%llu", ID++);
@@ -76,7 +70,6 @@ int Card::nametoint(void){
 
 Card::~Card(void){
     qDebug() << "Goodbye from card "; 
-    //print_card(true, "");
     ID--;
 }
 
@@ -155,7 +148,6 @@ static void setup_card(Card * card, int posx, int posy,
     card->setGeometry(posx, posy, CARD_SIZE, CARD_SIZE);
     //设置按钮对象名字
     card->setObjectName("card_" + uid);
-    //card->setFixedSize(CARD_SIZE, CARD_SIZE);//调整按钮大小
     //设置按钮图像
     card->setNormalBackground();
     card->show();
@@ -171,7 +163,6 @@ void cover_card(Card * upper_card, Card * lower_card){
     lower_card -> set_card_type(CoveredCard);
     lower_card -> setDarkBackground();
     lower_card -> setEnabled(false);
-    
 }
 
 bool overlap(Card * old_card, Card * new_card){
