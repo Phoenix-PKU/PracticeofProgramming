@@ -10,14 +10,15 @@
 #include "game.h"
 
 #define MAXLINE 128
-#define MAX_LENGTH_NAME  6
+#define MAX_LENGTH_NAME 10
 
 class Game;
 const int max_type_of_cards = 100;
 
 const char * card_name[max_type_of_cards] =
         {"Carrot", "Grass", "Corn", "Bucket", "Bell", "Stump",
-         "Ball", "Cotton", "Fire", "Scissor", "Bottle", "Brush"};
+         "Ball", "Cotton", "Fire", "Scissor", "Bottle", "Brush",
+         "Cabbage", "Glove", "Fork"};
 const int current_type_of_cards = sizeof(card_name) 
     / sizeof(const char *);
 

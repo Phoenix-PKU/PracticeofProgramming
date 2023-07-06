@@ -34,5 +34,11 @@
         <file>pictures/button_picture/back.png</file>
         <file>pictures/background_picture/Cover.png</file>
         <file>pictures/background_picture/Move.png</file>
+        <file>pictures/card_picture/Cabbage.png</file>
+        <file>pictures/card_picture/Cabbage-dark.png</file>
+        <file>pictures/card_picture/Fork.png</file>
+        <file>pictures/card_picture/Fork-dark.png</file>
+        <file>pictures/card_picture/Glove.png</file>
+        <file>pictures/card_picture/Glove-dark.png</file>
     </qresource>
 </RCC>
