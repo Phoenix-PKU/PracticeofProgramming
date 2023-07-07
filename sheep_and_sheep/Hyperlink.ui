@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>234</width>
-    <height>96</height>
+    <width>415</width>
+    <height>206</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,34 +16,30 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>29</y>
-     <width>121</width>
-     <height>41</height>
+     <x>50</x>
+     <y>80</y>
+     <width>111</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">
-    <string>获得两次机会</string>
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="no">
+   <property name="geometry">
+    <rect>
+     <x>239</x>
+     <y>81</y>
+     <width>111</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>label</sender>
-   <signal>linkActivated(QString)</signal>
-   <receiver>Hyperlink</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>114</x>
-     <y>45</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>187</x>
-     <y>31</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
