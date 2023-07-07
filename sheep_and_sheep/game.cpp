@@ -54,17 +54,31 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
     for (int i=0;i<card_types;++i){
         cards_left.push_back(card_nums/card_types);
     }
-    for (idx=0; idx < cards_in_heap; ++idx){
+    for (idx=0; idx < cards_in_heap-heap_show; ++idx){
         int temp=rd() % ncard;
         Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
                                   HEAP1_X, HEAP1_Y,
                                   all_cards, this,1);
         all_cards.push_back(new_card);
     }
-    for (idx=_cards_in_heap; idx < 2*cards_in_heap; ++idx){
+    for (; idx < cards_in_heap; ++idx){
+        int temp=rd() % ncard;
+        Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
+                                  HEAP1_X, HEAP1_Y+delta*(heap_show+1-cards_in_heap+idx),
+                                  all_cards, this,1);
+        all_cards.push_back(new_card);
+    }
+    for (idx=_cards_in_heap; idx < 2*cards_in_heap-heap_show; ++idx){
         int temp=rd() % ncard;
         Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
                                   HEAP2_X, HEAP2_Y,
+                                  all_cards, this,1);
+        all_cards.push_back(new_card);
+    }
+    for (; idx < 2*cards_in_heap; ++idx){
+        int temp=rd() % ncard;
+        Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
+                                  HEAP2_X, HEAP2_Y+delta*(heap_show+1-2*cards_in_heap+idx),
                                   all_cards, this,1);
         all_cards.push_back(new_card);
     }
