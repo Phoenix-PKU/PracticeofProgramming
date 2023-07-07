@@ -3,6 +3,7 @@
 
 #include <QDialog>
 
+struct GameParameters;
 namespace Ui {
 class MyDialog;
 }
@@ -25,6 +26,8 @@ private slots:
     void on_hell_clicked();
 
     void on_quit_clicked();
+    
+    void startGame(const GameParameters& params);
 
 private:
     Ui::MyDialog *ui;

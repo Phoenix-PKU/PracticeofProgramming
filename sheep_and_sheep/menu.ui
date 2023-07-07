@@ -6,76 +6,95 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>542</width>
+    <height>393</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="quit">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>260</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>QUIT</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="easy">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>50</y>
+     <x>50</x>
+     <y>80</y>
      <width>131</width>
      <height>71</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/new/prefix1/pictures/mode_selection/easy.png)
+</string>
+   </property>
    <property name="text">
-    <string>easy</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="medium">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>50</y>
+     <x>310</x>
+     <y>80</y>
      <width>131</width>
      <height>71</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/new/prefix1/pictures/mode_selection/medium.png)
+</string>
+   </property>
    <property name="text">
-    <string>medium</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="hard">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>150</y>
+     <x>50</x>
+     <y>170</y>
      <width>131</width>
      <height>71</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/new/prefix1/pictures/mode_selection/hard.png)
+</string>
+   </property>
    <property name="text">
-    <string>hard</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="hell">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>150</y>
+     <x>310</x>
+     <y>170</y>
      <width>131</width>
      <height>71</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/new/prefix1/pictures/mode_selection/hell.png)
+</string>
+   </property>
    <property name="text">
-    <string>hell</string>
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="quit">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/new/prefix1/pictures/button_picture/back.png)</string>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>
