@@ -58,7 +58,7 @@ void Menu::on_medium_clicked()
 void Menu::on_hard_clicked()
 {
     qDebug() << "start hard game";
-    GameParameters params{216, 12, 8, MANY, MANY, MANY};
+    GameParameters params{198, 11, 8, MANY, MANY, MANY};
     startGame(params);
 }
 
