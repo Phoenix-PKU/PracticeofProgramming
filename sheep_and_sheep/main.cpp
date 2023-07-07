@@ -10,8 +10,8 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     Menu dialog;                     
-    qDebug() << "mydialog exec started";
+    // qDebug() << "mydialog exec started";
     dialog.exec();
-    qDebug() << "mydialog exec finished";
+    // qDebug() << "mydialog exec finished";
     return 0;
 }
