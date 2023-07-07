@@ -16,10 +16,10 @@
   <widget class="QPushButton" name="confirm">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>25</x>
      <y>60</y>
-     <width>71</width>
-     <height>51</height>
+     <width>120</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="text">
@@ -29,10 +29,10 @@
   <widget class="QPushButton" name="goback">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>175</x>
      <y>60</y>
-     <width>71</width>
-     <height>51</height>
+     <width>120</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="text">
