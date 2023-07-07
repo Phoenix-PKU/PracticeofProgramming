@@ -10,7 +10,8 @@ Menu::Menu(QWidget *parent) :
 {
     qDebug() << "main menu constructed";
     const char * pic_dir = ":/new/prefix1/pictures/background_picture/main_menu.jpg";
-    setup_background(ui, this, "欢迎来到羊了个羊的世界", pic_dir, 400, 300);
+    setup_background(ui, this, "欢迎来到羊了个羊的世界", pic_dir, 500, 400);
+    //ui->hard->setStyleSheet("background-color: rgba(255, 255, 255, 80)");
 }
 
 Menu::~Menu()

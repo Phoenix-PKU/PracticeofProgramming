@@ -41,5 +41,10 @@
         <file>pictures/card_picture/Glove.png</file>
         <file>pictures/card_picture/Glove-dark.png</file>
         <file>pictures/button_picture/crash.png</file>
+        <file>pictures/white.jpg</file>
+        <file>pictures/mode_selection/easy.png</file>
+        <file>pictures/mode_selection/hard.png</file>
+        <file>pictures/mode_selection/hell.png</file>
+        <file>pictures/mode_selection/medium.png</file>
     </qresource>
 </RCC>
