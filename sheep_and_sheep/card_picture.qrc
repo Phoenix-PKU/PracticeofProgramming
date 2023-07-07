@@ -41,5 +41,11 @@
         <file>pictures/card_picture/Glove.png</file>
         <file>pictures/card_picture/Glove-dark.png</file>
         <file>pictures/button_picture/crash.png</file>
+        <file>pictures/card_picture/Guowei.png</file>
+        <file>pictures/card_picture/Guowei-dark.png</file>
+        <file>pictures/card_picture/Obama.png</file>
+        <file>pictures/card_picture/Obama-dark.png</file>
+        <file>pictures/card_picture/Trump.png</file>
+        <file>pictures/card_picture/Trump-dark.png</file>
     </qresource>
 </RCC>
