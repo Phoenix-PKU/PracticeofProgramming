@@ -13,35 +13,38 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="goToMainMenu">
+  <widget class="QPushButton" name="quit">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>120</y>
-     <width>141</width>
+     <x>0</x>
+     <y>0</y>
+     <width>41</width>
      <height>41</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/new/prefix1/pictures/button_picture/back.png)</string>
+   </property>
    <property name="text">
-    <string>返回主菜单</string>
+    <string/>
    </property>
   </widget>
  </widget>
  <resources/>
  <connections>
   <connection>
-   <sender>goToMainMenu</sender>
+   <sender>quit</sender>
    <signal>clicked()</signal>
    <receiver>GameOverBox</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>148</x>
-     <y>151</y>
+     <x>187</x>
+     <y>155</y>
     </hint>
     <hint type="destinationlabel">
-     <x>85</x>
-     <y>67</y>
+     <x>252</x>
+     <y>111</y>
     </hint>
    </hints>
   </connection>

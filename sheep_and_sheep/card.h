@@ -21,7 +21,9 @@
 #define HEAP1_X CARD_SIZE * 10
 #define HEAP2_X CARD_SIZE * 10
 #define HEAP1_Y CARD_SIZE * 2
-#define HEAP2_Y CARD_SIZE * 4
+#define HEAP2_Y CARD_SIZE * 5
+#define delta CARD_SIZE / 10
+#define heap_show 20
 
 extern const int max_type_of_cards;
 extern const char* card_name[];
