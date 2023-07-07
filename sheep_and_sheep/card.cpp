@@ -17,7 +17,7 @@ const int max_type_of_cards = 100;
 const char * card_name[max_type_of_cards] =
         {"Carrot", "Grass", "Corn", "Bucket", "Bell", "Stump",
          "Ball", "Cotton", "Fire", "Scissor", "Bottle", "Brush",
-         "Cabbage", "Glove", "Fork"};
+         "Cabbage", "Glove", "Fork", "Guowei", "Trump", "Obama"};
 const int current_type_of_cards = sizeof(card_name) 
     / sizeof(const char *);
 
