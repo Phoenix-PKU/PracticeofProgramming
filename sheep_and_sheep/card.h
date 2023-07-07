@@ -18,10 +18,10 @@
 #define TCARD_SIZE  CARD_SIZE * 3
 #define MIN_OVERLAP_RATIO   2
 #define MCARD_SIZE  CARD_SIZE / MIN_OVERLAP_RATIO
-#define HEAP1_X CARD_SIZE * 10
-#define HEAP2_X CARD_SIZE * 10
-#define HEAP1_Y CARD_SIZE * 2
-#define HEAP2_Y CARD_SIZE * 5
+#define HEAP1_X CARD_SIZE * 0.8
+#define HEAP2_X CARD_SIZE * 9.2
+#define HEAP1_Y CARD_SIZE * 4
+#define HEAP2_Y CARD_SIZE * 4
 #define delta CARD_SIZE / 10
 #define heap_show 20
 
