@@ -19,7 +19,7 @@ public:
     ~Hyperlink();
 private slots:
     bool eventFilter(QObject *watched, QEvent *event);
-
+    void on_no_clicked();
 
 private:
     Ui::Hyperlink *ui;

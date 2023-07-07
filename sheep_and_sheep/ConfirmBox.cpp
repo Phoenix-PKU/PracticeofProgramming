@@ -9,7 +9,9 @@ ConfirmBox::ConfirmBox(QWidget *parent) :
 {
     qDebug() << "ConfirmBox constructed";
     const char * pic_dir = ":/new/prefix1/pictures/background_picture/warning.jpg";
-    setup_background(ui, this, "您确认要退出吗？", pic_dir, 240, 100);
+    setup_background(ui, this, "您确认要退出吗？", pic_dir, 320, 140);
+    ui->confirm->setStyleSheet("QPushButton{border-image:url(:/new/prefix1/pictures/confirm/break.png);}");
+    ui->goback->setStyleSheet("QPushButton{border-image:url(:/new/prefix1/pictures/confirm/continue.png);}");
 }
 
 ConfirmBox::~ConfirmBox()

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>234</width>
-    <height>96</height>
+    <width>336</width>
+    <height>135</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,27 +16,27 @@
   <widget class="QPushButton" name="confirm">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>20</y>
+     <x>50</x>
+     <y>60</y>
      <width>71</width>
      <height>51</height>
     </rect>
    </property>
    <property name="text">
-    <string>退出游戏</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="goback">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>20</y>
+     <x>200</x>
+     <y>60</y>
      <width>71</width>
      <height>51</height>
     </rect>
    </property>
    <property name="text">
-    <string>返回游戏</string>
+    <string/>
    </property>
   </widget>
  </widget>

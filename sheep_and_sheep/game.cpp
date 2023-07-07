@@ -19,6 +19,7 @@ static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end);
 static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard);
 static bool avail_crash(Card * card);
 
+
 class Slot;
 Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,int _retreat_left,int _crash_left, QWidget *parent) :
     QDialog(parent),
@@ -44,6 +45,22 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
     cover = new Bar("Cover", BAR_LEN, this);
     move->show();
     cover->show();
+    QFont ft;
+    ft.setBold(true);
+    ft.setPointSize(18);
+    QString temp;
+    temp=(QString)(std::to_string(shuffle_left)).c_str();
+    ui->shuffle_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+temp);
+    ui->shuffle_left_label->setFont(ft);
+    ui->shuffle_left_label->setAlignment(Qt::AlignCenter);
+    temp=(QString)(std::to_string(retreat_left)).c_str();
+    ui->retreat_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+temp);
+    ui->retreat_left_label->setFont(ft);
+    ui->retreat_left_label->setAlignment(Qt::AlignCenter);
+    temp=(QString)(std::to_string(crash_left)).c_str();
+    ui->crash_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+temp);
+    ui->crash_left_label->setFont(ft);
+    ui->crash_left_label->setAlignment(Qt::AlignCenter);
 
     std::random_device rd;
     slot = new Slot(this);
@@ -192,6 +209,7 @@ void Game::on_retreat_clicked(){
     if (retreat_left <= 0){
         return;
     }
+
     // check condition
     qDebug() << "retreat one card";
     if (cards_in_slot == 0) {
@@ -240,6 +258,14 @@ void Game::on_retreat_clicked(){
         }
     }
     --retreat_left;
+    QFont ft;
+    ft.setBold(true);
+    ft.setPointSize(18);
+    QString temp;
+    temp=(QString)(std::to_string(retreat_left)).c_str();
+    ui->retreat_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+temp);
+    ui->retreat_left_label->setFont(ft);
+    ui->retreat_left_label->setAlignment(Qt::AlignCenter);
 
     this->consistency_check();
 }
@@ -253,6 +279,8 @@ void Game::on_myshuffle_clicked()
     if (shuffle_left <= 0){
         return;
     }
+
+
     qDebug() << "shuffle cards";
     std::vector<Card *>::iterator card_i;
     std::vector<int>::iterator p_temp;
@@ -300,8 +328,17 @@ void Game::on_myshuffle_clicked()
         }
     }
 
-    this->consistency_check();
     --shuffle_left;
+    QFont ft;
+    ft.setBold(true);
+    ft.setPointSize(18);
+    ui->shuffle_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
+                                    (QString)(std::to_string(shuffle_left)).c_str());
+    ui->shuffle_left_label->setFont(ft);
+    ui->shuffle_left_label->setAlignment(Qt::AlignCenter);
+
+    this->consistency_check();
+
 }
 
 
@@ -314,6 +351,8 @@ void Game::on_crash_clicked(){
     if (crash_left <= 0){
         return;
     }
+
+
     qDebug() << "Crash clicked";
     // find three cards in cards_clickable;
     bool flag = false;
@@ -365,6 +404,14 @@ void Game::on_crash_clicked(){
         }
     }
     --crash_left;
+    QFont ft;
+    ft.setBold(true);
+    ft.setPointSize(18);
+    ui->crash_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
+                                  (QString)(std::to_string(crash_left)).c_str());
+    ui->crash_left_label->setFont(ft);
+    ui->crash_left_label->setAlignment(Qt::AlignCenter);
+
     this -> consistency_check();
 
 

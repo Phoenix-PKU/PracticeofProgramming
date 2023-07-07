@@ -65,7 +65,7 @@ void Menu::on_hard_clicked()
 void Menu::on_hell_clicked()
 {
     qDebug() << "start hell game";
-    GameParameters params{405, 15, 12, MANY, MANY, MANY};
+    GameParameters params{405, 15, 12, 2, 2, 2};
     startGame(params);
 }
 

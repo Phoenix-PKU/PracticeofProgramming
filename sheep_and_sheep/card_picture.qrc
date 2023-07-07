@@ -52,5 +52,9 @@
         <file>pictures/mode_selection/hard.png</file>
         <file>pictures/mode_selection/hell.png</file>
         <file>pictures/mode_selection/medium.png</file>
+        <file>pictures/confirm/no.png</file>
+        <file>pictures/confirm/yes.png</file>
+        <file>pictures/confirm/break.png</file>
+        <file>pictures/confirm/continue.png</file>
     </qresource>
 </RCC>
