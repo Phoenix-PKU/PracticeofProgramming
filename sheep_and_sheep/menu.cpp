@@ -28,7 +28,7 @@ Menu::Menu(QWidget *parent) :
     bgm_menu->setSource(QUrl::fromLocalFile(":/new/prefix1/sounds/bgm_menu.wav"));
     bgm_menu->setLoopCount(QSoundEffect::Infinite);
     bgm_menu->setVolume(50 / MENUBGM_SLIDER_RATIO);
-    bgm_menu->play();
+    // bgm_menu->play();
 
     click_menu = new QSoundEffect(this);
     click_menu->setSource(QUrl::fromLocalFile(":/new/prefix1/sounds/click.wav"));
