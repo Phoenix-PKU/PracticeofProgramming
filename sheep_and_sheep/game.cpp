@@ -155,13 +155,14 @@ Game::~Game()
     delete slot;
     delete bgm;
     delete bingo;
+    delete click;
 }
 
 void Game::on_confirmBox_clicked(){
     // qDebug() << "Are you sure to quit";
     click->play();
 
-    ConfirmBox confirmbox(this);
+    ConfirmBox confirmbox("game", this);
     if(confirmbox.exec()==ConfirmBox::Accepted){
         accept();
     }
@@ -521,12 +522,10 @@ static int get_pos_bias(int max_num_card){
 }
 
 void Game::setBgmVolume(int value){
-    qDebug() << value;
     bgm->setVolume(value / BGM_SLIDER_RATIO);
 }
 
 void Game::setClickVolume(int value){
-    qDebug() << value;
     click->setVolume(value / CLICK_SLIDER_RATIO);
     bingo->setVolume(value / CLICK_SLIDER_RATIO);
 }

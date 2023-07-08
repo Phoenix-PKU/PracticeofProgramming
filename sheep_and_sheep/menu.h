@@ -2,6 +2,7 @@
 #define MYDIALOG_H
 
 #include <QDialog>
+#include <QtMultimedia/QSoundEffect>
 
 struct GameParameters;
 namespace Ui {
@@ -15,6 +16,7 @@ class Menu : public QDialog
 public:
     explicit Menu(QWidget *parent = 0);
     ~Menu();
+    QSoundEffect *bgm_menu, *click_menu;
 
 private slots:
     void on_easy_clicked();
@@ -28,6 +30,10 @@ private slots:
     void on_quit_clicked();
     
     void startGame(const GameParameters& params);
+
+    void setBgmVolume(int value);
+
+    void setClickVolume(int value);
 
 private:
     Ui::MyDialog *ui;
