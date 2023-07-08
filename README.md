@@ -1,6 +1,8 @@
 # 🐏了个🐑
 
 > PKU 程序设计实习 Qt大作业
+> 演示视频网址: https://disk.pku.edu.cn:443/link/4E80F33441D85E64D3E8EFC16DFA7634 (有讲解)
+> 无讲解视频网址: https://www.bilibili.com/video/BV1cX4y1e7cH/
 
 ## 游戏简介
 该程序为一款游戏，模仿最近比较热门的“羊了个羊”微信小游戏。
