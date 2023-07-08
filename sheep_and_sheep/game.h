@@ -26,10 +26,9 @@ class Game : public QDialog
     int card_nums, card_types, cards_in_heap;
     int length, width, max_num_card;
     int shuffle_left,retreat_left,crash_left;
-    QSoundEffect * bgm;
-    QSoundEffect * bingo;
-    QSoundEffect * click;
+
 public:
+    QSoundEffect *bgm, *bingo, *click;
     explicit Game(int _card_nums, int _card_types ,int _cards_in_heap,int _shuffle_left, int _retreat_left,int _crash_left, QWidget *parent = 0);
     ~Game();
 
@@ -44,6 +43,9 @@ public slots:
      }
     void on_myshuffle_clicked();
     void consistency_check(void);
+
+    void setBgmVolume(int value);
+    void setClickVolume(int value);
 
 signals:
     void sig_remove();

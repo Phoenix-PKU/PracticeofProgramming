@@ -14,6 +14,7 @@
 
 #define ANI_TIME        100
 #define MAX_NUM_CARD    13
+
 template <class Amt, class Pos1, class Pos2>
 static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end);
 /* given an idx, find the type of the card to be put in the heap. */
@@ -51,15 +52,15 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
     bgm = new QSoundEffect(this);
     bgm->setSource(QUrl::fromLocalFile(":/new/prefix1/sounds/bgm.wav"));
     bgm->setLoopCount(QSoundEffect::Infinite);  //设置无限循环
-    bgm->setVolume(0.1f);                       //设置音量，在0到1之间
+    bgm->setVolume(50 / BGM_SLIDER_RATIO);                      //bgm最大音量为0.02
     bgm->play();
 
     bingo = new QSoundEffect(this);
     bingo->setSource(QUrl::fromLocalFile(":/new/prefix1/sounds/bingo.wav"));
-    bingo->setVolume(0.5f);
+    bingo->setVolume(50 / CLICK_SLIDER_RATIO);
     click = new QSoundEffect(this);
     click->setSource(QUrl::fromLocalFile(":/new/prefix1/sounds/click.wav"));
-    click->setVolume(0.5f);
+    click->setVolume(50 / CLICK_SLIDER_RATIO);                     //按键最大音量为1
 
 
 
@@ -145,7 +146,7 @@ void Game::on_confirmBox_clicked(){
     // qDebug() << "Are you sure to quit";
     click->play();
 
-    ConfirmBox confirmbox;
+    ConfirmBox confirmbox(this);
     if(confirmbox.exec()==ConfirmBox::Accepted){
         accept();
     }
@@ -503,3 +504,13 @@ static int get_pos_bias(int max_num_card){
     return (MAX_NUM_CARD - max_num_card) * CARD_SIZE / 4;
 }
 
+void Game::setBgmVolume(int value){
+    qDebug() << value;
+    bgm->setVolume(value / BGM_SLIDER_RATIO);
+}
+
+void Game::setClickVolume(int value){
+    qDebug() << value;
+    click->setVolume(value / CLICK_SLIDER_RATIO);
+    bingo->setVolume(value / CLICK_SLIDER_RATIO);
+}

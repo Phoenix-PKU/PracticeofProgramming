@@ -59,5 +59,6 @@
         <file>sounds/bgm.wav</file>
         <file>sounds/bingo.wav</file>
         <file>sounds/click.wav</file>
+        <file>pictures/background_picture/confirm.jpg</file>
     </qresource>
 </RCC>
