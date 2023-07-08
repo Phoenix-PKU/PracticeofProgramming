@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/new/prefix1/pictures/button_picture/back.png)</string>
+    <string notr="true">border-image:url(:/new/prefix1/pictures/button_picture/setting.png)</string>
    </property>
    <property name="text">
     <string/>
