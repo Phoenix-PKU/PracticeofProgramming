@@ -187,6 +187,12 @@ static void setup_card(Card * card, int posx, int posy,
     card->show();
 }
 
+/*
+让upper_card盖住lower_card. 具体来说: 在upper_card->covering
+中增加lower_card; 在lower_card->covered中增加upper_card; 
+将lower_card->type设为CoveredCard, 并使其变暗, 禁止点击.
+*/
+
 void cover_card(Card * upper_card, Card * lower_card){
     assert (upper_card -> check_card_type(ClickableCard));
 
@@ -199,6 +205,9 @@ void cover_card(Card * upper_card, Card * lower_card){
     lower_card -> setEnabled(false);
 }
 
+/*
+判断先后生成的两张卡牌是否具有叠放关系, 供其他函数使用.
+*/
 bool overlap(Card * old_card, Card * new_card){
     return abs(old_card -> posx - new_card -> posx) < CARD_SIZE
         && abs(old_card -> posy - new_card -> posy) < CARD_SIZE;

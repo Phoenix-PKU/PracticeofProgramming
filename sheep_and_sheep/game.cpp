@@ -12,12 +12,15 @@
 #include <random>
 #include "Hyperlink.h"
 
-#define ANI_TIME    100
+#define ANI_TIME        100
+#define MAX_NUM_CARD    13
 template <class Amt, class Pos1, class Pos2>
 static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end);
 /* given an idx, find the type of the card to be put in the heap. */
 static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard);
 static bool avail_crash(Card * card);
+static void set_max_num_card(int card_left, int & max_num_card);
+static int get_pos_bias(int max_num_card);
 
 
 class Slot;
@@ -34,7 +37,7 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
     length = 15 * CARD_SIZE;
     width = 11 * CARD_SIZE;
     /* max number of card that can appear on one line. */
-    max_num_card = 13; 
+    set_max_num_card(card_nums, max_num_card);
     // qDebug() << "Game constructed";
     const char * pic_dir = ":/new/prefix1/pictures"
                             "/background_picture/grassland.png";
@@ -101,8 +104,10 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
     }
     for (idx = 2 * cards_in_heap; idx < card_nums; ++idx) {
 
-        int posx = (rd() % max_num_card + 4) * MCARD_SIZE;
-        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE;
+        int posx = (rd() % max_num_card + 4) * MCARD_SIZE
+            + get_pos_bias(max_num_card);
+        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE
+            + get_pos_bias(max_num_card);
         int temp=rd() % ncard;
 
         Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
@@ -302,9 +307,12 @@ void Game::on_myshuffle_clicked()
     // create new cards that has random position
 
     std::random_device rd;
+    set_max_num_card(cards_clickable, max_num_card);
     for (p_temp=temp.begin();p_temp!=temp.end();++p_temp){
-        int posx = (rd() % max_num_card + 4) * MCARD_SIZE;
-        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE;
+        int posx = (rd() % max_num_card + 4) * MCARD_SIZE 
+            + get_pos_bias(max_num_card);
+        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE
+            + get_pos_bias(max_num_card);
         Card * new_card = new Card(card_name[*p_temp],
                                   posx, posy,
                                   all_cards, this);
@@ -476,4 +484,23 @@ static bool avail_crash(Card * card){
     }
 }
 
+static void set_max_num_card(int card_left, int & max_num_card){
+    if (card_left <= 12)
+        max_num_card = 3;
+    if (card_left <= 25)
+        max_num_card = 5;
+    else if (card_left <= 50)
+        max_num_card = 7;
+    else if (card_left <= 100)
+        max_num_card = 9;
+    else if (card_left <= 200)
+        max_num_card = 11;
+    else 
+        max_num_card = 13;
+}
+
+static int get_pos_bias(int max_num_card){
+    assert (max_num_card <= MAX_NUM_CARD);
+    return (MAX_NUM_CARD - max_num_card) * CARD_SIZE / 4;
+}
 
