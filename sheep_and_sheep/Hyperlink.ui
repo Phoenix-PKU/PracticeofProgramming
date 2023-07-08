@@ -16,10 +16,10 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>80</y>
-     <width>111</width>
-     <height>61</height>
+     <x>105</x>
+     <y>60</y>
+     <width>190</width>
+     <height>60</height>
     </rect>
    </property>
    <property name="text">
@@ -29,10 +29,10 @@
   <widget class="QPushButton" name="no">
    <property name="geometry">
     <rect>
-     <x>239</x>
-     <y>81</y>
-     <width>111</width>
-     <height>61</height>
+     <x>105</x>
+     <y>150</y>
+     <width>190</width>
+     <height>60</height>
     </rect>
    </property>
    <property name="text">
