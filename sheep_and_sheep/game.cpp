@@ -62,6 +62,21 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
     click->setSource(QUrl::fromLocalFile(":/new/prefix1/sounds/click.wav"));
     click->setVolume(50 / CLICK_SLIDER_RATIO);                     //按键最大音量为1
 
+    QFont ft;
+    ft.setBold(true);
+    ft.setPointSize(18);
+    ui->crash_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
+                                  (QString)(std::to_string(crash_left)).c_str());
+    ui->crash_left_label->setFont(ft);
+    ui->crash_left_label->setAlignment(Qt::AlignCenter);
+    ui->shuffle_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
+                                  (QString)(std::to_string(shuffle_left)).c_str());
+    ui->shuffle_left_label->setFont(ft);
+    ui->shuffle_left_label->setAlignment(Qt::AlignCenter);
+    ui->retreat_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
+                                  (QString)(std::to_string(retreat_left)).c_str());
+    ui->retreat_left_label->setFont(ft);
+    ui->retreat_left_label->setAlignment(Qt::AlignCenter);
 
 
     std::random_device rd;
@@ -267,7 +282,13 @@ void Game::on_retreat_clicked(){
         }
     }
     --retreat_left;
-
+    QFont ft;
+    ft.setBold(true);
+    ft.setPointSize(18);
+    ui->retreat_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
+                                    (QString)(std::to_string(retreat_left)).c_str());
+    ui->retreat_left_label->setFont(ft);
+    ui->retreat_left_label->setAlignment(Qt::AlignCenter);
     // this->consistency_check();
 }
 
