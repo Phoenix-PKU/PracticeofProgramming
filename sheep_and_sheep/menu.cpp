@@ -35,7 +35,7 @@ Menu::~Menu()
 void Menu::on_quit_clicked()
 {
     // qDebug() << "quit game";
-    ConfirmBox confirmbox;
+    ConfirmBox confirmbox(0);
     if (confirmbox.exec() == ConfirmBox::Accepted){
         accept();
     }
