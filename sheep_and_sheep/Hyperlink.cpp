@@ -5,8 +5,8 @@
 #include <QThread>
 #include <QDesktopServices>
 
-const char * github_link = "https://github.com/Phoenix-PKU/QC";
-const char * bilibili_link = "https://www.bilibili.com";
+const char * github_link = "https://github.com/Phoenix-PKU/PracticeofProgramming";
+const char * bilibili_link = "https://www.bilibili.com/video/BV1cX4y1e7cH";
 
 Hyperlink::Hyperlink(int * _p_left_time,QWidget *parent) :
     QDialog(parent),
