@@ -73,7 +73,7 @@ int Card::nametoint(void){
 }
 
 Card::~Card(void){
-    qDebug() << "Goodbye from card "; 
+    // qDebug() << "Goodbye from card "; 
     ID--;
 }
 
@@ -103,7 +103,7 @@ void Card::crash_card(void){
 /* This function removes the card from the top and 
  * remove itself from the cards that is covered by itself. */
 void Card::remove_card(void){
-    print_card(true, "");
+    // print_card(true, "");
     assert (check_card_type(ClickableCard));
     assert (covered.empty());
     for (auto it = covering.begin();it != covering.end();it ++){
@@ -160,21 +160,21 @@ void Card::print_card(bool cover_flag, const char * prefix){
         qDebug() << "unknown card type " << type;
         assert(false);
     }
-    qDebug() << prefix << "uid: " << uid.c_str()
+       qDebug() << prefix << "uid: " << uid.c_str()
              << ", name: " << name
              << ", type is: " << card_type.c_str()
              << "xpos = " << posx << ", ypos = " << posy;
-    /*
+    
     if (cover_flag){
-        qDebug() << " begin covering card: ";
+         qDebug() << " begin covering card: ";
         for (auto ip = covering.begin();ip != covering.end();ip ++){
             (*ip)->print_card(false, "    ");
         }
-        qDebug() << " begin covered card: ";
+         qDebug() << " begin covered card: ";
         for (auto ip = covered.begin();ip != covered.end();ip ++){
             (*ip)->print_card(false, "    ");
         }
-    }*/
+    }
 }
 
 static void setup_card(Card * card, int posx, int posy, 
@@ -186,6 +186,12 @@ static void setup_card(Card * card, int posx, int posy,
     card->setNormalBackground();
     card->show();
 }
+
+/*
+让upper_card盖住lower_card. 具体来说: 在upper_card->covering
+中增加lower_card; 在lower_card->covered中增加upper_card; 
+将lower_card->type设为CoveredCard, 并使其变暗, 禁止点击.
+*/
 
 void cover_card(Card * upper_card, Card * lower_card){
     assert (upper_card -> check_card_type(ClickableCard));
@@ -199,6 +205,9 @@ void cover_card(Card * upper_card, Card * lower_card){
     lower_card -> setEnabled(false);
 }
 
+/*
+判断先后生成的两张卡牌是否具有叠放关系, 供其他函数使用.
+*/
 bool overlap(Card * old_card, Card * new_card){
     return abs(old_card -> posx - new_card -> posx) < CARD_SIZE
         && abs(old_card -> posy - new_card -> posy) < CARD_SIZE;
@@ -255,7 +264,7 @@ void Card::cardconcheck(void){
         assert (orix == posx && oriy == posy);
     }
     else {
-        qDebug() << "unknown card type " << type;
+        // qDebug() << "unknown card type " << type;
         assert(false);
     }
 }

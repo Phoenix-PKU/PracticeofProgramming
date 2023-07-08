@@ -89,8 +89,9 @@ public:
     void remove_card(void);
 
     void remove_upper_card(Card * upper_card);
+    
     void remove_lower_card(Card * lower_card);
-
+    
     Card(const char * _name, int _posx, int _posy,
     const std::vector<Card *> all_cards, QDialog * parent,int _in_heap=0);
 

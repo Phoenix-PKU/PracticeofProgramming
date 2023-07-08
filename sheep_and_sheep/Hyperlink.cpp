@@ -10,9 +10,11 @@ Hyperlink::Hyperlink(int * _p_left_time,QWidget *parent) :
     ui(new Ui::Hyperlink),
     p_left_time(_p_left_time)
 {
+
     qDebug() << "Hyperlink constructed";
     const char * pic_dir = ":/new/prefix1/pictures/background_picture/warning.jpg";
-    setup_background(ui, this, "次数用完了", pic_dir, 400, 250);
+    setup_background(ui, this, "次数用完了, 你还想要更多的道具吗?😏", pic_dir, 400, 250);
+
     int x_scale,y_scale;
     QImage *yes= new QImage();
     yes->load(":/new/prefix1/pictures/confirm/yes.png");
@@ -28,7 +30,7 @@ Hyperlink::Hyperlink(int * _p_left_time,QWidget *parent) :
 
 Hyperlink::~Hyperlink()
 {
-    qDebug() << "Hyperlink destructed";
+    // qDebug() << "Hyperlink destructed";
     delete ui;
 }
 
@@ -43,6 +45,7 @@ bool Hyperlink::eventFilter(QObject *watched, QEvent *event)
             accept();
         }
     }
+    return false;
 }
 void Hyperlink::on_no_clicked()
 {

@@ -12,12 +12,15 @@
 #include <random>
 #include "Hyperlink.h"
 
-#define ANI_TIME    100
+#define ANI_TIME        100
+#define MAX_NUM_CARD    13
 template <class Amt, class Pos1, class Pos2>
 static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end);
 /* given an idx, find the type of the card to be put in the heap. */
 static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard);
 static bool avail_crash(Card * card);
+static void set_max_num_card(int card_left, int & max_num_card);
+static int get_pos_bias(int max_num_card);
 
 class Slot;
 Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,int _retreat_left,int _crash_left, QWidget *parent) :
@@ -33,12 +36,12 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
     length = 15 * CARD_SIZE;
     width = 11 * CARD_SIZE;
     /* max number of card that can appear on one line. */
-    max_num_card = 13;
-    qDebug() << "Game constructed";
+    set_max_num_card(card_nums, max_num_card);
+    // qDebug() << "Game constructed";
     const char * pic_dir = ":/new/prefix1/pictures"
                             "/background_picture/grassland.png";
-    setup_background(ui, this, "羊了个羊游戏", pic_dir, length, width);
-
+    setup_background(ui, this, "羊了个羊游戏🎮", pic_dir, length, width);
+    
     //初始化进度条
     move = new Bar("Move", 0, this);
     cover = new Bar("Cover", BAR_LEN, this);
@@ -99,8 +102,10 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
     }
     for (idx = 2 * cards_in_heap; idx < card_nums; ++idx) {
 
-        int posx = (rd() % max_num_card + 4) * MCARD_SIZE;
-        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE;
+        int posx = (rd() % max_num_card + 4) * MCARD_SIZE
+            + get_pos_bias(max_num_card);
+        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE
+            + get_pos_bias(max_num_card);
         int temp=rd() % ncard;
 
         Card * new_card = new Card(card_name[get_type(temp,cards_left,ncard)],
@@ -111,7 +116,7 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
 
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         Card * card = *ip;
-        card->print_card(true, "");
+        // card->print_card(true, "");
         connect(card, &QPushButton::clicked,
                 this, [=](){update(card);});
     }
@@ -119,12 +124,12 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
     cards_clickable = card_nums;
     cards_in_slot = 0;
     cards_eliminate = 0;
-    this -> consistency_check();
+    // this -> consistency_check();
 }
 
 Game::~Game()
 {
-    qDebug() << "Game destructed";
+    // qDebug() << "Game destructed";
     delete ui;
     for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
         Card * card = *ip;
@@ -137,8 +142,9 @@ Game::~Game()
 }
 
 void Game::on_confirmBox_clicked(){
-    qDebug() << "Are you sure to quit";
+    // qDebug() << "Are you sure to quit";
     click->play();
+
     ConfirmBox confirmbox;
     if(confirmbox.exec()==ConfirmBox::Accepted){
         accept();
@@ -146,7 +152,7 @@ void Game::on_confirmBox_clicked(){
 }
 
 void Game::update(Card * chosen){
-    qDebug() << "------\nCard "<< chosen->get_id() <<" is clicked\n------";
+    // qDebug() << "------\nCard "<< chosen->get_id() <<" is clicked\n------";
 
     cards_clickable --;
     cards_in_slot ++;
@@ -170,14 +176,14 @@ void Game::update_tail() {
         cards_in_slot -= TRIPLE;
         cards_eliminate += TRIPLE;
         slot->remove_cards(to_remove, all_cards_eliminate());
-        qDebug() << "Removing three cards\n";
+        // qDebug() << "Removing three cards\n";
         bingo->play();
     }
 
-    slot->print_slot();
+    // slot->print_slot();
 
     if(slot->slot_full()) {
-        qDebug() << "The slot is full. You failed!!!";
+        // qDebug() << "The slot is full. You failed!!!";
         GameOverBox GameOverBox("fail");
         if((GameOverBox.exec()==ConfirmBox::Accepted)){
             accept();
@@ -186,17 +192,15 @@ void Game::update_tail() {
     }
 
     if(all_cards_eliminate()) {
-        qDebug() << "Eliminate all cards, Congrats!!!";
+        // qDebug() << "Eliminate all cards, Congrats!!!";
         GameOverBox GameOverBox("win");
         if((GameOverBox.exec()==ConfirmBox::Accepted)){
             accept();
         }
         accept();
     }
-    for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
-        (*ip)->print_card(true, "");
-    }
-    this -> consistency_check();
+
+    // this -> consistency_check();
 }
 
 /* This function choose the last card in the slot and put it back
@@ -215,14 +219,14 @@ void Game::on_retreat_clicked(){
         return;
     }
     // check condition
-    qDebug() << "retreat one card";
+    // qDebug() << "retreat one card";
     if (cards_in_slot == 0) {
-        qDebug() << "no card to retreat!";
+        // qDebug() << "no card to retreat!";
         return;
     }
 
     //update slot
-    slot->print_slot();
+    // slot->print_slot();
     Card * to_retreat = slot -> get_last_card();
     assert (to_retreat->check_card_type(SlotCard));
     slot -> remove_last_card();
@@ -247,7 +251,7 @@ void Game::on_retreat_clicked(){
     to_retreat->set_card_type(ClickableCard);
     to_retreat->setNormalBackground();
     to_retreat->setEnabled(true);
-    to_retreat->print_card(true, "");
+
     //raise it to the upmost layer
     to_retreat->raise();
 
@@ -263,7 +267,7 @@ void Game::on_retreat_clicked(){
     }
     --retreat_left;
 
-    this->consistency_check();
+    // this->consistency_check();
 }
 
 void Game::on_myshuffle_clicked()
@@ -277,7 +281,8 @@ void Game::on_myshuffle_clicked()
     if (shuffle_left <= 0){
         return;
     }
-    qDebug() << "shuffle cards";
+
+    // qDebug() << "shuffle cards";
     std::vector<Card *>::iterator card_i;
     std::vector<int>::iterator p_temp;
     std::vector<int> temp;
@@ -300,9 +305,12 @@ void Game::on_myshuffle_clicked()
     // create new cards that has random position
 
     std::random_device rd;
+    set_max_num_card(cards_clickable, max_num_card);
     for (p_temp=temp.begin();p_temp!=temp.end();++p_temp){
-        int posx = (rd() % max_num_card + 4) * MCARD_SIZE;
-        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE;
+        int posx = (rd() % max_num_card + 4) * MCARD_SIZE 
+            + get_pos_bias(max_num_card);
+        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE
+            + get_pos_bias(max_num_card);
         Card * new_card = new Card(card_name[*p_temp],
                                   posx, posy,
                                   all_cards, this);
@@ -324,8 +332,16 @@ void Game::on_myshuffle_clicked()
         }
     }
 
-    this->consistency_check();
     --shuffle_left;
+    QFont ft;
+    ft.setBold(true);
+    ft.setPointSize(18);
+    ui->shuffle_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
+                                    (QString)(std::to_string(shuffle_left)).c_str());
+    ui->shuffle_left_label->setFont(ft);
+    ui->shuffle_left_label->setAlignment(Qt::AlignCenter);
+
+    // this->consistency_check();
 }
 
 
@@ -340,7 +356,9 @@ void Game::on_crash_clicked(){
     if (crash_left <= 0){
         return;
     }
-    qDebug() << "Crash clicked";
+
+    //qDebug() << "Crash clicked";
+
     // find three cards in cards_clickable;
     bool flag = false;
     Card * card1 = NULL, * card2 = NULL, * card3 = NULL;
@@ -364,7 +382,7 @@ void Game::on_crash_clicked(){
         if (flag) break;
     }
     if (!flag) {
-        qDebug() << "no cards to crash";
+        // qDebug() << "no cards to crash";
         return ;
     }
 
@@ -382,7 +400,7 @@ void Game::on_crash_clicked(){
         cover->show();
         // possible win!
         if(all_cards_eliminate()) {
-            qDebug() << "Eliminate all cards, Congrats!!!";
+            // qDebug() << "Eliminate all cards, Congrats!!!";
             GameOverBox GameOverBox("win");
             if((GameOverBox.exec()==ConfirmBox::Accepted)){
                 accept();
@@ -391,7 +409,15 @@ void Game::on_crash_clicked(){
         }
     }
     --crash_left;
-    this -> consistency_check();
+    QFont ft;
+    ft.setBold(true);
+    ft.setPointSize(18);
+    ui->crash_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
+                                  (QString)(std::to_string(crash_left)).c_str());
+    ui->crash_left_label->setFont(ft);
+    ui->crash_left_label->setAlignment(Qt::AlignCenter);
+
+    // this -> consistency_check();
 
 
 }
@@ -457,4 +483,23 @@ static bool avail_crash(Card * card){
     }
 }
 
+static void set_max_num_card(int card_left, int & max_num_card){
+    if (card_left <= 12)
+        max_num_card = 3;
+    if (card_left <= 25)
+        max_num_card = 5;
+    else if (card_left <= 50)
+        max_num_card = 7;
+    else if (card_left <= 100)
+        max_num_card = 9;
+    else if (card_left <= 200)
+        max_num_card = 11;
+    else 
+        max_num_card = 13;
+}
+
+static int get_pos_bias(int max_num_card){
+    assert (max_num_card <= MAX_NUM_CARD);
+    return (MAX_NUM_CARD - max_num_card) * CARD_SIZE / 4;
+}
 

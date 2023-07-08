@@ -15,12 +15,12 @@ Slot::Slot(Game * _game, int max_size):
     size(max_size),
     game(_game)
 {
-    qDebug() << "Hello from Slot with size " << max_size << "\n";
+    //qDebug() << "Hello from Slot with size " << max_size << "\n";
     curr_size = 0;
 }
 
 Slot::~Slot(void){
-    qDebug() << "Bye from Slot with size " << size << "\n";
+    //qDebug() << "Bye from Slot with size " << size << "\n";
 }
 
 /* This function find the target slot when card is added into 
