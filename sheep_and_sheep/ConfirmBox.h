@@ -6,6 +6,7 @@
 
 #define BGM_SLIDER_RATIO 5000.0
 #define CLICK_SLIDER_RATIO 100.0
+#define MENUBGM_SLIDER_RATIO 5000.0
 
 namespace Ui {
 class ConfirmBox;
@@ -18,9 +19,11 @@ class ConfirmBox : public QDialog
     Q_OBJECT
 
 public:
-    explicit ConfirmBox(Game * _game, QWidget *parent = 0);
+    const char * type;
+    QDialog * lastpage;
+    explicit ConfirmBox(const char * _type,
+                        QDialog * _lastpage, QWidget *parent = 0);
     ~ConfirmBox();
-    Game * game;
 
 private slots:
     void on_goback_clicked();

@@ -69,9 +69,9 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>40</y>
-     <width>61</width>
-     <height>31</height>
+     <y>30</y>
+     <width>71</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -86,9 +86,9 @@ font: 24pt &quot;华文琥珀&quot;;</string>
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>130</y>
-     <width>61</width>
-     <height>31</height>
+     <y>120</y>
+     <width>71</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
