@@ -19,7 +19,7 @@
 (4) 用户可以点击道具卡牌以进行洗牌、撤回、破坏等，道具卡牌使用次数有限制 ~~，看广告可获得道具~~。
 
 ## 游戏视频
-https://www.bilibili.com/video/？？？
+https://www.bilibili.com/video/BV1cX4y1e7cH
 
 ## 环境配置
 支持Windows和MacOS，需安装Qt 6.5.1以及Multimedia包。
