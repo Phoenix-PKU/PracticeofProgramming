@@ -41,7 +41,7 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
     // qDebug() << "Game constructed";
     const char * pic_dir = ":/new/prefix1/pictures"
                             "/background_picture/grassland.png";
-    setup_background(ui, this, "羊了个羊游戏🎮", pic_dir, length, width);
+    setup_background(ui, this, "🐏了个🐑游戏🎮", pic_dir, length, width);
     
     //初始化进度条
     move = new Bar("Move", 0, this);

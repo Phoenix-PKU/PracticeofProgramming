@@ -22,7 +22,7 @@ Menu::Menu(QWidget *parent) :
 {
     // qDebug() << "main menu constructed";
     const char * pic_dir = ":/new/prefix1/pictures/background_picture/main_menu.jpg";
-    setup_background(ui, this, "欢迎来到羊了个羊的世界💕🥰", pic_dir, 500, 400);
+    setup_background(ui, this, "欢迎来到🐏了个🐑的世界💕🥰", pic_dir, 500, 400);
 
     bgm_menu = new QSoundEffect(this);
     bgm_menu->setSource(QUrl::fromLocalFile(":/new/prefix1/sounds/bgm_menu.wav"));
