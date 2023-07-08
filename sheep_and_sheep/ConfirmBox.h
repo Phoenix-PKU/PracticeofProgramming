@@ -4,7 +4,7 @@
 #include <QDialog>
 #include "game.h"
 
-#define BGM_SLIDER_RATIO 5000.0
+#define BGM_SLIDER_RATIO 500.0
 #define CLICK_SLIDER_RATIO 100.0
 #define MENUBGM_SLIDER_RATIO 5000.0
 

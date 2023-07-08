@@ -62,6 +62,21 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
     click->setSource(QUrl::fromLocalFile(":/new/prefix1/sounds/click.wav"));
     click->setVolume(50 / CLICK_SLIDER_RATIO);                     //按键最大音量为1
 
+    QFont ft;
+    ft.setBold(true);
+    ft.setPointSize(18);
+    ui->crash_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
+                                  (QString)(std::to_string(crash_left)).c_str());
+    ui->crash_left_label->setFont(ft);
+    ui->crash_left_label->setAlignment(Qt::AlignCenter);
+    ui->shuffle_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
+                                  (QString)(std::to_string(shuffle_left)).c_str());
+    ui->shuffle_left_label->setFont(ft);
+    ui->shuffle_left_label->setAlignment(Qt::AlignCenter);
+    ui->retreat_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
+                                  (QString)(std::to_string(retreat_left)).c_str());
+    ui->retreat_left_label->setFont(ft);
+    ui->retreat_left_label->setAlignment(Qt::AlignCenter);
 
 
     std::random_device rd;
@@ -217,58 +232,61 @@ void Game::on_retreat_clicked(){
         Hyperlink hyperlink(&retreat_left);
         hyperlink.exec();
     }
-    if (retreat_left <= 0){
-        return;
-    }
-    // check condition
-    // qDebug() << "retreat one card";
-    if (cards_in_slot == 0) {
-        // qDebug() << "no card to retreat!";
-        return;
-    }
-
-    //update slot
-    // slot->print_slot();
-    Card * to_retreat = slot -> get_last_card();
-    assert (to_retreat->check_card_type(SlotCard));
-    slot -> remove_last_card();
-
-    //update game
-    cards_in_slot--;
-    cards_clickable++;
-    //update progressbar
-    cover->hide();
-    move->set_len((double)BAR_LEN * (card_nums - cards_clickable)
-                  / card_nums);
-    cover->show();
-
-    //do animation
-    QPropertyAnimation *animation = new QPropertyAnimation(to_retreat, "geometry");
-    animation_helper(animation, ANI_TIME, to_retreat->geometry(),
-            QRect(to_retreat->get_orix(), to_retreat->get_oriy(),
-            CARD_SIZE,  CARD_SIZE));
-    //update card
-    to_retreat->set_posx(to_retreat->get_orix());
-    to_retreat->set_posy(to_retreat->get_oriy());
-    to_retreat->set_card_type(ClickableCard);
-    to_retreat->setNormalBackground();
-    to_retreat->setEnabled(true);
-
-    //raise it to the upmost layer
-    to_retreat->raise();
-
-    for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
-        Card * old_card = *ip;
-        if (old_card->check_card_type(SlotCard) ||
-            old_card->check_card_type(EliminatedCard))
-            continue;
-        if (old_card == to_retreat) continue;
-        if (overlap(old_card, to_retreat)){
-            cover_card(to_retreat, old_card);
+    else{
+        // check condition
+        if (cards_in_slot == 0) {
+            return;
         }
-    }
-    --retreat_left;
+        //update slot
+        // slot->print_slot();
+        Card * to_retreat = slot -> get_last_card();
+        assert (to_retreat->check_card_type(SlotCard));
+        slot -> remove_last_card();
 
+        //update game
+        cards_in_slot--;
+        cards_clickable++;
+        //update progressbar
+        cover->hide();
+        move->set_len((double)BAR_LEN * (card_nums - cards_clickable)
+                    / card_nums);
+        cover->show();
+
+        //do animation
+        QPropertyAnimation *animation = new QPropertyAnimation(to_retreat, "geometry");
+        animation_helper(animation, ANI_TIME, to_retreat->geometry(),
+                QRect(to_retreat->get_orix(), to_retreat->get_oriy(),
+                CARD_SIZE,  CARD_SIZE));
+        //update card
+        to_retreat->set_posx(to_retreat->get_orix());
+        to_retreat->set_posy(to_retreat->get_oriy());
+        to_retreat->set_card_type(ClickableCard);
+        to_retreat->setNormalBackground();
+        to_retreat->setEnabled(true);
+
+        //raise it to the upmost layer
+        to_retreat->raise();
+
+        for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
+            Card * old_card = *ip;
+            if (old_card->check_card_type(SlotCard) ||
+                old_card->check_card_type(EliminatedCard))
+                continue;
+            if (old_card == to_retreat) continue;
+            if (overlap(old_card, to_retreat)){
+                cover_card(to_retreat, old_card);
+            }
+        }
+        --retreat_left;
+    }
+
+    QFont ft;
+    ft.setBold(true);
+    ft.setPointSize(18);
+    ui->retreat_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
+                                    (QString)(std::to_string(retreat_left)).c_str());
+    ui->retreat_left_label->setFont(ft);
+    ui->retreat_left_label->setAlignment(Qt::AlignCenter);
     // this->consistency_check();
 }
 
@@ -280,61 +298,60 @@ void Game::on_myshuffle_clicked()
         Hyperlink hyperlink(&shuffle_left);
         hyperlink.exec();
     }
-    if (shuffle_left <= 0){
-        return;
+
+    else{
+        std::vector<Card *>::iterator card_i;
+        std::vector<int>::iterator p_temp;
+        std::vector<int> temp;
+
+        // pick up all cards that is clickable or covered
+        // delete them and put them into temp.
+
+        for (card_i=all_cards.begin();card_i!=all_cards.end();){
+            if ((!(*card_i)->in_heap) && ((*card_i)->check_card_type(ClickableCard)
+                ||(*card_i)->check_card_type(CoveredCard))){
+                temp.push_back((*card_i)->nametoint());
+                delete (*card_i);
+                card_i=all_cards.erase(card_i);
+            }
+            else{
+                ++card_i;
+            }
+        }
+
+        // create new cards that has random position
+
+        std::random_device rd;
+        set_max_num_card(cards_clickable, max_num_card);
+        for (p_temp=temp.begin();p_temp!=temp.end();++p_temp){
+            int posx = (rd() % max_num_card + 4) * MCARD_SIZE 
+                + get_pos_bias(max_num_card);
+            int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE
+                + get_pos_bias(max_num_card);
+            Card * new_card = new Card(card_name[*p_temp],
+                                    posx, posy,
+                                    all_cards, this);
+            connect(new_card, &QPushButton::clicked, this,
+                    [=](){update(new_card);});
+            all_cards.push_back(new_card);
+        }
+
+        // set background and enable of new cards.
+        for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
+            Card * card = *ip;
+            if(card -> check_card_type(ClickableCard)){
+                card->setNormalBackground();
+                card->setEnabled(true);
+            }
+            else if(card -> check_card_type(CoveredCard)){
+                card->setDarkBackground();
+                card->setEnabled(false);
+            }
+        }
+
+        --shuffle_left;
     }
 
-    // qDebug() << "shuffle cards";
-    std::vector<Card *>::iterator card_i;
-    std::vector<int>::iterator p_temp;
-    std::vector<int> temp;
-
-    // pick up all cards that is clickable or covered
-    // delete them and put them into temp.
-
-    for (card_i=all_cards.begin();card_i!=all_cards.end();){
-        if ((!(*card_i)->in_heap) && ((*card_i)->check_card_type(ClickableCard)
-               ||(*card_i)->check_card_type(CoveredCard))){
-            temp.push_back((*card_i)->nametoint());
-            delete (*card_i);
-            card_i=all_cards.erase(card_i);
-        }
-        else{
-            ++card_i;
-        }
-    }
-
-    // create new cards that has random position
-
-    std::random_device rd;
-    set_max_num_card(cards_clickable, max_num_card);
-    for (p_temp=temp.begin();p_temp!=temp.end();++p_temp){
-        int posx = (rd() % max_num_card + 4) * MCARD_SIZE 
-            + get_pos_bias(max_num_card);
-        int posy = (rd() % max_num_card + 3.5) * MCARD_SIZE
-            + get_pos_bias(max_num_card);
-        Card * new_card = new Card(card_name[*p_temp],
-                                  posx, posy,
-                                  all_cards, this);
-        connect(new_card, &QPushButton::clicked, this,
-                [=](){update(new_card);});
-        all_cards.push_back(new_card);
-    }
-
-    // set background and enable of new cards.
-    for (auto ip = all_cards.begin();ip != all_cards.end();ip ++){
-        Card * card = *ip;
-        if(card -> check_card_type(ClickableCard)){
-            card->setNormalBackground();
-            card->setEnabled(true);
-        }
-        else if(card -> check_card_type(CoveredCard)){
-            card->setDarkBackground();
-            card->setEnabled(false);
-        }
-    }
-
-    --shuffle_left;
     QFont ft;
     ft.setBold(true);
     ft.setPointSize(18);
@@ -355,62 +372,61 @@ void Game::on_crash_clicked(){
         Hyperlink hyperlink(&crash_left);
         hyperlink.exec();
     }
-    if (crash_left <= 0){
-        return;
-    }
 
-    //qDebug() << "Crash clicked";
+    else{
+        bool flag = false;
+        Card * card1 = NULL, * card2 = NULL, * card3 = NULL;
+        for (int i = 0;i < card_nums;i ++){
+            card1 = all_cards[i];
+            if (!avail_crash(card1)) continue;
 
-    // find three cards in cards_clickable;
-    bool flag = false;
-    Card * card1 = NULL, * card2 = NULL, * card3 = NULL;
-    for (int i = 0;i < card_nums;i ++){
-        card1 = all_cards[i];
-        if (!avail_crash(card1)) continue;
+            for (int j = i + 1;j < card_nums;j ++){
+                card2 = all_cards[j];
+                if (!avail_crash(card2)) continue;
+                if (strcmp(card2->name, card1->name) != 0) continue;
 
-        for (int j = i + 1;j < card_nums;j ++){
-            card2 = all_cards[j];
-            if (!avail_crash(card2)) continue;
-            if (strcmp(card2->name, card1->name) != 0) continue;
-
-            for (int k = j + 1;k < card_nums;k ++){
-                card3 = all_cards[k];
-                if (!avail_crash(card3)) continue;
-                if (strcmp(card3->name, card1->name) != 0) continue;
-                flag = true; break;
+                for (int k = j + 1;k < card_nums;k ++){
+                    card3 = all_cards[k];
+                    if (!avail_crash(card3)) continue;
+                    if (strcmp(card3->name, card1->name) != 0) continue;
+                    flag = true; break;
+                }
+                if (flag) break;
             }
             if (flag) break;
         }
-        if (flag) break;
-    }
-    if (!flag) {
-        // qDebug() << "no cards to crash";
-        return ;
-    }
+        if (!flag) {
+            // qDebug() << "no cards to crash";
+            return ;
+        }
 
-    else{
-        // card update
-        card1->crash_card();
-        card2->crash_card();
-        card3->crash_card();
-        cards_clickable -= 3;
-        cards_eliminate += 3;
-        // progress bar update
-        cover->hide();
-        move->set_len((double)BAR_LEN * (card_nums - cards_clickable)
-                  / card_nums);
-        cover->show();
-        // possible win!
-        if(all_cards_eliminate()) {
-            // qDebug() << "Eliminate all cards, Congrats!!!";
-            GameOverBox GameOverBox("win");
-            if((GameOverBox.exec()==ConfirmBox::Accepted)){
+        else{
+            // card update
+            card1->crash_card();
+            card2->crash_card();
+            card3->crash_card();
+            cards_clickable -= 3;
+            cards_eliminate += 3;
+            // progress bar update
+            cover->hide();
+            move->set_len((double)BAR_LEN * (card_nums - cards_clickable)
+                    / card_nums);
+            cover->show();
+            // possible win!
+            if(all_cards_eliminate()) {
+                // qDebug() << "Eliminate all cards, Congrats!!!";
+                GameOverBox GameOverBox("win");
+                if((GameOverBox.exec()==ConfirmBox::Accepted)){
+                    accept();
+                }
                 accept();
             }
-            accept();
         }
+        --crash_left;
     }
-    --crash_left;
+    // find three cards in cards_clickable;
+
+
     QFont ft;
     ft.setBold(true);
     ft.setPointSize(18);

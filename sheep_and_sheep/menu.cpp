@@ -57,7 +57,7 @@ void Menu::on_easy_clicked()
 {
     // qDebug() << "start easy game";
     click_menu->play();
-    GameParameters params{18, 3, 0, MANY, MANY, MANY};
+    GameParameters params{18, 3, 0, 0, 0, 0};
     startGame(params);
 }
 
@@ -65,7 +65,7 @@ void Menu::on_medium_clicked()
 {
     // qDebug() << "start medium game";
     click_menu->play();
-    GameParameters params{63, 7, 4, MANY, MANY, MANY};
+    GameParameters params{63, 7, 4, 1, 1, 1};
     startGame(params);
 }
 
@@ -73,7 +73,7 @@ void Menu::on_hard_clicked()
 {
     // qDebug() << "start hard game";
     click_menu->play();
-    GameParameters params{198, 11, 8, MANY, MANY, MANY};
+    GameParameters params{198, 11, 8, 1, 1, 1};
     startGame(params);
 }
 

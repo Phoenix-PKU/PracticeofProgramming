@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/new/prefix1/pictures/button_picture/back.png)</string>
+    <string notr="true">border-image:url(:/new/prefix1/pictures/button_picture/setting.png)</string>
    </property>
    <property name="text">
     <string/>
@@ -80,8 +80,8 @@
   <widget class="QLabel" name="shuffle_left_label">
    <property name="geometry">
     <rect>
-     <x>740</x>
-     <y>190</y>
+     <x>756</x>
+     <y>183</y>
      <width>58</width>
      <height>21</height>
     </rect>
@@ -93,27 +93,27 @@
   <widget class="QLabel" name="retreat_left_label">
    <property name="geometry">
     <rect>
-     <x>740</x>
-     <y>300</y>
+     <x>756</x>
+     <y>299</y>
      <width>58</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;TextLabel&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="crash_left_label">
    <property name="geometry">
     <rect>
-     <x>740</x>
-     <y>410</y>
+     <x>756</x>
+     <y>419</y>
      <width>58</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;TextLabel&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
  </widget>
