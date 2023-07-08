@@ -19,7 +19,6 @@ static void animation_helper(Amt * ani, int dur, Pos1 start, Pos2 end);
 static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard);
 static bool avail_crash(Card * card);
 
-
 class Slot;
 Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,int _retreat_left,int _crash_left, QWidget *parent) :
     QDialog(parent),
@@ -34,33 +33,32 @@ Game::Game(int _card_num, int _card_types,int _cards_in_heap,int _shuffle_left,i
     length = 15 * CARD_SIZE;
     width = 11 * CARD_SIZE;
     /* max number of card that can appear on one line. */
-    max_num_card = 13; 
+    max_num_card = 13;
     qDebug() << "Game constructed";
     const char * pic_dir = ":/new/prefix1/pictures"
                             "/background_picture/grassland.png";
     setup_background(ui, this, "羊了个羊游戏", pic_dir, length, width);
-    
+
     //初始化进度条
     move = new Bar("Move", 0, this);
     cover = new Bar("Cover", BAR_LEN, this);
     move->show();
     cover->show();
-    QFont ft;
-    ft.setBold(true);
-    ft.setPointSize(18);
-    QString temp;
-    temp=(QString)(std::to_string(shuffle_left)).c_str();
-    ui->shuffle_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+temp);
-    ui->shuffle_left_label->setFont(ft);
-    ui->shuffle_left_label->setAlignment(Qt::AlignCenter);
-    temp=(QString)(std::to_string(retreat_left)).c_str();
-    ui->retreat_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+temp);
-    ui->retreat_left_label->setFont(ft);
-    ui->retreat_left_label->setAlignment(Qt::AlignCenter);
-    temp=(QString)(std::to_string(crash_left)).c_str();
-    ui->crash_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+temp);
-    ui->crash_left_label->setFont(ft);
-    ui->crash_left_label->setAlignment(Qt::AlignCenter);
+    //初始化音效
+    bgm = new QSoundEffect(this);
+    bgm->setSource(QUrl::fromLocalFile(":/new/prefix1/sounds/bgm.wav"));
+    bgm->setLoopCount(QSoundEffect::Infinite);  //设置无限循环
+    bgm->setVolume(0.1f);                       //设置音量，在0到1之间
+    bgm->play();
+
+    bingo = new QSoundEffect(this);
+    bingo->setSource(QUrl::fromLocalFile(":/new/prefix1/sounds/bingo.wav"));
+    bingo->setVolume(0.5f);
+    click = new QSoundEffect(this);
+    click->setSource(QUrl::fromLocalFile(":/new/prefix1/sounds/click.wav"));
+    click->setVolume(0.5f);
+
+
 
     std::random_device rd;
     slot = new Slot(this);
@@ -134,10 +132,13 @@ Game::~Game()
     }
     all_cards.clear();
     delete slot;
+    delete bgm;
+    delete bingo;
 }
 
 void Game::on_confirmBox_clicked(){
     qDebug() << "Are you sure to quit";
+    click->play();
     ConfirmBox confirmbox;
     if(confirmbox.exec()==ConfirmBox::Accepted){
         accept();
@@ -155,6 +156,8 @@ void Game::update(Card * chosen){
                                     / card_nums);
     cover->show();
 
+    click->play();
+
     chosen->remove_card();
     std::vector<Card *>::iterator place = slot->find_slot(chosen);
     int where_to_go = place - slot->begin();
@@ -168,7 +171,7 @@ void Game::update_tail() {
         cards_eliminate += TRIPLE;
         slot->remove_cards(to_remove, all_cards_eliminate());
         qDebug() << "Removing three cards\n";
-
+        bingo->play();
     }
 
     slot->print_slot();
@@ -196,12 +199,14 @@ void Game::update_tail() {
     this -> consistency_check();
 }
 
-/* This function choose the last card in the slot and put it back 
-    to clickable card. 
+/* This function choose the last card in the slot and put it back
+    to clickable card.
     It wouldn't work if there is no card in the slot.
     The card will be put back to where it belongs.
 */
 void Game::on_retreat_clicked(){
+    click->play();
+
     if (retreat_left <= 0){
         Hyperlink hyperlink(&retreat_left);
         hyperlink.exec();
@@ -209,7 +214,6 @@ void Game::on_retreat_clicked(){
     if (retreat_left <= 0){
         return;
     }
-
     // check condition
     qDebug() << "retreat one card";
     if (cards_in_slot == 0) {
@@ -222,7 +226,7 @@ void Game::on_retreat_clicked(){
     Card * to_retreat = slot -> get_last_card();
     assert (to_retreat->check_card_type(SlotCard));
     slot -> remove_last_card();
-    
+
     //update game
     cards_in_slot--;
     cards_clickable++;
@@ -235,7 +239,7 @@ void Game::on_retreat_clicked(){
     //do animation
     QPropertyAnimation *animation = new QPropertyAnimation(to_retreat, "geometry");
     animation_helper(animation, ANI_TIME, to_retreat->geometry(),
-            QRect(to_retreat->get_orix(), to_retreat->get_oriy(), 
+            QRect(to_retreat->get_orix(), to_retreat->get_oriy(),
             CARD_SIZE,  CARD_SIZE));
     //update card
     to_retreat->set_posx(to_retreat->get_orix());
@@ -258,20 +262,14 @@ void Game::on_retreat_clicked(){
         }
     }
     --retreat_left;
-    QFont ft;
-    ft.setBold(true);
-    ft.setPointSize(18);
-    QString temp;
-    temp=(QString)(std::to_string(retreat_left)).c_str();
-    ui->retreat_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+temp);
-    ui->retreat_left_label->setFont(ft);
-    ui->retreat_left_label->setAlignment(Qt::AlignCenter);
 
     this->consistency_check();
 }
 
 void Game::on_myshuffle_clicked()
 {
+    click->play();
+
     if (shuffle_left <= 0){
         Hyperlink hyperlink(&shuffle_left);
         hyperlink.exec();
@@ -279,8 +277,6 @@ void Game::on_myshuffle_clicked()
     if (shuffle_left <= 0){
         return;
     }
-
-
     qDebug() << "shuffle cards";
     std::vector<Card *>::iterator card_i;
     std::vector<int>::iterator p_temp;
@@ -310,7 +306,7 @@ void Game::on_myshuffle_clicked()
         Card * new_card = new Card(card_name[*p_temp],
                                   posx, posy,
                                   all_cards, this);
-        connect(new_card, &QPushButton::clicked, this, 
+        connect(new_card, &QPushButton::clicked, this,
                 [=](){update(new_card);});
         all_cards.push_back(new_card);
     }
@@ -328,22 +324,15 @@ void Game::on_myshuffle_clicked()
         }
     }
 
-    --shuffle_left;
-    QFont ft;
-    ft.setBold(true);
-    ft.setPointSize(18);
-    ui->shuffle_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
-                                    (QString)(std::to_string(shuffle_left)).c_str());
-    ui->shuffle_left_label->setFont(ft);
-    ui->shuffle_left_label->setAlignment(Qt::AlignCenter);
-
     this->consistency_check();
-
+    --shuffle_left;
 }
 
 
 
 void Game::on_crash_clicked(){
+    click->play();
+
     if (crash_left <= 0){
         Hyperlink hyperlink(&crash_left);
         hyperlink.exec();
@@ -351,8 +340,6 @@ void Game::on_crash_clicked(){
     if (crash_left <= 0){
         return;
     }
-
-
     qDebug() << "Crash clicked";
     // find three cards in cards_clickable;
     bool flag = false;
@@ -404,14 +391,6 @@ void Game::on_crash_clicked(){
         }
     }
     --crash_left;
-    QFont ft;
-    ft.setBold(true);
-    ft.setPointSize(18);
-    ui->crash_left_label->setText("<a style='color: white; text-decoration: bold'=lately>"+
-                                  (QString)(std::to_string(crash_left)).c_str());
-    ui->crash_left_label->setFont(ft);
-    ui->crash_left_label->setAlignment(Qt::AlignCenter);
-
     this -> consistency_check();
 
 
@@ -468,8 +447,8 @@ static int get_type(int randidx, std::vector<int> & _cards_left,int & _ncard){
 }
 
 static bool avail_crash(Card * card){
-    if (card->check_card_type(EliminatedCard) || 
-        card->check_card_type(SlotCard) || 
+    if (card->check_card_type(EliminatedCard) ||
+        card->check_card_type(SlotCard) ||
         card->in_heap){
         return false;
     }

@@ -56,5 +56,8 @@
         <file>pictures/confirm/yes.png</file>
         <file>pictures/confirm/break.png</file>
         <file>pictures/confirm/continue.png</file>
+        <file>sounds/bgm.wav</file>
+        <file>sounds/bingo.wav</file>
+        <file>sounds/click.wav</file>
     </qresource>
 </RCC>

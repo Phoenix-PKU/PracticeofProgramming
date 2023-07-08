@@ -11,7 +11,7 @@ Hyperlink::Hyperlink(int * _p_left_time,QWidget *parent) :
     p_left_time(_p_left_time)
 {
     qDebug() << "Hyperlink constructed";
-    const char * pic_dir = ":/new/prefix1/pictures/background_picture/main_menu.jpg";
+    const char * pic_dir = ":/new/prefix1/pictures/background_picture/warning.jpg";
     setup_background(ui, this, "次数用完了", pic_dir, 400, 250);
     int x_scale,y_scale;
     QImage *yes= new QImage();
