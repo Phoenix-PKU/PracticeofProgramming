@@ -43,8 +43,9 @@ bool Hyperlink::eventFilter(QObject *watched, QEvent *event)
     {
         if(event->type() == QEvent::MouseButtonPress)
         {
-            (*p_left_time)+=2;
+            (*p_left_time) += 1;
             QDesktopServices::openUrl(QUrl(github_link));
+            QDesktopServices::openUrl(QUrl(bilibili_link));
             accept();
         }
     }
