@@ -5,6 +5,9 @@
 #include <QThread>
 #include <QDesktopServices>
 
+const char * github_link = "https://github.com/Phoenix-PKU/QC";
+const char * bilibili_link = "https://www.bilibili.com";
+
 Hyperlink::Hyperlink(int * _p_left_time,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Hyperlink),
@@ -41,7 +44,7 @@ bool Hyperlink::eventFilter(QObject *watched, QEvent *event)
         if(event->type() == QEvent::MouseButtonPress)
         {
             (*p_left_time)+=2;
-            QDesktopServices::openUrl(QUrl("https://www.baidu.com"));
+            QDesktopServices::openUrl(QUrl(github_link));
             accept();
         }
     }
